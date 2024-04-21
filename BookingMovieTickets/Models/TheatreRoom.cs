@@ -18,7 +18,7 @@ namespace MoviesBooking.Models
         public string Name { get; set; }
 
         // Other properties as needed
-        [ForeignKey("TheatreID")]
+        [ForeignKey("TheatreId")]
 
         public virtual Theatre Theatre { get; set; }
         public virtual ICollection<Seat> Seats { get; set; }

@@ -19,8 +19,8 @@ namespace MoviesBooking.Models
         [DataType(DataType.PhoneNumber)]
         [DisplayName("Số điện thoại")]
         public string PhoneNumber { get; set; }
-        [DataType(DataType.EmailAddress)]
-        [DisplayName("Email")]
-        public string EmailAddress { get; set; }
+        [Required]
+        [DisplayName("Địa chỉ")]
+        public string Address { get; set; }
     }
 }
