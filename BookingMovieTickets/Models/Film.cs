@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using BookingMovieTickets.Models;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,14 +22,7 @@ namespace MoviesBooking.Models
         public string TrailerUrl { get; set; }
         [Required]
         public DateTime PremiereDate { get; set; }
-        [Required]
-        public DateTime EndingDate { get; set; }
-        [Required] 
-        public int FilmDuration { get; set; }
-        [Required]
-        public int FilmCategoryId { get; set; }
-        // Other properties as needed
-        [ForeignKey(nameof(FilmCategoryId))]
-        public virtual FilmCategory FilmCategory { get; set; }
+        public virtual ICollection<FilmCategory>? FilmCategory { get; set; }
+        public virtual FilmDetails? FilmDetails { get; set; }
     }
 }

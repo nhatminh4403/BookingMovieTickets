@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using BookingMovieTickets.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.Models;
 
@@ -23,6 +24,7 @@ namespace MoviesBooking.DataAccess
         public DbSet<Theatre> Theatres { get; set; }
         public DbSet<Receipt> Receipt { get; set; }
         public DbSet<ReceiptDetail > ReceiptDetail { get; set; }
+        public DbSet<FilmDetails> FilmDetails { get; set; }
 
     }
 }

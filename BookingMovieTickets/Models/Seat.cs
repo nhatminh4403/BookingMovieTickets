@@ -21,7 +21,7 @@ namespace MoviesBooking.Models
         // Other properties as needed
         [ForeignKey("TheatreRoomId")]
         public virtual TheatreRoom TheatreRoom { get; set; }
-        public virtual ICollection<TicketDetail> TicketDetails { get; set; }
+
     }
 
 }

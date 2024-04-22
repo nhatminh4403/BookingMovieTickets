@@ -10,19 +10,17 @@ namespace MoviesBooking.Models
         public int ReceiptDetailId { get; set; }
         [Required]
         public int ReceiptId { get; set; }
+
         [Required]
-        public int FilmScheduleId { get; set; }
-        [Required]
-        public int SeatId { get; set; }
+        public int TicketId { get; set; }
         [Required]
         public decimal TotalPrice { get; set; }
         // Other properties as needed
         [ForeignKey("ReceiptId")]
         public virtual Receipt Receipt { get; set; }
-        [ForeignKey("FilmScheduleId")]
-        public virtual FilmSchedule FilmSchedule { get; set; }
-        [ForeignKey("SeatId")]
-        public virtual Seat Seat { get; set; }
+
+        [ForeignKey("TicketId")]
+        public virtual Ticket Ticket { get; set; }
     }
 
 }

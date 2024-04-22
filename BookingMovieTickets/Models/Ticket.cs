@@ -22,6 +22,7 @@ namespace MoviesBooking.Models
         [ForeignKey("UserId")]
         public virtual UserInfo User { get; set; }
         public virtual ICollection<TicketDetail> TicketDetails { get; set; }
+        public virtual ICollection<ReceiptDetail>? ReceiptDetails { get; set; }
     }
 
 }
