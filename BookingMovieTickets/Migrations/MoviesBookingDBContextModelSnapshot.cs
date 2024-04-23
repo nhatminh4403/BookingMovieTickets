@@ -112,21 +112,6 @@ namespace BookingMovieTickets.Migrations
                     b.ToTable("ReceiptDetail");
                 });
 
-            modelBuilder.Entity("FilmFilmCategory", b =>
-                {
-                    b.Property<int>("FilmCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FilmId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FilmCategoryId", "FilmId");
-
-                    b.HasIndex("FilmId");
-
-                    b.ToTable("FilmFilmCategory");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -272,6 +257,9 @@ namespace BookingMovieTickets.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FilmCategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NameFilm")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -288,6 +276,8 @@ namespace BookingMovieTickets.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("FilmId");
+
+                    b.HasIndex("FilmCategoryId");
 
                     b.ToTable("Films");
                 });
@@ -317,11 +307,12 @@ namespace BookingMovieTickets.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FilmScheduleId"));
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
+
+                    b.Property<string>("FilmScheduleDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PremiereTimeId")
                         .HasColumnType("int");
@@ -615,21 +606,6 @@ namespace BookingMovieTickets.Migrations
                     b.Navigation("Ticket");
                 });
 
-            modelBuilder.Entity("FilmFilmCategory", b =>
-                {
-                    b.HasOne("MoviesBooking.Models.FilmCategory", null)
-                        .WithMany()
-                        .HasForeignKey("FilmCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MoviesBooking.Models.Film", null)
-                        .WithMany()
-                        .HasForeignKey("FilmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -679,6 +655,17 @@ namespace BookingMovieTickets.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MoviesBooking.Models.Film", b =>
+                {
+                    b.HasOne("MoviesBooking.Models.FilmCategory", "FilmCategory")
+                        .WithMany("Film")
+                        .HasForeignKey("FilmCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FilmCategory");
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.FilmSchedule", b =>
@@ -787,6 +774,11 @@ namespace BookingMovieTickets.Migrations
                     b.Navigation("FilmSchedules");
 
                     b.Navigation("PremiereTimes");
+                });
+
+            modelBuilder.Entity("MoviesBooking.Models.FilmCategory", b =>
+                {
+                    b.Navigation("Film");
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.PremiereTime", b =>

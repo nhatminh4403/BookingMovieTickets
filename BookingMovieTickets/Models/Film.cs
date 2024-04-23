@@ -22,7 +22,10 @@ namespace MoviesBooking.Models
         public string TrailerUrl { get; set; }
         [Required]
         public DateTime PremiereDate { get; set; }
-        public virtual ICollection<FilmCategory>? FilmCategory { get; set; }
+        [Required]
+        public int FilmCategoryId { get; set; }
+        [ForeignKey("FilmCategoryId")]
+        public virtual FilmCategory? FilmCategory { get; set; }
         public virtual FilmDetails? FilmDetails { get; set; }
         public virtual ICollection<PremiereTime> PremiereTimes { get; set; }
         public virtual ICollection<FilmSchedule> FilmSchedules { get; set;}
