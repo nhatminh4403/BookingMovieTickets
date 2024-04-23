@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using BookingMovieTickets.Models;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,15 +13,16 @@ namespace MoviesBooking.Models
         public int SeatId { get; set; }
         [Required]
         public int TheatreRoomId { get; set; }
-        [Required]
+/*        [Required]
         [DisplayName("Số ghế")]
-        public string SeatNumber { get; set; }
+        public string SeatNumber { get; set; }*/
         [DisplayName("Tình trạng ghế")]
         [Required]
         public bool IsBooked { get; set; }
         // Other properties as needed
         public virtual TheatreRoom TheatreRoom { get; set; }
         public virtual ICollection<TicketDetail> TicketDetails { get; set; }
+        public virtual ICollection<ReceiptDetail> ReceiptDetails { get; set; }
     }
 
 }

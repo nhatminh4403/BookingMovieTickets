@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookingMovieTickets.Migrations
 {
     /// <inheritdoc />
-    public partial class createDB : Migration
+    public partial class databaseCreated : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -204,6 +204,27 @@ namespace BookingMovieTickets.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Receipt",
+                columns: table => new
+                {
+                    ReceiptId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Receipt", x => x.ReceiptId);
+                    table.ForeignKey(
+                        name: "FK_Receipt_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Ticket",
                 columns: table => new
                 {
@@ -211,7 +232,7 @@ namespace BookingMovieTickets.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -350,7 +371,6 @@ namespace BookingMovieTickets.Migrations
                     SeatId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TheatreRoomId = table.Column<int>(type: "int", nullable: false),
-                    SeatNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsBooked = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -365,13 +385,53 @@ namespace BookingMovieTickets.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ReceiptDetail",
+                columns: table => new
+                {
+                    ReceiptDetailId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReceiptId = table.Column<int>(type: "int", nullable: false),
+                    FilmScheduleId = table.Column<int>(type: "int", nullable: false),
+                    TicketId = table.Column<int>(type: "int", nullable: false),
+                    SeatId = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReceiptDetail", x => x.ReceiptDetailId);
+                    table.ForeignKey(
+                        name: "FK_ReceiptDetail_FilmsSchedule_FilmScheduleId",
+                        column: x => x.FilmScheduleId,
+                        principalTable: "FilmsSchedule",
+                        principalColumn: "FilmScheduleId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReceiptDetail_Receipt_ReceiptId",
+                        column: x => x.ReceiptId,
+                        principalTable: "Receipt",
+                        principalColumn: "ReceiptId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ReceiptDetail_Seats_SeatId",
+                        column: x => x.SeatId,
+                        principalTable: "Seats",
+                        principalColumn: "SeatId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ReceiptDetail_Ticket_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Ticket",
+                        principalColumn: "TicketId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TicketDetail",
                 columns: table => new
                 {
                     TicketDetailId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TicketId = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FilmScheduleId = table.Column<int>(type: "int", nullable: false),
                     SeatId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -463,6 +523,31 @@ namespace BookingMovieTickets.Migrations
                 column: "FilmId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Receipt_UserId",
+                table: "Receipt",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceiptDetail_FilmScheduleId",
+                table: "ReceiptDetail",
+                column: "FilmScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceiptDetail_ReceiptId",
+                table: "ReceiptDetail",
+                column: "ReceiptId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceiptDetail_SeatId",
+                table: "ReceiptDetail",
+                column: "SeatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceiptDetail_TicketId",
+                table: "ReceiptDetail",
+                column: "TicketId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Seats_TheatreRoomId",
                 table: "Seats",
                 column: "TheatreRoomId");
@@ -518,6 +603,9 @@ namespace BookingMovieTickets.Migrations
                 name: "FilmFilmCategory");
 
             migrationBuilder.DropTable(
+                name: "ReceiptDetail");
+
+            migrationBuilder.DropTable(
                 name: "TicketDetail");
 
             migrationBuilder.DropTable(
@@ -525,6 +613,9 @@ namespace BookingMovieTickets.Migrations
 
             migrationBuilder.DropTable(
                 name: "FilmCategory");
+
+            migrationBuilder.DropTable(
+                name: "Receipt");
 
             migrationBuilder.DropTable(
                 name: "FilmsSchedule");

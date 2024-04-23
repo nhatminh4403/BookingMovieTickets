@@ -18,7 +18,5 @@ namespace MoviesBooking.Models
 
         public virtual Film Film { get; set; }
         public virtual TheatreRoom TheatreRoom { get; set; }
-
     }
-
 }

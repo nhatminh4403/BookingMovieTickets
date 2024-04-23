@@ -12,7 +12,7 @@ namespace MoviesBooking.Models
         [ForeignKey("Ticket")]
         public int TicketId { get; set; }
 
-        public decimal Price { get; set; }
+
 
         [ForeignKey("FilmSchedule")]
         public int FilmScheduleId { get; set; }

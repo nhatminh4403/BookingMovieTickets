@@ -16,9 +16,7 @@ namespace MoviesBooking.Models
         [Required]
         public DateTime PurchaseDate { get; set; }
         [Required]
-        [DisplayName("Tồng tiền")]
-        public decimal TotalPrice { get; set; }
-
+        public decimal Price { get; set; }
         [ForeignKey("UserId")]
         public virtual UserInfo User { get; set; }
         public virtual ICollection<TicketDetail> TicketDetails { get; set; }
