@@ -14,14 +14,11 @@ namespace MoviesBooking.Models
         [Required]
         public int TheatreRoomId { get; set; }
         [Required]
-        public int PremiereTimeId { get; set; }
-        [Required]
         public DateTime Date { get; set; }
 
         public virtual Film Film { get; set; }
         public virtual TheatreRoom TheatreRoom { get; set; }
 
-        public virtual PremiereTime PremiereTime { get; set; }
     }
 
 }

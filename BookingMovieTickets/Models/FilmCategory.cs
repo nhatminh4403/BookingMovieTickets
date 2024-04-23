@@ -15,6 +15,6 @@ namespace MoviesBooking.Models
         [Required]
         [DisplayName("Mô tả")]
         public string Description { get; set; }
-        public virtual ICollection<Film>? Films { get; set; }
+        public virtual ICollection<Film>? Film { get; set; }
     }
 }
