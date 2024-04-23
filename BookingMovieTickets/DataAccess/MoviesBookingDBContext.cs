@@ -24,8 +24,8 @@ namespace MoviesBooking.DataAccess
         public DbSet<FilmSchedule> FilmsSchedule { get; set; }
         public DbSet<PremiereTime> PremiereTime { get; set;}
         public DbSet<Theatre> Theatres { get; set; }
-/*        public DbSet<Receipt> Receipt { get; set; }
-        public DbSet<ReceiptDetail> ReceiptDetail { get; set; }*/
-
+        /*        public DbSet<Receipt> Receipt { get; set; }
+                public DbSet<ReceiptDetail> ReceiptDetail { get; set; }*/
+        
     }
 }
