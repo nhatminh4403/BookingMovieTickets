@@ -7,21 +7,21 @@ namespace MoviesBooking.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
         public int TicketDetailId { get; set; }
         [Required]
         public int TicketId { get; set; }
-        [Required]
-        public int SeatId { get; set; }
+ 
         [Required]
         public decimal Price { get; set; }
         [Required]
         public int FilmScheduleId { get; set; }
-        // Other properties as needed
-        [ForeignKey(nameof(TicketId))]
+
+        [ForeignKey("TicketId")]
         public virtual Ticket Ticket { get; set; }
-        [ForeignKey(nameof(SeatId))]
+
+        [ForeignKey("SeatId")]
         public virtual Seat Seat { get; set; }
+
         [ForeignKey("FilmScheduleId")]
         public virtual FilmSchedule FilmSchedule { get; set; }
     }

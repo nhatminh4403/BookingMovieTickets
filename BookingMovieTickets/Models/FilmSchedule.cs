@@ -17,12 +17,10 @@ namespace MoviesBooking.Models
         public int PremiereTimeId { get; set; }
         [Required]
         public DateTime Date { get; set; }
-        // Other properties as needed
-        [ForeignKey(nameof(FilmId))]
+
         public virtual Film Film { get; set; }
-        [ForeignKey(nameof(TheatreRoomId))]
         public virtual TheatreRoom TheatreRoom { get; set; }
-        [ForeignKey(nameof(PremiereTimeId))]
+
         public virtual PremiereTime PremiereTime { get; set; }
     }
 

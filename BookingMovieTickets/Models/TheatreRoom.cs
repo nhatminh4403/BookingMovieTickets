@@ -9,13 +9,13 @@ namespace MoviesBooking.Models
         [DisplayName("Mã phòng")]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
+
         public int TheatreRoomId { get; set; }
         [Required]
         public int TheatreId { get; set; }
         [Required]
         [DisplayName("Tên phòng")]
-        public string Name { get; set; }
+        public string RoomName { get; set; }
 
         // Other properties as needed
         [ForeignKey("TheatreId")]

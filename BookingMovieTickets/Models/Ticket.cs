@@ -18,11 +18,13 @@ namespace MoviesBooking.Models
         [Required]
         [DisplayName("Tồng tiền")]
         public decimal TotalPrice { get; set; }
-        // Other properties as needed
+        public int SeatId { get; set; }
+
+
+
         [ForeignKey("UserId")]
         public virtual UserInfo User { get; set; }
         public virtual ICollection<TicketDetail> TicketDetails { get; set; }
-        public virtual ICollection<ReceiptDetail>? ReceiptDetails { get; set; }
     }
 
 }

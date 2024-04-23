@@ -15,6 +15,6 @@ namespace MoviesBooking.Models
         [DisplayName("Địa chỉ rạp")]
         [Required]
         public string Location { get; set; }
-
+        public virtual ICollection<TheatreRoom> TheatreRooms { get; set; }
     }
 }

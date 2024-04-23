@@ -18,13 +18,14 @@ namespace MoviesBooking.DataAccess
         public DbSet<Ticket> Ticket { get; set; }
         public DbSet<TicketDetail> TicketDetail { get; set; }
         public DbSet<FilmCategory> FilmCategory { get; set; }
-        public DbSet<Film> Films { get; set; }
+        public DbSet<Film> Films { get; set; }   
+        public DbSet<FilmDetails> FilmDetails { get; set; }
+
         public DbSet<FilmSchedule> FilmsSchedule { get; set; }
         public DbSet<PremiereTime> PremiereTime { get; set;}
         public DbSet<Theatre> Theatres { get; set; }
-        public DbSet<Receipt> Receipt { get; set; }
-        public DbSet<ReceiptDetail > ReceiptDetail { get; set; }
-        public DbSet<FilmDetails> FilmDetails { get; set; }
+/*        public DbSet<Receipt> Receipt { get; set; }
+        public DbSet<ReceiptDetail> ReceiptDetail { get; set; }*/
 
     }
 }

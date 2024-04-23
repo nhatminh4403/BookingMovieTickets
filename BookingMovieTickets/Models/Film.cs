@@ -24,5 +24,6 @@ namespace MoviesBooking.Models
         public DateTime PremiereDate { get; set; }
         public virtual ICollection<FilmCategory>? FilmCategory { get; set; }
         public virtual FilmDetails? FilmDetails { get; set; }
+        public virtual ICollection<PremiereTime> PremiereTimes { get; set; }
     }
 }

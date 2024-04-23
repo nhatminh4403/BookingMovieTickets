@@ -19,9 +19,8 @@ namespace MoviesBooking.Models
         [Required]
         public bool IsBooked { get; set; }
         // Other properties as needed
-        [ForeignKey("TheatreRoomId")]
         public virtual TheatreRoom TheatreRoom { get; set; }
-
+        public virtual ICollection<TicketDetail> TicketDetails { get; set; }
     }
 
 }
