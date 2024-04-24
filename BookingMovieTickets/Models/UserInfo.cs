@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BookingMovieTickets.Models;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,5 +23,8 @@ namespace MoviesBooking.Models
         [Required]
         [DisplayName("Địa chỉ")]
         public string Address { get; set; }
+
+        public virtual ICollection<Ticket> Tickets { get; set; }
+        public virtual ICollection<Receipt> Receipts { get; set; }
     }
 }

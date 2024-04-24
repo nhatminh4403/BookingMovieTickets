@@ -12,8 +12,8 @@ using MoviesBooking.DataAccess;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(MoviesBookingDBContext))]
-    [Migration("20240423144857_databaseCreated")]
-    partial class databaseCreated
+    [Migration("20240424144317_insertData")]
+    partial class insertData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -566,7 +566,7 @@ namespace BookingMovieTickets.Migrations
             modelBuilder.Entity("BookingMovieTickets.Models.Receipt", b =>
                 {
                     b.HasOne("MoviesBooking.Models.UserInfo", "User")
-                        .WithMany()
+                        .WithMany("Receipts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -730,7 +730,7 @@ namespace BookingMovieTickets.Migrations
             modelBuilder.Entity("MoviesBooking.Models.Ticket", b =>
                 {
                     b.HasOne("MoviesBooking.Models.UserInfo", "User")
-                        .WithMany()
+                        .WithMany("Tickets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -809,6 +809,13 @@ namespace BookingMovieTickets.Migrations
             modelBuilder.Entity("MoviesBooking.Models.Ticket", b =>
                 {
                     b.Navigation("TicketDetails");
+                });
+
+            modelBuilder.Entity("MoviesBooking.Models.UserInfo", b =>
+                {
+                    b.Navigation("Receipts");
+
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }

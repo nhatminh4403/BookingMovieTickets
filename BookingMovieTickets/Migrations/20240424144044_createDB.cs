@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookingMovieTickets.Migrations
 {
     /// <inheritdoc />
-    public partial class databaseCreated : Migration
+    public partial class createDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -393,7 +393,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.ReceiptId,
                         principalTable: "Receipt",
                         principalColumn: "ReceiptId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ReceiptDetail_Seats_SeatId",
                         column: x => x.SeatId,
@@ -405,7 +405,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.TicketId,
                         principalTable: "Ticket",
                         principalColumn: "TicketId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
