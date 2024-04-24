@@ -1,3 +1,5 @@
+using BookingMovieTickets.Models;
+using BookingMovieTickets.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
@@ -12,6 +14,8 @@ builder.Services.AddDbContext<MoviesBookingDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+builder.Services.AddScoped<IFilmRepository, EFFilmRepository>();
+builder.Services.AddScoped<IFilmCategoryRepository, EFFilmCategoryRepository>();
 
 builder.Services.AddIdentity<UserInfo, IdentityRole>()
  .AddDefaultTokenProviders()
