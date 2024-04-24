@@ -26,6 +26,6 @@ namespace MoviesBooking.DataAccess
         public DbSet<Theatre> Theatres { get; set; }
         public DbSet<Receipt> Receipt { get; set; }
         public DbSet<ReceiptDetail> ReceiptDetail { get; set; }
-
+        //public DbSet<Combo> Combos { get; set; }
     }
 }

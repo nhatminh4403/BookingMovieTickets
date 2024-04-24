@@ -3,13 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using BookingMovieTickets.Controllers;
 using BookingMovieTickets.Models;
 using MoviesBooking.Models;
+using BookingMovieTickets.Repository.Interface;
+using MoviesBooking.DataAccess;
 
-namespace BookingMovieTickets.Repository
+namespace BookingMovieTickets.Repository.EF
 {
-    public class EFFilmRepository : IFilmRepository
+    public class EF_FilmRepository : I_FilmRepository
     {
-        private readonly ApplicationDbContext _context;
-        public EFFilmRepository(ApplicationDbContext context)
+        private readonly MoviesBookingDBContext _context;
+        public EF_FilmRepository(MoviesBookingDBContext context)
         {
             _context = context;
         }
@@ -17,15 +19,18 @@ namespace BookingMovieTickets.Repository
         {
             // return await _context.Products.ToListAsync(); 
             return await _context.Films
-        .Include(p => p.FilmCategory) // Include thông tin về category 
-        .ToListAsync();
+            .Include(p => p.FilmCategory) // Include thông tin về category 
+            .Include(p=>p.FilmDetails)
+            .Include(p=>p.PremiereTimes)
+            .Include(p=>p.FilmSchedules)
+            .ToListAsync();
         }
         public async Task<Film> GetByIdAsync(int id)
         {
             // return await _context.Products.FindAsync(id); 
             // lấy thông tin kèm theo category 
             return await _context.Films.Include(p =>
-   p.FilmCategory).FirstOrDefaultAsync(p => p.FilmId == id);
+   p.FilmCategory).FirstAsync(p => p.FilmId == id);
         }
         public async Task AddAsync(Film film)
         {

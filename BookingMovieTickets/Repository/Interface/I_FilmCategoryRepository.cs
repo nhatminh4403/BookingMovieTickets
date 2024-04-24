@@ -1,9 +1,9 @@
 ﻿using Humanizer.Localisation;
 using MoviesBooking.Models;
 
-namespace BookingMovieTickets.Repository
+namespace BookingMovieTickets.Repository.Interface
 {
-    public interface IFilmCategoryRepository
+    public interface I_FilmCategoryRepository
     {
         Task<IEnumerable<FilmCategory>> GetAllAsync();
         Task<FilmCategory> GetByIdAsync(int id);
