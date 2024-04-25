@@ -14,12 +14,12 @@ namespace BookingMovieTickets.Repository.EF
         }
         public async Task<IEnumerable<ReceiptDetail>> GetAllAsync()
         {
-            return await _context.ReceiptDetail.Include(p=>p.Receipt).Include(p=>p.FilmSchedule).Include(p=>p.Seat).Include(p=>p.FilmSchedule)
+            return await _context.ReceiptDetail.Include(p=>p.Receipt).Include(p=>p.Ticket)
                 .ToListAsync();
         }
         public async Task<ReceiptDetail> GetByIdAsync(int id)
         {
-            return await _context.ReceiptDetail.Include(p => p.Receipt).Include(p => p.FilmSchedule).Include(p => p.Seat).Include(p => p.FilmSchedule)
+            return await _context.ReceiptDetail.Include(p => p.Receipt).Include(p => p.Ticket)
                 .FirstAsync(p=>p.ReceiptDetailId==id);
         }
     }

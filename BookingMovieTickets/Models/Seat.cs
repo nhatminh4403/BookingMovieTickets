@@ -13,9 +13,9 @@ namespace MoviesBooking.Models
         public int SeatId { get; set; }
         [Required]
         public int TheatreRoomId { get; set; }
-/*        [Required]
+        [Required]
         [DisplayName("Số ghế")]
-        public string SeatNumber { get; set; }*/
+        public string SeatNumber { get; set; }
         [DisplayName("Tình trạng ghế")]
         [Required]
         public bool IsBooked { get; set; }

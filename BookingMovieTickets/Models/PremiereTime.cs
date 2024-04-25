@@ -15,6 +15,6 @@ namespace MoviesBooking.Models
         public int FilmId { get; set; }
         [ForeignKey(nameof(FilmId))]
         public virtual Film Film { get; set; }
-        public virtual ICollection<FilmSchedule> FilmSchedules { get; set; }
+
     }
 }

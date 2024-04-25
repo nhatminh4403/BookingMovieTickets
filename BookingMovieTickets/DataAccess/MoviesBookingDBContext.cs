@@ -19,7 +19,6 @@ namespace MoviesBooking.DataAccess
         public DbSet<TicketDetail> TicketDetail { get; set; }
         public DbSet<FilmCategory> FilmCategory { get; set; }
         public DbSet<Film> Films { get; set; }   
-        public DbSet<FilmDetails> FilmDetails { get; set; }
 
         public DbSet<FilmSchedule> FilmsSchedule { get; set; }
         public DbSet<PremiereTime> PremiereTime { get; set;}

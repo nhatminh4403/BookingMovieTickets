@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using BookingMovieTickets.Models;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,10 +18,11 @@ namespace MoviesBooking.Models
         public DateTime PurchaseDate { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        public bool IsPaid { get; set; }
         [ForeignKey("UserId")]
         public virtual UserInfo User { get; set; }
-        public virtual ICollection<TicketDetail> TicketDetails { get; set; }
-    }
 
+        public virtual ICollection<TicketDetail> TicketDetails { get; set; }
+/*        public virtual ICollection<ReceiptDetail> ReceiptDetails { get; set; }*/
+    }
 }

@@ -23,11 +23,22 @@ namespace MoviesBooking.Models
         [Required]
         public DateTime PremiereDate { get; set; }
         [Required]
+        public string DirectorName { get; set; }
+        [Required]
+        public string Language { get; set; }
+        [Required]
+        public string FilmRated { get; set; }
+        [Required]
+        public int FilmDuration { get; set; }
+        [Required]
+        public string Actors { get; set; }
+        [Required]
         public int FilmCategoryId { get; set; }
         [ForeignKey("FilmCategoryId")]
         public virtual FilmCategory? FilmCategory { get; set; }
-        public virtual FilmDetails? FilmDetails { get; set; }
+        
         public virtual ICollection<PremiereTime> PremiereTimes { get; set; }
         public virtual ICollection<FilmSchedule> FilmSchedules { get; set;}
+        public virtual ICollection<TicketDetail> TicketDetails { get; set; }
     }
 }

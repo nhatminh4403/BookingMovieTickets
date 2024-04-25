@@ -13,8 +13,8 @@ namespace MoviesBooking.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FilmCategoryId { get; set; }
         [Required]
-        [DisplayName("Mô tả")]
-        public string Description { get; set; }
+        [DisplayName("Tên")]
+        public string Name { get; set; }
         public virtual ICollection<Film>? Film { get; set; }
     }
 }

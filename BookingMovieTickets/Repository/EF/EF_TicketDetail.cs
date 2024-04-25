@@ -17,14 +17,18 @@ namespace BookingMovieTickets.Repository.EF
             return await _dbContext.TicketDetail
                 .Include(x => x.Ticket)
                 .Include(x=>x.FilmSchedule)
-                .Include(x=> x.Seat).ToListAsync();
+                .Include(x=> x.Seat)
+                .Include(x=>x.Film)
+                .ToListAsync();
         }
         public async Task<TicketDetail> GetByIdAsync(int id)
         {
             return await _dbContext.TicketDetail
                 .Include(x => x.Ticket)
                 .Include(x => x.FilmSchedule)
-                .Include(x => x.Seat).FirstAsync(x=>x.TicketDetailId == id);
+                .Include(x => x.Seat)
+                .Include(x => x.Film)
+                .FirstAsync(x=>x.TicketDetailId == id);
         }
         public async Task AddAsync(TicketDetail ticketDetail)
         {

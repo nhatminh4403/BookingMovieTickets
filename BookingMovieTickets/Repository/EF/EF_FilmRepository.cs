@@ -20,7 +20,6 @@ namespace BookingMovieTickets.Repository.EF
             // return await _context.Products.ToListAsync(); 
             return await _context.Films
             .Include(p => p.FilmCategory) // Include thông tin về category 
-            .Include(p=>p.FilmDetails)
             .Include(p=>p.PremiereTimes)
             .Include(p=>p.FilmSchedules)
             .ToListAsync();
