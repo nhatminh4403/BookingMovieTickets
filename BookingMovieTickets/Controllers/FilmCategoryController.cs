@@ -22,7 +22,7 @@ namespace BookingMovieTickets.Controllers
             return View(categories);
         }
 
-        public async Task<IActionResult> Add()
+        public  IActionResult Add()
         {
             return View();
         }
