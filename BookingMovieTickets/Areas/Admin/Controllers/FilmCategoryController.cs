@@ -1,9 +1,12 @@
 ﻿using BookingMovieTickets.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoviesBooking.Models;
 
-namespace BookingMovieTickets.Controllers
+namespace BookingMovieTickets.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = UserRole.Role_Admin)]
     public class FilmCategoryController : Controller
     {
         private readonly I_FilmRepository _FilmRepository;
@@ -22,7 +25,7 @@ namespace BookingMovieTickets.Controllers
             return View(categories);
         }
 
-        public  IActionResult Add()
+        public IActionResult Add()
         {
             return View();
         }

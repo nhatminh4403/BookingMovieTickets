@@ -15,6 +15,14 @@ builder.Services.AddDbContext<MoviesBookingDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+
+builder.Services.AddIdentity<UserInfo, IdentityRole>()
+       .AddDefaultTokenProviders()
+       .AddDefaultUI()
+       .AddEntityFrameworkStores<MoviesBookingDBContext>();
+builder.Services.AddRazorPages();
+
+
 builder.Services.AddScoped<I_FilmRepository, EF_FilmRepository>();
 builder.Services.AddScoped<I_FilmCategoryRepository, EF_FilmCategoryRepository>();
 builder.Services.AddScoped<I_Seat, EF_Seat>();
@@ -26,12 +34,6 @@ builder.Services.AddScoped<I_TheatreRoom, EF_Room>();
 builder.Services.AddScoped<I_Ticket, EF_Ticket>();
 builder.Services.AddScoped<I_TicketDetail, EF_TicketDetail>();
 builder.Services.AddScoped<I_ReceiptDetail, EF_ReceiptDetail>();
-
-builder.Services.AddIdentity<UserInfo, IdentityRole>()
- .AddDefaultTokenProviders()
- .AddDefaultUI()
- .AddEntityFrameworkStores<MoviesBookingDBContext>();
-builder.Services.AddRazorPages();
 
 
 builder.Services.ConfigureApplicationCookie(option =>
@@ -56,11 +58,17 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{    
+    endpoints.MapControllerRoute(name: "Admin", pattern: "{area:exists}/{controller=Management}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(    name: "default",    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+}
+    
+);
+
 
 app.Run();

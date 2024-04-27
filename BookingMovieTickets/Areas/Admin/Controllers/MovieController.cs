@@ -1,10 +1,13 @@
 ﻿using BookingMovieTickets.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MoviesBooking.Models;
 
 namespace BookingMovieTickets.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = UserRole.Role_Admin)]
     public class MovieController : Controller
     {     
 

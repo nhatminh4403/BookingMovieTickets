@@ -20,3 +20,14 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.btn-detail {
+    border-color: black;
+    background-color: white;
+    color: black;
+}
+
+    .btn-detail:hover {
+        background-color: black;
+        color: white;
+    }
