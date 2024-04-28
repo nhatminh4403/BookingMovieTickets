@@ -1,4 +1,5 @@
-﻿using BookingMovieTickets.Repository.Interface;
+﻿using BookingMovieTickets.Repository.EF;
+using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -49,6 +50,16 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
                 TheatreRooms = rooms
             };
             return View(filmVM);
+        }
+        public async Task<IActionResult> GetAllFilm()
+        {
+            var films = await _filmRepository.GetAllAsync();
+            return PartialView("_FilmPartialView", films);
+        }
+        public async Task<IActionResult> GetAllCategories()
+        {
+            var categories = await _filmCategoryRepository.GetAllAsync();
+            return PartialView("_CategoriesPartialView", categories);
         }
     }
 }

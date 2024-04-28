@@ -1,7 +1,39 @@
-﻿
+﻿@model BookingMovieTickets.VIewModel.FilmVM
+@using BookingMovieTickets
+@using BookingMovieTickets.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Mvc.Rendering
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";Layout = "_Layout";
 }
 
-<h1>Index</h1>
+<div class="container-fluid">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Phim</a>
+        </li>
+        <!-- Add more tabs as needed -->
+        <li class="nav-item">
+            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false"> Thể loại </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            <!-- Render partial view within Tab 1 -->
+            <partial name="~/Areas/Admin/Views/Manager/_FilmPartialView.cshtml" model="@Model.Films"/>
+        </div>
+        <!-- Add more tab content as needed -->
+        <div class="tab-pane " id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <partial name="~/Areas/Admin/Views/Manager/_CategoriesPartialView.cshtml" model="@Model.FilmCategories" />
+        </div>
+    </div>
+</div>
 
+<script>
+    $(document).ready(function () {
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+    });
+</script>

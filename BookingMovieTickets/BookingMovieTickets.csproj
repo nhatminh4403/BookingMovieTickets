@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Views\Movie\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
