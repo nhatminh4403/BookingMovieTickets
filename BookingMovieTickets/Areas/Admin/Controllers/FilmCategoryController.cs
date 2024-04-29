@@ -21,8 +21,8 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         {
 
             var categories = await _FilmCategoryRepository.GetAllAsync();
-            ViewBag.categories = categories.ToList();
-            return View(categories);
+          /*  ViewBag.categories = categories.ToList();*//**/
+            return PartialView("_CategoriesPartialView", categories);
         }
 
         public IActionResult Add()

@@ -6,7 +6,7 @@
 @{
     ViewData["Title"] = "Index";Layout = "_Layout";
 }
-
+<h1>Quản lý</h1>
 <div class="container-fluid">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -20,11 +20,11 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
             <!-- Render partial view within Tab 1 -->
-            <partial name="~/Areas/Admin/Views/Manager/_FilmPartialView.cshtml" model="@Model.Films"/>
+            <partial name="~/Areas/Admin/Views/Movie/_FilmPartialView.cshtml" model="@Model.Films"/>
         </div>
         <!-- Add more tab content as needed -->
         <div class="tab-pane " id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-            <partial name="~/Areas/Admin/Views/Manager/_CategoriesPartialView.cshtml" model="@Model.FilmCategories" />
+            <partial name="~/Areas/Admin/Views/FilmCategory/_CategoriesPartialView.cshtml" model="@Model.FilmCategories" />
         </div>
     </div>
 </div>

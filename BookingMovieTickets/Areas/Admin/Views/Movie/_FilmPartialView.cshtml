@@ -1,8 +1,5 @@
 ﻿@model IEnumerable<MoviesBooking.Models.Film>
-@using BookingMovieTickets
-@using BookingMovieTickets.Models
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@using Microsoft.AspNetCore.Mvc.Rendering
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -12,7 +9,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.NameFilm)
             </th>
-
+            <th>
+                @Html.DisplayNameFor(model => model.FilmCategory)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -22,7 +21,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NameFilm)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.FilmCategory.Name)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.FilmId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.FilmId">Details</a> |
