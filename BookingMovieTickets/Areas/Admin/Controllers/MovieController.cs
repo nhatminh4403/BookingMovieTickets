@@ -55,7 +55,7 @@ namespace BookingMovieTickets.Controllers
                         film.PosterUrl = await SaveImage(PosterUrl);
                     }
                     await _FilmRepository.AddAsync(film);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Manager", new { area = "Admin" });
                 }
                 else
                 {
@@ -97,8 +97,7 @@ namespace BookingMovieTickets.Controllers
                 }
 
                 var filmCategories = await _FilmCategoryRepository.GetAllAsync();
-                ViewBag.FilmCategories = new SelectList(filmCategories, "FilmCategoryId", "Name",
-                film.FilmCategoryId);
+                ViewBag.FilmCategories = new SelectList(filmCategories, "FilmCategoryId", "Name",  film.FilmCategoryId);
                 return View(film);
             }
 
@@ -153,7 +152,7 @@ namespace BookingMovieTickets.Controllers
                     existingMovie.FilmDuration = film.FilmDuration;
                     existingMovie.Actors = film.Actors;
                     await _FilmRepository.UpdateAsync(existingMovie);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Manager", new { area = "Admin" });
                 }
                 else
                 {
@@ -177,7 +176,7 @@ namespace BookingMovieTickets.Controllers
             public async Task<IActionResult> DeleteConfirmed(int id)
             {
                 await _FilmRepository.DeleteAsync(id);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Manager", new { area = "Admin" });
             }
 
             private bool ValidateImageExtension(string fileName)

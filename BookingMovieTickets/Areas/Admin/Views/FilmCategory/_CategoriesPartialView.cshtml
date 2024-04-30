@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MoviesBooking.Models.FilmCategory>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Add" asp-controller="FilmCategory" asp-area="Admin">Thêm thể loại mới</a>
 </p>
 <table class="table">
     <thead>
@@ -19,9 +19,8 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.FilmCategoryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FilmCategoryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FilmCategoryId">Delete</a>
+                    <a asp-action="Edit" asp-controller="FilmCategory" asp-area="Admin" asp-route-id="@item.FilmCategoryId">Edit</a> |
+                    <a asp-action="Delete" asp-controller="FilmCategory" asp-area="Admin" asp-route-id="@item.FilmCategoryId">Delete</a>
             </td>
         </tr>
 }

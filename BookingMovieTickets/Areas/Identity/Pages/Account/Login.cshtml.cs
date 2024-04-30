@@ -117,7 +117,7 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         var user = await _userManager.FindByEmailAsync(Input.Email);
-                        if (user != null && await _userManager.IsInRoleAsync(user, "Admin"))
+                        if (user != null && await _userManager.IsInRoleAsync(user, "Admin") && User.Identity.IsAuthenticated)
                         {
                         // If the user is an admin, redirect to the Manager view
                             return RedirectToAction("Index", "Manager", new { area = "Admin" });
