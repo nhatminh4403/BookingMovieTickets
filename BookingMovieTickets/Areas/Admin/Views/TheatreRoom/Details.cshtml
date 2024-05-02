@@ -1,0 +1,76 @@
+﻿@model BookingMovieTickets.VIewModel.RoomVM
+@using BookingMovieTickets
+@using BookingMovieTickets.Models
+@{
+    ViewData["Title"] = "Details";
+}
+<br />
+<div>
+    <h5>Thông tin phòng: </h5>
+    <h1>@Model.TheatreRoom.RoomName</h1>
+</div>
+
+
+<div>
+    <a asp-action="Index" asp-area="Admin" asp-controller="Manager" class="btn btn-success">Trở về</a>
+</div>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="seat-container">
+                @for(int i = 0; i < Model.TheatreRoom.Seats.Count(); i = i + 9)
+                {
+                    <div class="seat-row"> 
+                    @foreach (var seat in Model.TheatreRoom.Seats.Skip(i).Take(9))
+                    {
+                        <div class="seat @(seat.IsBooked ? "booked" : "")">
+                            <img src="~/images/images.png" alt="Seat Icon" /> @* Replace "seat-icon.png" with your actual image URL or use an appropriate icon *@
+                            <span class="seat-number">@seat.SeatNumber</span>
+                        </div>
+                    }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat {
+        width: 80px; /* Set a fixed width for the seat */
+        height: 60px; /* Set a fixed height for the seat */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center the content vertically */
+        justify-content: center; /* Center the content horizontally */
+        border: 1px solid #ccc; /* Add a border for better visibility */
+        margin-right: 10px; /* Add margin between seats */
+    }
+
+    .seat-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px; /* Adjust the gap between seats as needed */
+    }
+    .booked {
+        background-color: red; /* Color for booked seats */
+    }
+
+    .seat-row {
+        display: flex;
+        justify-content: center; /* Center the seats horizontally */
+        margin-bottom: 10px; /* Add margin between rows */
+    }
+    .seat img {
+        width: 24px; /* Adjust the size of the seat icon */
+        height: 24px;
+        margin-right: 5px;
+    }
+
+    .seat-number {
+        font-weight: bold;
+    }
+</style>

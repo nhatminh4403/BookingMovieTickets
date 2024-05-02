@@ -1,0 +1,26 @@
+﻿@model IEnumerable<MoviesBooking.Models.TheatreRoom>
+
+<p>
+    <a asp-action="Create">Thêm phòng mới</a>
+</p>
+
+@for (int i = 0; i < Model.Count(); i += 3)
+{
+    <div class="row">
+        @foreach (var item in Model.Skip(i).Take(3))
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Phòng: @item.RoomName</h5>
+                        <p class="card-text">Số lượng ghế: @item.Seats.Count()</p>
+                        <p class="card-text">Số lượng ghế đã đặt: @item.Seats.Count(s => s.IsBooked)</p>
+                        <a asp-action="Edit" asp-area="Admin" asp-controller="TheatreRoom" asp-route-id="@item.TheatreRoomId">Edit</a> |
+                        <a asp-action="Details" asp-area="Admin" asp-controller="TheatreRoom" asp-route-id="@item.TheatreRoomId">Details</a> |
+                        <a asp-action="Delete" asp-area="Admin" asp-controller="TheatreRoom" asp-route-id="@item.TheatreRoomId">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

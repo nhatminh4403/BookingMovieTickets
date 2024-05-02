@@ -22,12 +22,13 @@ body {
 }
 
 .btn-detail {
-    border-color: black;
+    border-color: white;
+    border-style: double;
     background-color: white;
     color: black;
 }
 
     .btn-detail:hover {
         background-color: black;
-        color: white;
+        color: black;
     }
