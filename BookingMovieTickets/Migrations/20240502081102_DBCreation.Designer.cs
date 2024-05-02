@@ -11,9 +11,9 @@ using MoviesBooking.DataAccess;
 
 namespace BookingMovieTickets.Migrations
 {
-    [DbContext(typeof(MoviesBookingDBContext))]
-    [Migration("20240427142739_dataInsertion")]
-    partial class dataInsertion
+    [DbContext(typeof(BookingMovieTicketsDBContext))]
+    [Migration("20240502081102_DBCreation")]
+    partial class DBCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,7 +47,7 @@ namespace BookingMovieTickets.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Receipt");
+                    b.ToTable("Receipts");
                 });
 
             modelBuilder.Entity("BookingMovieTickets.Models.ReceiptDetail", b =>
@@ -61,9 +61,6 @@ namespace BookingMovieTickets.Migrations
                     b.Property<int>("ReceiptId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SeatId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
 
@@ -71,11 +68,9 @@ namespace BookingMovieTickets.Migrations
 
                     b.HasIndex("ReceiptId");
 
-                    b.HasIndex("SeatId");
-
                     b.HasIndex("TicketId");
 
-                    b.ToTable("ReceiptDetail");
+                    b.ToTable("ReceiptDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -250,11 +245,10 @@ namespace BookingMovieTickets.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PosterUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PremiereDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("PremiereTimeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("TrailerUrl")
                         .IsRequired()
@@ -263,6 +257,8 @@ namespace BookingMovieTickets.Migrations
                     b.HasKey("FilmId");
 
                     b.HasIndex("FilmCategoryId");
+
+                    b.HasIndex("PremiereTimeId");
 
                     b.ToTable("Films");
                 });
@@ -308,7 +304,7 @@ namespace BookingMovieTickets.Migrations
 
                     b.HasIndex("TheatreRoomId");
 
-                    b.ToTable("FilmsSchedule");
+                    b.ToTable("FilmSchedules");
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.PremiereTime", b =>
@@ -319,17 +315,12 @@ namespace BookingMovieTickets.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PremiereTimeId"));
 
-                    b.Property<int>("FilmId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("PremiereTimeId");
 
-                    b.HasIndex("FilmId");
-
-                    b.ToTable("PremiereTime");
+                    b.ToTable("PremiereTimes");
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.Seat", b =>
@@ -422,7 +413,7 @@ namespace BookingMovieTickets.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ticket");
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.TicketDetail", b =>
@@ -458,7 +449,7 @@ namespace BookingMovieTickets.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("TicketDetail");
+                    b.ToTable("TicketDetails");
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.UserInfo", b =>
@@ -560,12 +551,8 @@ namespace BookingMovieTickets.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MoviesBooking.Models.Seat", null)
-                        .WithMany("ReceiptDetails")
-                        .HasForeignKey("SeatId");
-
                     b.HasOne("MoviesBooking.Models.Ticket", "Ticket")
-                        .WithMany()
+                        .WithMany("ReceiptDetails")
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -634,7 +621,15 @@ namespace BookingMovieTickets.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MoviesBooking.Models.PremiereTime", "PremiereTimes")
+                        .WithMany()
+                        .HasForeignKey("PremiereTimeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("FilmCategory");
+
+                    b.Navigation("PremiereTimes");
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.FilmSchedule", b =>
@@ -654,17 +649,6 @@ namespace BookingMovieTickets.Migrations
                     b.Navigation("Film");
 
                     b.Navigation("TheatreRoom");
-                });
-
-            modelBuilder.Entity("MoviesBooking.Models.PremiereTime", b =>
-                {
-                    b.HasOne("MoviesBooking.Models.Film", "Film")
-                        .WithMany("PremiereTimes")
-                        .HasForeignKey("FilmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Film");
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.Seat", b =>
@@ -744,8 +728,6 @@ namespace BookingMovieTickets.Migrations
                 {
                     b.Navigation("FilmSchedules");
 
-                    b.Navigation("PremiereTimes");
-
                     b.Navigation("TicketDetails");
                 });
 
@@ -761,8 +743,6 @@ namespace BookingMovieTickets.Migrations
 
             modelBuilder.Entity("MoviesBooking.Models.Seat", b =>
                 {
-                    b.Navigation("ReceiptDetails");
-
                     b.Navigation("TicketDetails");
                 });
 
@@ -778,6 +758,8 @@ namespace BookingMovieTickets.Migrations
 
             modelBuilder.Entity("MoviesBooking.Models.Ticket", b =>
                 {
+                    b.Navigation("ReceiptDetails");
+
                     b.Navigation("TicketDetails");
                 });
 

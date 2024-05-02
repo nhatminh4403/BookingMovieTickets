@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<MoviesBookingDBContext>(
+builder.Services.AddDbContext<BookingMovieTicketsDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
@@ -19,7 +19,7 @@ builder.Services.AddDbContext<MoviesBookingDBContext>(
 builder.Services.AddIdentity<UserInfo, IdentityRole>()
        .AddDefaultTokenProviders()
        .AddDefaultUI()
-       .AddEntityFrameworkStores<MoviesBookingDBContext>();
+       .AddEntityFrameworkStores<BookingMovieTicketsDBContext>();
 builder.Services.AddRazorPages();
 
 

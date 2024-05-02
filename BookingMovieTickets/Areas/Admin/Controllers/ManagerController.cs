@@ -17,11 +17,11 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         private readonly I_FilmCategoryRepository _filmCategoryRepository;
         private readonly I_FilmRepository _filmRepository;
         private readonly I_Seat _seatRepo;
-        private readonly MoviesBookingDBContext _dbContext;
+        private readonly BookingMovieTicketsDBContext _dbContext;
         private readonly I_PremiereTime _premiereTimeRepo;
         private readonly I_Schedule _scheduleRepo;
         private readonly I_TheatreRoom _theatreRoomRepo;
-        public ManagerController(MoviesBookingDBContext dBContext, I_FilmCategoryRepository filmCategoryRepository, I_FilmRepository filmRepository,
+        public ManagerController(BookingMovieTicketsDBContext dBContext, I_FilmCategoryRepository filmCategoryRepository, I_FilmRepository filmRepository,
             I_PremiereTime premiereTime, I_Seat seatRepo, I_Schedule scheduleRepo, I_TheatreRoom theatreRoomRepo)
         {
             _dbContext = dBContext;

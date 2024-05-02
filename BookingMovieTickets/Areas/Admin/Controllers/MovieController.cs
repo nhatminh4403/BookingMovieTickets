@@ -10,14 +10,15 @@ namespace BookingMovieTickets.Controllers
     [Authorize(Roles = UserRole.Role_Admin)]
     public class MovieController : Controller
     {     
-
+            private readonly I_PremiereTime _PremiereTimeRepository;
             private readonly I_FilmRepository _FilmRepository;
             private readonly I_FilmCategoryRepository _FilmCategoryRepository;
             public MovieController(I_FilmRepository filmRepository,
-            I_FilmCategoryRepository filmCategoryRepository)
+            I_FilmCategoryRepository filmCategoryRepository, I_PremiereTime PremiereTimeRepository)
             {
                 _FilmRepository = filmRepository;
                 _FilmCategoryRepository = filmCategoryRepository;
+                _PremiereTimeRepository = PremiereTimeRepository;
             }
             // Hiển thị danh sách sản phẩm
             public async Task<IActionResult> Index()
@@ -29,7 +30,9 @@ namespace BookingMovieTickets.Controllers
             public async Task<IActionResult> Add()
             {
                 var FilmCategory = await _FilmCategoryRepository.GetAllAsync();
+                var premiereTimes = await _PremiereTimeRepository.GetAllAsync();
                 ViewBag.FilmCategory = new SelectList(FilmCategory, "FilmCategoryId", "Name");
+                ViewBag.PremiereTimes = new SelectList(premiereTimes, "PremiereTimeId", "StartTime");
                 return View();
             }
             [HttpPost]
@@ -39,7 +42,7 @@ namespace BookingMovieTickets.Controllers
                 {
                     if (PosterUrl != null)
                     {
-                        if (ValidateImageExtension(PosterUrl.FileName))
+/*                        if (ValidateImageExtension(PosterUrl.FileName))
                         {
                             if (!ValidatImageSize(PosterUrl, 5242880))
                             {
@@ -51,7 +54,7 @@ namespace BookingMovieTickets.Controllers
                         {
                             ModelState.AddModelError("PosterUrl", "Invalid image format for main image. Please upload a jpg, jpeg, jfif, or png file.");
                             return View(film);
-                        }
+                        }*/
                         film.PosterUrl = await SaveImage(PosterUrl);
                     }
                     await _FilmRepository.AddAsync(film);
@@ -62,7 +65,9 @@ namespace BookingMovieTickets.Controllers
                     ModelState.AddModelError("PosterUrl", "Please enter a image.");
                     // Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
                     var filmCategories = await _FilmCategoryRepository.GetAllAsync();
-                    ViewBag.FilmCategories = new SelectList(filmCategories, "FilmCategoryId", "Description");
+                    var premiereTimes = await _PremiereTimeRepository.GetAllAsync();
+                    ViewBag.FilmCategory = new SelectList(filmCategories, "FilmCategoryId", "Name");
+                    ViewBag.PremiereTimes = new SelectList(premiereTimes, "PremiereTimeId", "StartTime");
                     return View(film);
                 }
 
@@ -75,7 +80,7 @@ namespace BookingMovieTickets.Controllers
                 {
                     await image.CopyToAsync(fileStream);
                 }
-                return "~/images/" + image.FileName; // Trả về đường dẫn tương đối
+                return "/images/" + image.FileName; // Trả về đường dẫn tương đối
             }
             public async Task<IActionResult> Display(int id)
             {
@@ -145,7 +150,6 @@ namespace BookingMovieTickets.Controllers
                     existingMovie.PosterUrl = film.PosterUrl;
 
                     existingMovie.TrailerUrl = film.TrailerUrl;
-                    existingMovie.PremiereDate = film.PremiereDate;
                     existingMovie.DirectorName = film.DirectorName;
                     existingMovie.Language = film.Language;
                     existingMovie.FilmRated = film.FilmRated;
@@ -172,7 +176,7 @@ namespace BookingMovieTickets.Controllers
                 }
                 return View(film);
             }
-            [HttpPost, ActionName("DeleteConfirmed")]
+            [HttpPost, ActionName("Delete")]
             public async Task<IActionResult> DeleteConfirmed(int id)
             {
                 await _FilmRepository.DeleteAsync(id);

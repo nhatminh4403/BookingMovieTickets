@@ -7,14 +7,14 @@ namespace BookingMovieTickets.Repository.EF
 {
     public class EF_TicketDetail : I_TicketDetail
     {
-        private readonly MoviesBookingDBContext _dbContext;
-        public EF_TicketDetail(MoviesBookingDBContext dbContext)
+        private readonly BookingMovieTicketsDBContext _dbContext;
+        public EF_TicketDetail(BookingMovieTicketsDBContext dbContext)
         {
             _dbContext = dbContext;
         }
         public async Task<IEnumerable<TicketDetail>> GetAllAsync()
         {
-            return await _dbContext.TicketDetail
+            return await _dbContext.TicketDetails
                 .Include(x => x.Ticket)
                 .Include(x=>x.FilmSchedule)
                 .Include(x=> x.Seat)
@@ -23,7 +23,7 @@ namespace BookingMovieTickets.Repository.EF
         }
         public async Task<TicketDetail> GetByIdAsync(int id)
         {
-            return await _dbContext.TicketDetail
+            return await _dbContext.TicketDetails
                 .Include(x => x.Ticket)
                 .Include(x => x.FilmSchedule)
                 .Include(x => x.Seat)
@@ -32,12 +32,12 @@ namespace BookingMovieTickets.Repository.EF
         }
         public async Task AddAsync(TicketDetail ticketDetail)
         {
-            _dbContext.TicketDetail.Add(ticketDetail);
+            _dbContext.TicketDetails.Add(ticketDetail);
             await _dbContext.SaveChangesAsync();
         }
         public async Task UpdateAsync(TicketDetail ticketDetail)
         {
-            _dbContext.TicketDetail.Update(ticketDetail);
+            _dbContext.TicketDetails.Update(ticketDetail);
             await _dbContext.SaveChangesAsync();
         }
     }

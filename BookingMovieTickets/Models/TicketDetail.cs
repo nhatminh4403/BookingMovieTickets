@@ -25,10 +25,8 @@ namespace MoviesBooking.Models
         [ForeignKey("Seat")]
         public int SeatId { get; set; }
         public virtual Ticket Ticket { get; set; }
-        public virtual Seat Seat { get; set; }
-           
-        public virtual FilmSchedule FilmSchedule { get; set; }
-        public virtual Film Film { get; set; }
+        public virtual Seat? Seat { get; set; }
+        public virtual FilmSchedule? FilmSchedule { get; set; }
+        public virtual Film? Film { get; set; }
     }
-
 }

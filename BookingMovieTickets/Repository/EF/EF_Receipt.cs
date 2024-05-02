@@ -7,35 +7,35 @@ namespace BookingMovieTickets.Repository.EF
 {
     public class EF_Receipt : I_Receipt
     {
-        private readonly MoviesBookingDBContext _dbContext;
-        public EF_Receipt(MoviesBookingDBContext dbContext)
+        private readonly BookingMovieTicketsDBContext _dbContext;
+        public EF_Receipt(BookingMovieTicketsDBContext dbContext)
         {
             _dbContext = dbContext;
         }
         public async Task<IEnumerable<Receipt>> GetAllAsync()
         {
-            return await _dbContext.Receipt.Include(p=>p.User).ToListAsync();
+            return await _dbContext.Receipts.Include(p=>p.User).ToListAsync();
         }
         public async Task<Receipt> GetByIdAsync(int id)
         {
-            return await _dbContext.Receipt.Include(p => p.User).FirstAsync(p=>p.ReceiptId==id);
+            return await _dbContext.Receipts.Include(p => p.User).FirstAsync(p=>p.ReceiptId==id);
         }
         public async Task AddAsync(Receipt receipt)
         {
-            _dbContext.Receipt.Add(receipt);
+            _dbContext.Receipts.Add(receipt);
             await _dbContext.SaveChangesAsync();
         }
         public async Task UpdateAsync(Receipt receipt)
         {
-            _dbContext.Receipt.Update(receipt);
+            _dbContext.Receipts.Update(receipt);
             await _dbContext.SaveChangesAsync();
         }
         public async Task DeleteAsync(int id)
         {
-            var receipt = await _dbContext.Receipt.FindAsync(id);
+            var receipt = await _dbContext.Receipts.FindAsync(id);
             if(receipt != null)
             {
-                _dbContext.Receipt.Remove(receipt);
+                _dbContext.Receipts.Remove(receipt);
                 await _dbContext.SaveChangesAsync();
             }
         }

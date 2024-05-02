@@ -8,8 +8,8 @@ namespace BookingMovieTickets.Repository.EF
 {
     public class EF_Theater : I_Theater
     {
-        private readonly MoviesBookingDBContext _dbContext;
-        public EF_Theater(MoviesBookingDBContext context) 
+        private readonly BookingMovieTicketsDBContext _dbContext;
+        public EF_Theater(BookingMovieTicketsDBContext context) 
         {
             _dbContext = context;
         }

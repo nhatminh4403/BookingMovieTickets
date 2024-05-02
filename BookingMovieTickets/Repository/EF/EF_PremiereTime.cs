@@ -7,36 +7,36 @@ namespace BookingMovieTickets.Repository.EF
 {
     public class EF_PremiereTime : I_PremiereTime
     {
-        private readonly MoviesBookingDBContext _dbContext;
-        public EF_PremiereTime(MoviesBookingDBContext dbContext)
+        private readonly BookingMovieTicketsDBContext _dbContext;
+        public EF_PremiereTime(BookingMovieTicketsDBContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<PremiereTime>> GetAllAsync()
         {
-            return await _dbContext.PremiereTime.ToListAsync();
+            return await _dbContext.PremiereTimes.ToListAsync();
         }
         public async Task<PremiereTime> GetByIdAsync(int id)
         {
-            return await _dbContext.PremiereTime.FirstAsync(p=>p.PremiereTimeId == id);
+            return await _dbContext.PremiereTimes.FirstAsync(p=>p.PremiereTimeId == id);
         }
         public async Task AddAsync(PremiereTime premiereTime)
         {
-            _dbContext.PremiereTime.Add(premiereTime);
+            _dbContext.PremiereTimes.Add(premiereTime);
             await _dbContext.SaveChangesAsync();
         }
         public async Task UpdateAsync(PremiereTime premiereTime)
         {
-            _dbContext.PremiereTime.Update(premiereTime);
+            _dbContext.PremiereTimes.Update(premiereTime);
             await _dbContext.SaveChangesAsync();
         }
         public async Task DeleteAsync(int id)
         {
-            var premiereTime = await _dbContext.PremiereTime.FindAsync(id);
+            var premiereTime = await _dbContext.PremiereTimes.FindAsync(id);
             if(premiereTime != null)
             {
-                _dbContext.PremiereTime.Remove(premiereTime);
+                _dbContext.PremiereTimes.Remove(premiereTime);
                 await _dbContext.SaveChangesAsync();
             }
         }

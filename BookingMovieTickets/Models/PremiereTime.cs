@@ -12,9 +12,5 @@ namespace MoviesBooking.Models
         [Required]
         [DisplayName("Giờ chiếu")]
         public DateTime StartTime { get; set; }
-        public int FilmId { get; set; }
-        [ForeignKey(nameof(FilmId))]
-        public virtual Film Film { get; set; }
-
     }
 }

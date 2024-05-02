@@ -20,6 +20,6 @@ namespace MoviesBooking.Models
         public virtual Film Film { get; set; }
         public virtual TheatreRoom TheatreRoom { get; set; }
 
-        public virtual ICollection<TicketDetail> TicketDetails { get; set; }
+        public virtual ICollection<TicketDetail>? TicketDetails { get; set; }
     }
 }

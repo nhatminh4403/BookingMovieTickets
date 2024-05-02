@@ -21,8 +21,6 @@ namespace MoviesBooking.Models
         public bool IsBooked { get; set; }
         // Other properties as needed
         public virtual TheatreRoom TheatreRoom { get; set; }
-        public virtual ICollection<TicketDetail> TicketDetails { get; set; }
-        public virtual ICollection<ReceiptDetail> ReceiptDetails { get; set; }
+        public virtual ICollection<TicketDetail>? TicketDetails { get; set; }
     }
-
 }

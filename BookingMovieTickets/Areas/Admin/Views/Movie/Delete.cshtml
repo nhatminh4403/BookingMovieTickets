@@ -1,11 +1,15 @@
 ﻿@model MoviesBooking.Models.Film
 
 @{
-    ViewData["Title"] = "Display";
+    ViewData["Title"] = "Delete";
 }
 
+<h1>Xóa Phim</h1>
 
-<h3>Thông tin phim:</h3><br />
+<h3>Bạn có muốn xóa Phim này chứ?</h3>
+<br />
+<h3>Thông tin phim:</h3>
+<br />
 <h1>@Model.NameFilm</h1>
 
 <div class="container-fluid">
@@ -85,10 +89,10 @@
         </div>
     </div>
 </div>
-    <!-- Trailer -->
+<!-- Trailer -->
 <div class="row mt-4 justify-content-center align-items-center">
     <div class="col-md-12 text-center">
-        <h4 >Trailer</h4>
+        <h4>Trailer</h4>
         <!-- Embed YouTube trailer using iframe -->
         @{
             // Extract video ID from youtu.be link
@@ -96,24 +100,15 @@
             // Construct standard YouTube embed URL
             string embedUrl = $"https://www.youtube.com/embed/{videoId}";
         }
-        @if (Model.TrailerUrl.Contains("youtube.com"))
-        {
-            <div class=" embed-responsive embed-responsive-16by9 ">
-                <iframe class="embed-responsive-item" src="@Model.TrailerUrl" allowfullscreen style="width:500px; height: 250px;"></iframe>
-            </div>
-        }
-        else
-        {
-            <div class=" embed-responsive embed-responsive-16by9 ">
-                <iframe class="embed-responsive-item" src="@embedUrl" allowfullscreen style="width:500px; height: 250px;"></iframe>
-            </div>
-        }
-        
+        <div class=" embed-responsive embed-responsive-16by9 ">
+            <iframe class="embed-responsive-item" src="@embedUrl" allowfullscreen style="width:500px; height: 250px;"></iframe>
+        </div>
     </div>
 </div>
-<br />
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.FilmId">Chỉnh sửa</a> |
-    <a asp-action="Index" asp-area="Admin" asp-controller="Manager">Trở về</a>
+<div> 
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="FilmId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index" asp-controller="Manager" asp-area="Admin">Back to List</a>
+    </form>
 </div>
-

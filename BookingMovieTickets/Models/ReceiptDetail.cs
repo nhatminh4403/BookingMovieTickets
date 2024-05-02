@@ -10,12 +10,11 @@ namespace BookingMovieTickets.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ReceiptDetailId { get; set; }
         public int ReceiptId { get; set; }
-        [ForeignKey("Ticket")]
         [Required]
         public int TicketId { get; set; }
-        public Ticket Ticket { get; set; }
-
-        public virtual Receipt Receipt { get; set; }
+        public virtual Receipt Receipt { get; set; }   
+        [ForeignKey("TicketId")]
+        public virtual Ticket? Ticket { get; set; }
     }
 
 }

@@ -7,8 +7,8 @@ namespace BookingMovieTickets.Repository.EF
 {
     public class EF_Seat : I_Seat
     {
-        private readonly MoviesBookingDBContext _dbContext;
-        public EF_Seat(MoviesBookingDBContext dbContext)
+        private readonly BookingMovieTicketsDBContext _dbContext;
+        public EF_Seat(BookingMovieTicketsDBContext dbContext)
         {
             _dbContext = dbContext;
         }

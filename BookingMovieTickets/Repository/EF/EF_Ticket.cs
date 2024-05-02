@@ -8,36 +8,36 @@ namespace BookingMovieTickets.Repository.EF
 {
     public class EF_Ticket : I_Ticket
     {
-        private readonly MoviesBookingDBContext _dbContext;
-        public EF_Ticket(MoviesBookingDBContext dbContext)
+        private readonly BookingMovieTicketsDBContext _dbContext;
+        public EF_Ticket(BookingMovieTicketsDBContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<Ticket>> GetAllAsync()
         {
-            return await _dbContext.Ticket.Include(p => p.User).ToListAsync();
+            return await _dbContext.Tickets.Include(p => p.User).ToListAsync();
         }
         public async Task<Ticket> GetByIdAsync(int id)
         {
-            return await _dbContext.Ticket.Include(p => p.User).FirstAsync(p=>p.TicketId == id);
+            return await _dbContext.Tickets.Include(p => p.User).FirstAsync(p=>p.TicketId == id);
         }
         public async Task AddAsync(Ticket ticket)
         {
-            _dbContext.Ticket.Add(ticket);
+            _dbContext.Tickets.Add(ticket);
             await _dbContext.SaveChangesAsync();
         }
         public async Task UpdateAsync(Ticket ticket)
         {
-            _dbContext.Ticket.Update(ticket);
+            _dbContext.Tickets.Update(ticket);
             await _dbContext.SaveChangesAsync();
         }
         public async Task DeleteAsync(int id)
         {
-            var ticket =  await _dbContext.Ticket.FindAsync(id);
+            var ticket =  await _dbContext.Tickets.FindAsync(id);
             if(ticket != null)
             {
-                _dbContext.Ticket.Remove(ticket);
+                _dbContext.Tickets.Remove(ticket);
                 await _dbContext.SaveChangesAsync();
             }
         }

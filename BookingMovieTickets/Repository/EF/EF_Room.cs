@@ -7,8 +7,8 @@ namespace BookingMovieTickets.Repository.EF
 {
     public class EF_Room : I_TheatreRoom
     {
-        private readonly MoviesBookingDBContext _dbContext;
-        public EF_Room(MoviesBookingDBContext dbContext)
+        private readonly BookingMovieTicketsDBContext _dbContext;
+        public EF_Room(BookingMovieTicketsDBContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -21,10 +21,14 @@ namespace BookingMovieTickets.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
-                if(await _userManager.IsInRoleAsync(user,"Admin"))
+                if(user !=null)
                 {
-                    return RedirectToAction("Index","Manager", new {area = "Admin"});
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Manager", new { area = "Admin" });
+                    }
                 }
+               
             }
             return View();
         }
