@@ -2,6 +2,7 @@
 using BookingMovieTickets.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using MoviesBooking.DataAccess;
+using MoviesBooking.Models;
 
 namespace BookingMovieTickets.Areas.Admin.Controllers
 {
@@ -18,20 +19,21 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         }
 
         // GET: SeatController
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var seats = await _SeatRepo.GetAllSeatAsync();
+            return View(seats);
         }
 
         // GET: SeatController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var rooms = await _TheatreRoomRepository.GetByIdAsync(id);
-            return View();
+            var seats = await _SeatRepo.GetByIdAsync(id);
+            return View(seats);
         }
 
         // GET: SeatController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -39,58 +41,66 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         // POST: SeatController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(Seat seat)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                await _SeatRepo.AddAsync(seat);
+                return RedirectToAction("Index", "Manager", new { area = "Admin" });
             }
-            catch
-            {
-                return View();
-            }
+            return View(seat);
         }
 
         // GET: SeatController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var seat = await _SeatRepo.GetByIdAsync(id);
+            if (seat == null)
+            {
+                return NotFound();
+            }
+            return View(seat);
         }
 
         // POST: SeatController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, Seat seat)
         {
-            try
+            if (id != seat.SeatId)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                await _SeatRepo.UpdateAsync(seat);
+                return RedirectToAction("Index", "Manager", new { area = "Admin" });
             }
-        }
-
-        // GET: SeatController/Delete/5
-        public ActionResult Delete(int id)
-        {
             return View();
         }
 
-        // POST: SeatController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        // GET: SeatController/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
-            try
+            var seat = await _SeatRepo.GetByIdAsync(id);
+            if (seat == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+            return View(seat);
+        }
+
+        // POST: SeatController/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var seat = await _SeatRepo.GetByIdAsync(id);
+            if (seat == null)
             {
-                return View();
+                await _SeatRepo.DeleteAsync(id);
             }
+            return RedirectToAction("Index", "Manager", new { area = "Admin" });
         }
     }
 }

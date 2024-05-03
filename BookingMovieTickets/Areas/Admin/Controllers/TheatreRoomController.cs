@@ -47,7 +47,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         }
 
         // GET: TheatreRoomController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -55,58 +55,67 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         // POST: TheatreRoomController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(TheatreRoom theatreRoom)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                await _TheatreRoomRepository.AddAsync(theatreRoom); 
+                return RedirectToAction("Index", "Manager", new { area = "Admin" });
             }
-            catch
-            {
-                return View();
-            }
+            return View(theatreRoom);
         }
 
         // GET: TheatreRoomController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var rooms = await _TheatreRoomRepository.GetByIdAsync(id);
+            if (rooms == null)
+            {
+                return NotFound();
+            }
+            return View(rooms);
         }
 
         // POST: TheatreRoomController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id,TheatreRoom theatreRoom)
         {
-            try
+            if(id != theatreRoom.TheatreRoomId)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                await _TheatreRoomRepository.UpdateAsync(theatreRoom);
+                return RedirectToAction("Index", "Manager", new { area = "Admin" });
             }
-        }
-
-        // GET: TheatreRoomController/Delete/5
-        public ActionResult Delete(int id)
-        {
             return View();
         }
 
-        // POST: TheatreRoomController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        // GET: TheatreRoomController/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
-            try
+            var rooms = await _TheatreRoomRepository.GetByIdAsync(id);
+            if (rooms == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+            return View(rooms);
+        }
+
+        // POST: TheatreRoomController/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var rooms = await _TheatreRoomRepository.GetByIdAsync(id);
+            if (rooms == null)
             {
-                return View();
+                await _TheatreRoomRepository.DeleteAsync(id);
+
             }
+            return RedirectToAction("Index", "Manager", new { area = "Admin" });
         }
     }
 }
