@@ -8,7 +8,7 @@
 }
 <h1>Quản lý</h1>
 <div class="container-fluid">
-    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+    <ul class="nav nav-tabs justify-content-center" id="mainTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Phim</a>
         </li>
@@ -17,7 +17,7 @@
             <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false"> Thể loại </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Phòng</a>
+            <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Rạp chiếu</a>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -28,7 +28,49 @@
             <partial name="~/Areas/Admin/Views/FilmCategory/_CategoriesPartialView.cshtml" model="@Model.FilmCategories" />
         </div>
         <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-            <partial name="~/Areas/Admin/Views/TheatreRoom/_RoomPartialView.cshtml" model="@Model.TheatreRooms" />
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="nav flex-column nav-tabs" id="subTab" role="tablist">
+                        @foreach (var theatreRoom in Model.Theatres)
+                        {
+                            <li class="nav-item">
+                                @if (theatreRoom.TheatreId == Model.Theatres.First().TheatreId)
+                                {
+                                    <a class="nav-link show active" id="subTab-@theatreRoom.TheatreId" data-toggle="tab" href="#subTabContent-@theatreRoom.TheatreId" role="tab"
+                                    aria-controls="subTabContent-@theatreRoom.TheatreId" aria-selected="true">@theatreRoom.Name</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link" id="subTab-@theatreRoom.TheatreId" data-toggle="tab" href="#subTabContent-@theatreRoom.TheatreId" role="tab"
+                                       aria-controls="subTabContent-@theatreRoom.TheatreId" aria-selected="true">@theatreRoom.Name</a>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <!-- Sub tab content -->
+                    <div class="tab-content" id="subTabContent">
+                        @foreach (var theatreRoom in Model.Theatres)
+                        {
+                            @if (theatreRoom.TheatreId == Model.Theatres.First().TheatreId)
+                            {
+                                 <div class="tab-pane show active" id="subTabContent-@theatreRoom.TheatreId" role="tabpanel" aria-labelledby="subTab-@theatreRoom.TheatreId">
+                                <!-- Content for each location -->
+                                    <partial name="~/Areas/Admin/Views/TheatreRoom/_RoomPartialView.cshtml" model="@theatreRoom.TheatreRooms" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="tab-pane" id="subTabContent-@theatreRoom.TheatreId" role="tabpanel" aria-labelledby="subTab-@theatreRoom.TheatreId">
+                                    <!-- Content for each location -->
+                                    <partial name="~/Areas/Admin/Views/TheatreRoom/_RoomPartialView.cshtml" model="@theatreRoom.TheatreRooms" />
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
         <!--Thêm tab content  dưới này-->
     </div>
@@ -36,7 +78,11 @@
 
 <script>
     $(document).ready(function () {
-        $('#myTab a').on('click', function (e) {
+        $('#maimTab a').on('click', function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        $('#subTab a').on('click', function (e) {
             e.preventDefault();
             $(this).tab('show');
         });

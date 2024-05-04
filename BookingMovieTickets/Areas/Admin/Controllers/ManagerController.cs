@@ -21,8 +21,9 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         private readonly I_PremiereTime _premiereTimeRepo;
         private readonly I_Schedule _scheduleRepo;
         private readonly I_TheatreRoom _theatreRoomRepo;
+        private readonly I_Theater _TheaterRepo;
         public ManagerController(BookingMovieTicketsDBContext dBContext, I_FilmCategoryRepository filmCategoryRepository, I_FilmRepository filmRepository,
-            I_PremiereTime premiereTime, I_Seat seatRepo, I_Schedule scheduleRepo, I_TheatreRoom theatreRoomRepo)
+            I_PremiereTime premiereTime, I_Seat seatRepo, I_Schedule scheduleRepo, I_TheatreRoom theatreRoomRepo, I_Theater theaterRepo)
         {
             _dbContext = dBContext;
             _filmRepository = filmRepository;
@@ -31,6 +32,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             _filmCategoryRepository = filmCategoryRepository;
             _premiereTimeRepo = premiereTime;
             _theatreRoomRepo = theatreRoomRepo;
+            _TheaterRepo = theaterRepo;
         }
         public async Task<IActionResult> Index()
         {
@@ -40,6 +42,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             var schedules = await _scheduleRepo.GetAllAsync();
             var premiere = await _premiereTimeRepo.GetAllAsync();
             var rooms = await _theatreRoomRepo.GetAllRoomAsync();
+            var theaters = await _TheaterRepo.GetAllAsync();
             var filmVM = new FilmVM
             {
                 Films = films,
@@ -47,7 +50,8 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
                 Seats = seats,
                 FilmSchedules = schedules,
                 PremiereTime = premiere,
-                TheatreRooms = rooms
+                TheatreRooms = rooms,
+                Theatres = theaters
             };
             return View(filmVM);
         }

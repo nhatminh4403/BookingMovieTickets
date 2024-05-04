@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
+using System.Security.Cryptography.Xml;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 

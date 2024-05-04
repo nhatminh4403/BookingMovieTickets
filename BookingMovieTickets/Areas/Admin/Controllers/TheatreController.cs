@@ -23,13 +23,13 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         }
 
         // GET: TheatreController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             return View();
         }
 
         // GET: TheatreController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -37,7 +37,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         // POST: TheatreController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(IFormCollection collection)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         }
 
         // GET: TheatreController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             return View();
         }
@@ -58,7 +58,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         // POST: TheatreController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, IFormCollection collection)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         }
 
         // GET: TheatreController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             return View();
         }
@@ -79,7 +79,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         // POST: TheatreController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
