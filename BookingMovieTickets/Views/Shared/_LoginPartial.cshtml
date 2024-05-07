@@ -3,8 +3,10 @@
 
 @inject SignInManager<UserInfo> SignInManager
 @inject UserManager<UserInfo> UserManager
-
-<ul class="navbar-nav">
+@{
+    var user = UserManager.GetUserAsync(User);
+}
+@* <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
@@ -26,3 +28,4 @@ else
     </li>
 }
 </ul>
+ *@
