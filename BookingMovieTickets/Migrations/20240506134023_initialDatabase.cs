@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookingMovieTickets.Migrations
 {
     /// <inheritdoc />
-    public partial class DBCreation : Migration
+    public partial class initialDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -111,7 +111,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -132,7 +132,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,7 +152,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,13 +170,13 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,7 +196,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,7 +217,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -238,7 +238,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -267,13 +267,13 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.FilmCategoryId,
                         principalTable: "FilmCategory",
                         principalColumn: "FilmCategoryId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Films_PremiereTimes_PremiereTimeId",
                         column: x => x.PremiereTimeId,
                         principalTable: "PremiereTimes",
                         principalColumn: "PremiereTimeId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -293,7 +293,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.TheatreId,
                         principalTable: "Theatres",
                         principalColumn: "TheatreId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -313,7 +313,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.ReceiptId,
                         principalTable: "Receipts",
                         principalColumn: "ReceiptId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ReceiptDetails_Tickets_TicketId",
                         column: x => x.TicketId,
@@ -340,13 +340,13 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.FilmId,
                         principalTable: "Films",
                         principalColumn: "FilmId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_FilmSchedules_TheatreRooms_TheatreRoomId",
                         column: x => x.TheatreRoomId,
                         principalTable: "TheatreRooms",
                         principalColumn: "TheatreRoomId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -367,7 +367,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.TheatreRoomId,
                         principalTable: "TheatreRooms",
                         principalColumn: "TheatreRoomId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -408,7 +408,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.TicketId,
                         principalTable: "Tickets",
                         principalColumn: "TicketId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
