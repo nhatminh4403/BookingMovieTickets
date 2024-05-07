@@ -28,9 +28,11 @@
                     </p>
 
                     <p class="movie__option"><strong>Thể loại: </strong><a href="#">@Model.FilmCategory.Name</a>
-@*                     <p class="movie__option"><strong>Release date: </strong>@Model.PremiereTimes.StartTime</p>
- *@                    <p class="movie__option"><strong>Director: </strong><a href="#">@Model.DirectorName</a></p>
-                    <p class="movie__option"><strong>Actors: </strong><span>@Model.Actors</span>
+                    <p class="movie__option"><strong>Ngày ra mắt: </strong>
+                            @Model.PremiereTimes.StartTime.ToString("dd/MM/yyyy hh:mm:ss tt", new System.Globalization.CultureInfo("vi-VN"));
+                            </p>
+                        <p class="movie__option"><strong>Đạo diễn: </strong><a href="#">@Model.DirectorName</a></p>
+                    <p class="movie__option"><strong>Diễn viên: </strong><span>@Model.Actors</span>
                     <p class="movie__option"><strong>Giới hạn tuổi: </strong><a href="#">@Model.FilmRated</a></p>
 
                     <a href="#" class="comment-link">Comments:  10</a>
@@ -45,8 +47,12 @@
                             <button type="button" class="btn btn-primary btn-floating mx-1">
                                 <i class="fa fa-facebook"></i>
                             </button>
-                            <a class="addthis_button_tweet"></a>
-                            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </button>
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fa-brands fa-instagram"></i>
+                            </button>
                         </div>
                     </div>
                 </div>

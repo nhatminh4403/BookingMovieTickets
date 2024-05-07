@@ -390,7 +390,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.FilmScheduleId,
                         principalTable: "FilmSchedules",
                         principalColumn: "FilmScheduleId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TicketDetails_Films_FilmId",
                         column: x => x.FilmId,
@@ -408,7 +408,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.TicketId,
                         principalTable: "Tickets",
                         principalColumn: "TicketId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -458,7 +458,8 @@ namespace BookingMovieTickets.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Films_PremiereTimeId",
                 table: "Films",
-                column: "PremiereTimeId");
+                column: "PremiereTimeId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_FilmSchedules_FilmId",

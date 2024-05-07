@@ -28,8 +28,8 @@ namespace BookingMovieTickets.Repository.EF
         {
             // return await _context.Products.FindAsync(id); 
             // lấy thông tin kèm theo category 
-            return await _context.Films.Include(p =>
-   p.FilmCategory).FirstAsync(p => p.FilmId == id);
+            return await _context.Films.Include(p => p.FilmCategory).Include(p => p.PremiereTimes)
+            .Include(p => p.FilmSchedules).FirstAsync(p => p.FilmId == id);
         }
         public async Task AddAsync(Film film)
         {

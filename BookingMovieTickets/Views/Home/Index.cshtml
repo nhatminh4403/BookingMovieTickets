@@ -1,6 +1,7 @@
 ﻿@model BookingMovieTickets.VIewModel.FilmVM
 @{
     ViewData["Title"] = "Home Page";
+    int hotFilmCounter = 0;
 }
 @if (!User.IsInRole("Admin"))
 {
@@ -282,120 +283,121 @@
 
     <!--end slider -->
     <!-- Main content -->
-    <section class="container">
+    <section class="container-fluid">
         <div class="movie-best">
             <div class="col-sm-10 col-sm-offset-1 movie-best__rating">
                 Today Best choice
             </div>
             <div class="col-sm-12 change--col">
-               
+                
                 @foreach(var item in Model.Films.Take(6))
                 {
-                    <div class="movie-beta__item">
-                        <img alt="" src="@item.PosterUrl" width="170px" height="252px"/>
-                        <span class="best-rate">5.0</span>
+                     
+                    int durationInMinutes = item.FilmDuration;
+                    string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút";
+                   
+                    @switch (hotFilmCounter)
+                    {
+                        case 0:
+                            <div class="movie-beta__item">
+                                <img alt="" src="@item.PosterUrl" width="380px" height="600px"  />
+                                <span class="best-rate">5.0</span>
 
-                        <ul class="movie-beta__info">
-                            <li><span class="best-voted">idk</span></li>
-                            <li>
-                                <p class="movie__time">
-                                    @{
-                                        int durationInMinutes = item.FilmDuration;
-                                        int hours = durationInMinutes / 60;
-                                        int minutes = durationInMinutes % 60;
-                                    }
-                                    @hours giờ @minutes phút
-                                </p>
-                                <p>@item.FilmCategory.Name</p>
-@*                                 <p>38 comments</p>
- *@                            </li>
-                            <li class="last-block">
-                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
-                            </li>
-                        </ul>
-                    </div>
+                                <ul class="movie-beta__info">
+                                    <li><span class="best-voted">idk</span></li>
+                                    <li>
+                                        <p class="movie__time">
+                                           @durationText
+                                        </p>
+                                        <p>@item.FilmCategory.Name</p>
+                                    </li>
+                                    <li class="last-block">
+                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        break;
+
+                        case 1:
+                            <div class="movie-beta__item second--item">
+                                <img alt="" src="@item.PosterUrl" width="380px" height="600px" />
+                                <span class="best-rate">5.0</span>
+
+                                <ul class="movie-beta__info">
+                                    <li><span class="best-voted">idk</span></li>
+                                    <li>
+                                        <p class="movie__time">
+                                            @durationText
+                                        </p>
+                                        <p>@item.FilmCategory.Name</p>
+                                    </li>
+                                    <li class="last-block">
+                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            break;
+                        case 2:
+                            <div class="movie-beta__item third--item">
+                                <img alt="" src="@item.PosterUrl" width="380px" height="600px" />
+                                <span class="best-rate">5.0</span>
+
+                                <ul class="movie-beta__info">
+                                    <li><span class="best-voted">idk</span></li>
+                                    <li>
+                                        <p class="movie__time">
+                                            @durationText
+                                        </p>
+                                        <p>@item.FilmCategory.Name</p>
+                                    </li>
+                                    <li class="last-block">
+                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            break;
+                        case 3:
+                            <div class="movie-beta__item hidden-xs">
+                                <img alt="" src="@item.PosterUrl" width="380px" height="600px" />
+                                <span class="best-rate">5.0</span>
+
+                                <ul class="movie-beta__info">
+                                    <li><span class="best-voted">idk</span></li>
+                                    <li>
+                                        <p class="movie__time">
+                                            @durationText
+                                        </p>
+                                        <p>@item.FilmCategory.Name</p>
+                                    </li>
+                                    <li class="last-block">
+                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            break;
+                        case 4: case 5:
+                            <div class="movie-beta__item hidden-xs hidden-sm">
+                                <img alt="" src="@item.PosterUrl" width="380px" height="600px" />
+                                <span class="best-rate">5.0</span>
+
+                                <ul class="movie-beta__info">
+                                    <li><span class="best-voted">idk</span></li>
+                                    <li>
+                                        <p class="movie__time">
+                                            @durationText
+                                        </p>
+                                        <p>@item.FilmCategory.Name</p>
+                                    </li>
+                                    <li class="last-block">
+                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            break;
+                    }
+                    hotFilmCounter++;
                 }
-@* 
-                <div class="movie-beta__item second--item">
-                    <img alt="" src="images/movie/movie-sample2.jpg" />
-                    <span class="best-rate">5.0</span>
 
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="movie-beta__item third--item">
-                    <img alt="" src="images/movie/movie-sample3.jpg" />
-                    <span class="best-rate">5.0</span>
-
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="movie-beta__item hidden-xs">
-                    <img alt="" src="images/movie/movie-sample4.jpg" />
-                    <span class="best-rate">5.0</span>
-
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="movie-beta__item hidden-xs hidden-sm">
-                    <img alt="" src="images/movie/movie-sample5.jpg" />
-                    <span class="best-rate">5.0</span>
-
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="movie-beta__item hidden-xs hidden-sm">
-                    <img alt="" src="images/movie/movie-sample6.jpg" />
-                    <span class="best-rate">5.0</span>
-
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div> *@
             </div>
             <div class="col-sm-10 col-sm-offset-1 movie-best__check">
                 check all movies now playing

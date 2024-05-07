@@ -255,7 +255,8 @@ namespace BookingMovieTickets.Migrations
 
                     b.HasIndex("FilmCategoryId");
 
-                    b.HasIndex("PremiereTimeId");
+                    b.HasIndex("PremiereTimeId")
+                        .IsUnique();
 
                     b.ToTable("Films");
                 });
@@ -619,8 +620,8 @@ namespace BookingMovieTickets.Migrations
                         .IsRequired();
 
                     b.HasOne("MoviesBooking.Models.PremiereTime", "PremiereTimes")
-                        .WithMany()
-                        .HasForeignKey("PremiereTimeId")
+                        .WithOne("Film")
+                        .HasForeignKey("MoviesBooking.Models.Film", "PremiereTimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -736,6 +737,12 @@ namespace BookingMovieTickets.Migrations
             modelBuilder.Entity("MoviesBooking.Models.FilmSchedule", b =>
                 {
                     b.Navigation("TicketDetails");
+                });
+
+            modelBuilder.Entity("MoviesBooking.Models.PremiereTime", b =>
+                {
+                    b.Navigation("Film")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.Seat", b =>
