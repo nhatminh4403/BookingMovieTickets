@@ -19,7 +19,8 @@
     <!-- Mobile Specific Metas-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="telephone=no" name="format-detection" />
-
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!-- Fonts -->
     <!-- Font awesome - icon font -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
@@ -308,6 +309,7 @@
                     </div> *@ @*
                     <partial name="_LoginPartial" /> *@
                     <div class="row">
+
                         @if (!SignInManager.IsSignedIn(User) && user != null)
                         {
                             <div class="col-4 py-lg-2">
@@ -330,14 +332,10 @@
                         {
                             <div class="col-4 py-lg-2">
                                 <div class="row">
-                                    <a asp-area="Identity" asp-page="/Account/Logout"
-                                       class="text-decoration-none text-light" style="text-align:right;">
-                                        Đăng
-                                        xuất
-                                    </a>
+                                    <a asp-area="Identity" asp-page="/Account/Logout" class="text-decoration-none text-light" style="text-align:right;">Đăng xuất</a>
                                 </div>
                             </div>
-                            <div class="col-4 py-lg-2">
+                            <div class="col-5 py-lg-2">
                                 <div class="row">
                                     <a asp-area="Identity" asp-page="/Account/Manage/Index"
                                        class="text-decoration-none text-light" style="text-align: right;">
@@ -365,7 +363,6 @@
                                     </span>
                                 </a>
                             }
-
                         </div>
                         <a href="#"
                            class="btn btn-md btn--warning btn--book btn-control--home login-window">
@@ -473,7 +470,7 @@
     <!-- jQuery REVOLUTION Slider -->
     <script type="text/javascript" src="~/rs-plugin/js/jquery.themepunch.plugins.min.js"></script>
     <script type="text/javascript" src="~/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
     <!-- Mobile menu -->
     <script src="~/js/jquery.mobile.menu.js"></script>
     <!-- Select -->

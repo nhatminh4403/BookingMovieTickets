@@ -1,4 +1,4 @@
-﻿@model BookingMovieTickets.VIewModel.FilmVM 
+﻿@model BookingMovieTickets.VIewModel.FilmVM
 @{
     ViewData["Title"] = "Home Page";
     var listMovies = ViewBag.Movies;
@@ -291,54 +291,34 @@
                 Today Best choice
             </div>
             <div class="col-sm-12 change--col">
-
-
-                @foreach (var item in listMovies)
+               
+                @foreach(var item in Model.Films.Take(6))
                 {
-                    @if(dem >= 5)
-                    {
-                        dem = 0;
-                        break;
-                    }
-
-                    dem++;
-
                     <div class="movie-beta__item">
-                        <img alt="" src="@item." />
+                        <img alt="" src="@item.PosterUrl" width="170px" height="252px"/>
                         <span class="best-rate">5.0</span>
 
                         <ul class="movie-beta__info">
-                            <li><span class="best-voted">71 people voted today</span></li>
+                            <li><span class="best-voted">idk</span></li>
                             <li>
-                                <p class="movie__time">169 min</p>
-                                <p>Adventure | Drama | Fantasy</p>
-                                <p>38 comments</p>
-                            </li>
+                                <p class="movie__time">
+                                    @{
+                                        int durationInMinutes = item.FilmDuration;
+                                        int hours = durationInMinutes / 60;
+                                        int minutes = durationInMinutes % 60;
+                                    }
+                                    @hours giờ @minutes phút
+                                </p>
+                                <p>@item.FilmCategory.Name</p>
+@*                                 <p>38 comments</p>
+ *@                            </li>
                             <li class="last-block">
-                                <a href="movie-page-left.html" class="slide__link">more</a>
+                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
                             </li>
                         </ul>
                     </div>
                 }
-                
-                
-                @* <div class="movie-beta__item">
-                    <img alt="" src="images/movie/movie-sample1.jpg" />
-                    <span class="best-rate">5.0</span>
-
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div>
-
+@* 
                 <div class="movie-beta__item second--item">
                     <img alt="" src="images/movie/movie-sample2.jpg" />
                     <span class="best-rate">5.0</span>

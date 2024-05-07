@@ -3,7 +3,6 @@ using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
 using System.Diagnostics;
@@ -23,10 +22,11 @@ namespace BookingMovieTickets.Controllers
         private readonly I_TheatreRoom _theatreRoomRepo;
         private readonly I_Theater _TheaterRepo;
 
-        public HomeController(BookingMovieTicketsDBContext dBContext, I_FilmCategoryRepository filmCategoryRepository, I_FilmRepository filmRepository,
-            I_PremiereTime premiereTime, I_Seat seatRepo, I_Schedule scheduleRepo, I_TheatreRoom theatreRoomRepo, I_Theater theaterRepo, ILogger<HomeController> logger, UserManager<UserInfo> userManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<UserInfo> userManager, I_FilmCategoryRepository filmCategoryRepository, I_FilmRepository filmRepository,
+            I_PremiereTime premiereTime, I_Seat seatRepo, I_Schedule scheduleRepo, I_TheatreRoom theatreRoomRepo, I_Theater theaterRepo, BookingMovieTicketsDBContext dbContext)
         {
-            _dbContext = dBContext;
+            _logger = logger;
+            _userManager = userManager;
             _filmRepository = filmRepository;
             _seatRepo = seatRepo;
             _scheduleRepo = scheduleRepo;
@@ -34,6 +34,7 @@ namespace BookingMovieTickets.Controllers
             _premiereTimeRepo = premiereTime;
             _theatreRoomRepo = theatreRoomRepo;
             _TheaterRepo = theaterRepo;
+            _dbContext = dbContext;
         }
 
         public async Task<IActionResult> Index()
@@ -55,9 +56,25 @@ namespace BookingMovieTickets.Controllers
                 TheatreRooms = rooms,
                 Theatres = theaters
             };
-            return View(filmVM);
+          
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if(user !=null)
+                {
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Manager", new { area = "Admin" });
+                    }
+                }
+               
+            }  return View(filmVM);
         }
-
+        public async Task<IActionResult> FilmDetailView(int id)
+        {
+            var productsDetail = await _filmRepository.GetByIdAsync(id);
+            return View(productsDetail);
+        }
         public IActionResult Privacy()
         {
             return View();
