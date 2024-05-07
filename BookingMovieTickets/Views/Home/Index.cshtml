@@ -4,7 +4,7 @@
     var listMovies = ViewBag.Movies;
     var listMoviesCategories = ViewBag.MoviesCategories;
     int dem = 0;
-}
+}   
 @if (!User.IsInRole("Admin"))
 {
     <div class="bannercontainer">
@@ -295,10 +295,10 @@
                 @foreach(var item in Model.Films.Take(6))
                 {
                     <div class="movie-beta__item">
-                        <img alt="" src="@item.PosterUrl" width="170px" height="252px"/>
+                        <img alt="" src="@item.PosterUrl" width="190px" height="300px"/>
                         <span class="best-rate">5.0</span>
 
-                        <ul class="movie-beta__info">
+                        <ul class="movie-beta__info" style="width:100%;">
                             <li><span class="best-voted">idk</span></li>
                             <li>
                                 <p class="movie__time">
@@ -311,7 +311,7 @@
                                 </p>
                                 <p>@item.FilmCategory.Name</p>
 @*                                 <p>38 comments</p>
- *@                            </li>
+ *@                           </li>
                             <li class="last-block">
                                 <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
                             </li>

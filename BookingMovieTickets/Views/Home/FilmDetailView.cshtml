@@ -4,6 +4,14 @@
     ViewData["Title"] = "Display";
 }
 
+<style>
+    .share {
+        display: flex;
+        align-items:center;
+        justify-content:start;
+    }
+</style>
+
 <!-- Main content -->
 <section class="container">
     <div class="col-sm-8 col-md-9">
@@ -45,8 +53,15 @@
                             <button type="button" class="btn btn-primary btn-floating mx-1">
                                 <i class="fa fa-facebook"></i>
                             </button>
-                            <a class="addthis_button_tweet"></a>
-                            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fa-brands fa-twitter"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fa-brands fa-tiktok"></i>
+                            </button>
+                           
                         </div>
                     </div>
                 </div>
@@ -98,13 +113,13 @@
 
             <div class="datepicker">
                 <span class="datepicker__marker"><i class="fa fa-calendar"></i>Date</span>
-                <input type="text" id="datepicker" value='03/10/2014' class="datepicker__input">
+                <input type="text" id="datepicker" value='07/5/2024' class="datepicker__input">
             </div>
 
             <a href="#" id="map-switch" class="watchlist watchlist--map"><span class="show-map">Show cinemas on map</span><span class="show-time">Show cinema time table</span></a>
 
             <div class="clearfix"></div>
-@* 
+ 
             <div class="time-select">
                 <div class="time-select__group group--first">
                     <div class="col-sm-4">
@@ -113,13 +128,13 @@
                     <ul class="col-sm-8 items-wrap">
                         <li class="time-select__item" data-time='09:40'>09:40</li>
                         <li class="time-select__item" data-time='13:45'>13:45</li>
-                        <li class="time-select__item active" data-time='15:45'>15:45</li>
+                        <li class="time-select__item" data-time='15:45'>15:45</li>
                         <li class="time-select__item" data-time='19:50'>19:50</li>
                         <li class="time-select__item" data-time='21:50'>21:50</li>
                     </ul>
                 </div>
 
-                <div class="time-select__group">
+                @* <div class="time-select__group">
                     <div class="col-sm-4">
                         <p class="time-select__place">Empire</p>
                     </div>
@@ -171,13 +186,10 @@
                         <li class="time-select__item" data-time='21:30'>21:30</li>
                         <li class="time-select__item" data-time='02:20'>02:20</li>
                     </ul>
-                </div>
+                </div> *@
             </div>
- *@
-            <!-- hiden maps with multiple locator-->
-            <div class="map">
-                <div id='cimenas-map'></div>
-            </div>
+
+            <!-- hiden maps with multiple locator-->          
 
             <h2 class="page-heading">comments (15)</h2>
 
@@ -192,7 +204,7 @@
 
                     <div class="comment">
                         <div class="comment__images">
-                            <img alt='' src="http://placehold.it/50x50">
+                            <img alt='' src="~/images/comment/avatar.jpg">
                         </div>
 
                         <a href='#' class="comment__author"><span class="social-used fa fa-facebook"></span>Roberta Inetti</a>
@@ -203,7 +215,7 @@
 
                     <div class="comment">
                         <div class="comment__images">
-                            <img alt='' src="http://placehold.it/50x50">
+                            <img alt='' src="~/images/comment/avatar-olia.jpg">
                         </div>
 
                         <a href='#' class="comment__author"><span class="social-used fa fa-vk"></span>Olia Gozha</a>
@@ -214,7 +226,7 @@
 
                     <div class="comment comment--answer">
                         <div class="comment__images">
-                            <img alt='' src="http://placehold.it/50x50">
+                            <img alt='' src="~/images/comment/avatar-dmitriy.jpg">
                         </div>
 
                         <a href='#' class="comment__author"><span class="social-used fa fa-vk"></span>Dmitriy Pustovalov</a>
@@ -225,7 +237,7 @@
 
                     <div class="comment comment--last">
                         <div class="comment__images">
-                            <img alt='' src="http://placehold.it/50x50">
+                            <img alt='' src="~/images/comment/avatar.jpg">
                         </div>
 
                         <a href='#' class="comment__author"><span class="social-used fa fa-facebook"></span>Sia Andrews</a>
@@ -237,7 +249,7 @@
                     <div id='hide-comments' class="hide-comments">
                         <div class="comment">
                             <div class="comment__images">
-                                <img alt='' src="http://placehold.it/50x50">
+                                <img alt='' src="~/images/comment/avatar-sia.jpg">
                             </div>
 
                             <a href='#' class="comment__author"><span class="social-used fa fa-facebook"></span>Roberta Inetti</a>
@@ -248,7 +260,7 @@
 
                         <div class="comment">
                             <div class="comment__images">
-                                <img alt='' src="http://placehold.it/50x50">
+                                <img alt='' src="~/images/comment/avatar.jpg">
                             </div>
 
                             <a href='#' class="comment__author"><span class="social-used fa fa-vk"></span>Olia Gozha</a>
@@ -269,7 +281,7 @@
 
     <aside class="col-sm-4 col-md-3">
         <div class="sitebar">
-            <div class="banner-wrap">
+            @* <div class="banner-wrap">
                 <img alt='banner' src="http://placehold.it/500x500">
             </div>
 
@@ -279,7 +291,7 @@
 
             <div class="banner-wrap banner-wrap--last">
                 <img alt='banner' src="http://placehold.it/500x500">
-            </div>
+            </div> *@
 
             <div class="promo marginb-sm">
                 <div class="promo__head">A.Movie app</div>
