@@ -13,6 +13,8 @@ namespace MoviesBooking.DataAccess
 
 
         public DbSet<UserInfo> Users { get; set; }
+        public DbSet<TicketCart> TicketCarts { get; set; }
+        public DbSet<TicketCartDetail> TicketCartDetails { get; set; }
         public DbSet<TheatreRoom> TheatreRooms { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Ticket> Tickets { get; set; } // Renamed Ticket to Tickets for consistency

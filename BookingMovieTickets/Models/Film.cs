@@ -37,8 +37,6 @@ namespace MoviesBooking.Models
         public virtual FilmCategory? FilmCategory { get; set; }
         [ForeignKey("PremiereTimeId")]
         public virtual PremiereTime PremiereTimes { get; set; }
-
         public virtual ICollection<FilmSchedule>? FilmSchedules { get; set;}
-        public virtual ICollection<TicketDetail>? TicketDetails { get; set; }
     }
 }

@@ -23,8 +23,7 @@ namespace MoviesBooking.Models
         [Required]
         [DisplayName("Địa chỉ")]
         public string Address { get; set; }
-
-        public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual ICollection<Receipt> Receipts { get; set; }
+        public virtual TicketCart TicketCart { get; set; }
     }
 }

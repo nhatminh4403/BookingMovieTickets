@@ -11,7 +11,7 @@
 <head>
     <!-- Basic Page Needs -->
     <meta charset="utf-8" />
-    <title>AMovie</title>
+    <title>InfinityCinema</title>
     <meta name="description" content="A Template by Gozha.net" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="Gozha.net" />
@@ -58,10 +58,19 @@
         <header class="header-wrapper">
             
             <div class="container">
-                <!-- Logo link-->
-                <a href="index.html" class="logo">
-                    <img alt="logo" src="~/images/logo.png" />
-                </a>
+                <!-- Logo link-->@if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Index" asp-area="Admin" asp-controller="Manager" class="logo">
+                        <img alt="logo" src="~/images/logo.png" />
+                    </a>
+                }
+                else
+                {
+                    <a asp-action="Index" asp-area="" asp-controller="Home" class="logo">
+                        <img alt="logo" src="~/images/logo.png" />
+                    </a>
+                }
+                
 
                 <!-- Main website navigation-->
                 <nav id="navigation-box">

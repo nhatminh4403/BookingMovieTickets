@@ -71,6 +71,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
                 {
                     TheatreRoomId = theaterRoomId,
                     SeatNumber = newSeatNumber,
+                    SeatPrice = 50000,
                     IsBooked = false // or set it to the appropriate initial value
                 };
 

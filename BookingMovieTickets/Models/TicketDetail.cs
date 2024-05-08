@@ -27,6 +27,5 @@ namespace MoviesBooking.Models
         public virtual Ticket Ticket { get; set; }
         public virtual Seat? Seat { get; set; }
         public virtual FilmSchedule? FilmSchedule { get; set; }
-        public virtual Film? Film { get; set; }
     }
 }

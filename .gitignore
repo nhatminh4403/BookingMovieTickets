@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/BookingMovieTickets/Migrations/20240507133726_DataInsertion.cs
