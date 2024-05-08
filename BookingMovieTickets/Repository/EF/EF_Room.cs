@@ -15,11 +15,11 @@ namespace BookingMovieTickets.Repository.EF
 
         public async Task<IEnumerable<TheatreRoom>> GetAllRoomAsync()
         {
-            return await _dbContext.TheatreRooms.ToListAsync();
+            return await _dbContext.TheatreRooms.Include(p=>p.Theatre).Include(p => p.FilmSchedules).ToListAsync();
         }
         public async Task<TheatreRoom> GetByIdAsync(int id)
         {
-            return await _dbContext.TheatreRooms.FirstAsync(i => i.TheatreRoomId == id);
+            return await _dbContext.TheatreRooms.Include(p => p.Theatre).Include(p=>p.FilmSchedules).FirstAsync(i => i.TheatreRoomId == id);
         }
         public async Task AddAsync(TheatreRoom theatreRoom)
         {

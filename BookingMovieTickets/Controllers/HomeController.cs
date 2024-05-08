@@ -3,6 +3,7 @@ using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
 using System.Diagnostics;
@@ -72,9 +73,16 @@ namespace BookingMovieTickets.Controllers
         }
         public async Task<IActionResult> FilmDetailView(int id)
         {
-            var productsDetail = await _filmRepository.GetByIdAsync(id);
-            return View(productsDetail);
+            var film = await _dbContext.Films.Include(p => p.FilmCategory).Include(p=>p.PremiereTimes).Include(f => f.FilmSchedules).ThenInclude(fs => fs.TheatreRoom)
+                                             .ThenInclude(tr => tr.Theatre)
+                                     .FirstOrDefaultAsync(f => f.FilmId == id);
+            if (film == null)
+            {
+                return NotFound();
+            }
+            return View(film);
         }
+
         public IActionResult Privacy()
         {
             return View();
