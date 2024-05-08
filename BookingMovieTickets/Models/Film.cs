@@ -31,12 +31,12 @@ namespace MoviesBooking.Models
         public string Actors { get; set; }
         [Required]
         public int FilmCategoryId { get; set; }
+        
         public int PremiereTimeId { get; set; }
         [ForeignKey("FilmCategoryId")]
         public virtual FilmCategory? FilmCategory { get; set; }
         [ForeignKey("PremiereTimeId")]
-        public virtual PremiereTime? PremiereTimes { get; set; }
+        public virtual PremiereTime PremiereTimes { get; set; }
         public virtual ICollection<FilmSchedule>? FilmSchedules { get; set;}
-        public virtual ICollection<TicketDetail>? TicketDetails { get; set; }
     }
 }

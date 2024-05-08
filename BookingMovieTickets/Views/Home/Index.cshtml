@@ -288,12 +288,15 @@
     <section class="container">
         <div class="movie-best">
             <div class="col-sm-10 col-sm-offset-1 movie-best__rating">
-                Today Best choice
+                Phim hot hiện nay
             </div>
             <div class="col-sm-12 change--col">
-               
+                
                 @foreach(var item in Model.Films.Take(6))
                 {
+                    int durationInMinutes = item.FilmDuration;
+                    string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút";
+
                     <div class="movie-beta__item">
                         <img alt="" src="@item.PosterUrl" width="190px" height="300px"/>
                         <span class="best-rate">5.0</span>
@@ -302,16 +305,10 @@
                             <li><span class="best-voted">idk</span></li>
                             <li>
                                 <p class="movie__time">
-                                    @{
-                                        int durationInMinutes = item.FilmDuration;
-                                        int hours = durationInMinutes / 60;
-                                        int minutes = durationInMinutes % 60;
-                                    }
-                                    @hours giờ @minutes phút
+                                   @durationText
                                 </p>
                                 <p>@item.FilmCategory.Name</p>
-@*                                 <p>38 comments</p>
- *@                           </li>
+</li>
                             <li class="last-block">
                                 <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
                             </li>
@@ -319,89 +316,86 @@
                     </div>
                 }
 @* 
-                <div class="movie-beta__item second--item">
-                    <img alt="" src="images/movie/movie-sample2.jpg" />
-                    <span class="best-rate">5.0</span>
+                <span class="best-rate">5.0</span>
 
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="movie-beta__item third--item">
-                    <img alt="" src="images/movie/movie-sample3.jpg" />
-                    <span class="best-rate">5.0</span>
+                                <ul class="movie-beta__info">
+                                    <li><span class="best-voted">idk</span></li>
+                                    <li>
+                                        <p class="movie__time">
+                                            @durationText
+                                        </p>
+                                        <p>@item.FilmCategory.Name</p>
+                                    </li>
+                                    <li class="last-block">
+                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            break;
+                        case 2:
+                            <div class="movie-beta__item third--item">
+                                <img alt="" src="@item.PosterUrl" width="380px" height="600px" />
+                                <span class="best-rate">5.0</span>
 
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="movie-beta__item hidden-xs">
-                    <img alt="" src="images/movie/movie-sample4.jpg" />
-                    <span class="best-rate">5.0</span>
+                                <ul class="movie-beta__info">
+                                    <li><span class="best-voted">idk</span></li>
+                                    <li>
+                                        <p class="movie__time">
+                                            @durationText
+                                        </p>
+                                        <p>@item.FilmCategory.Name</p>
+                                    </li>
+                                    <li class="last-block">
+                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            break;
+                        case 3:
+                            <div class="movie-beta__item hidden-xs">
+                                <img alt="" src="@item.PosterUrl" width="380px" height="600px" />
+                                <span class="best-rate">5.0</span>
 
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="movie-beta__item hidden-xs hidden-sm">
-                    <img alt="" src="images/movie/movie-sample5.jpg" />
-                    <span class="best-rate">5.0</span>
+                                <ul class="movie-beta__info">
+                                    <li><span class="best-voted">idk</span></li>
+                                    <li>
+                                        <p class="movie__time">
+                                            @durationText
+                                        </p>
+                                        <p>@item.FilmCategory.Name</p>
+                                    </li>
+                                    <li class="last-block">
+                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            break;
+                        case 4: case 5:
+                            <div class="movie-beta__item hidden-xs hidden-sm">
+                                <img alt="" src="@item.PosterUrl" width="380px" height="600px" />
+                                <span class="best-rate">5.0</span>
 
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="movie-beta__item hidden-xs hidden-sm">
-                    <img alt="" src="images/movie/movie-sample6.jpg" />
-                    <span class="best-rate">5.0</span>
+                                <ul class="movie-beta__info">
+                                    <li><span class="best-voted">idk</span></li>
+                                    <li>
+                                        <p class="movie__time">
+                                            @durationText
+                                        </p>
+                                        <p>@item.FilmCategory.Name</p>
+                                    </li>
+                                    <li class="last-block">
+                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            break;
+                    }
+                    hotFilmCounter++;
+                } *@
 
-                    <ul class="movie-beta__info">
-                        <li><span class="best-voted">71 people voted today</span></li>
-                        <li>
-                            <p class="movie__time">169 min</p>
-                            <p>Adventure | Drama | Fantasy</p>
-                            <p>38 comments</p>
-                        </li>
-                        <li class="last-block">
-                            <a href="movie-page-left.html" class="slide__link">more</a>
-                        </li>
-                    </ul>
-                </div> *@
             </div>
             <div class="col-sm-10 col-sm-offset-1 movie-best__check">
-                check all movies now playing
+                Các phim đang chiếu tại các rạp
             </div>
         </div>
 
@@ -416,14 +410,14 @@
 
                     <div class="marker-indecator cinema">
                         <p class="select-marker">
-                            <span>find your </span> <br />cinema
+                            <span>Tìm phim yêu thích của </span> <br />bản thân
                         </p>
                     </div>
 
                     <div class="marker-indecator film-category">
                         <p class="select-marker">
-                            <span>find movie due to </span> <br />
-                            your mood
+                            <span>Tìm theo</span> <br />sở thích
+                            <br /><br />của <br /> <br />bản thân
                         </p>
                     </div>
 
@@ -435,7 +429,7 @@
 
                     <div class="marker-indecator director">
                         <p class="select-marker">
-                            <span>admire personalities - find </span> <br />by director
+                            <span>yêu thích các phim </span> <br />Bởi đạo diễn
                         </p>
                     </div>
 
@@ -447,24 +441,21 @@
                 </div>
 
                 <div class="mega-select pull-right">
-                    <span class="mega-select__point">Search by</span>
+                    <span class="mega-select__point">Tìm kiếm theo: </span>
                     <ul class="mega-select__sort">
                         <li class="filter-wrap">
 
                         </li>
                         <li class="filter-wrap">
-                            <a href="#" class="mega-select__filter" data-filter="cinema">Name</a>
+                            <a href="#" class="mega-select__filter" data-filter="cinema">Tên</a>
                         </li>
                         <li class="filter-wrap">
                             <a href="#"
                                class="mega-select__filter"
-                               data-filter="film-category">Category</a>
+                               data-filter="film-category">Thể loại</a>
                         </li>
                         <li class="filter-wrap">
-                            <a href="#" class="mega-select__filter" data-filter="actors">Actors</a>
-                        </li>
-                        <li class="filter-wrap">
-                            <a href="#" class="mega-select__filter" data-filter="director">Director</a>
+                            <a href="#" class="mega-select__filter" data-filter="director">Đạo diễn</a>
                         </li>
 
                     </ul>
@@ -583,224 +574,116 @@
         <div class="clearfix"></div>
 
         <h2 id="target" class="page-heading heading--outcontainer">
-            Now in the cinema
+            Đang chiếu tại các rạp
         </h2>
 
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-8 col-md-9">
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--dark movie--test--left">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt="" src="images/movie/movie-time8.jpg" />
-                            </a>
-                        </div>
+                    @for(int i = 6; i < Model.Films.Count(); i++)
+                    {
+                        switch (i)
+                        {
+                            case 6:
+                            case 10:
+                                @foreach(var item in Model.Films.Skip(i).Take(1))
+                                {
+                                   <div class="movie movie--test movie--test--dark movie--test--left">
+                                        <div class="movie__images">
+                                            <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
+                                                <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
+                                        </a>
+                                    </div>
 
-                        <div class="movie__info">
-                            <a href="movie-page-left.html" class="movie__title">
-                                Gravity (2013)
-                            </a>
+                                    <div class="movie__info">
+                                        <a href="movie-page-left.html" class="movie__title">
+                                            @item.NameFilm
+                                        </a>
 
-                            <p class="movie__time">91 min</p>
+                                        <p class="movie__time">@item.FilmDuration phút</p>
 
-                            <p class="movie__option">
-                                <a href="#">Sci-Fi</a> | <a href="#">Thriller</a> |
-                                <a href="#">Drama</a>
-                            </p>
+                                        <p class="movie__option">
+                                            <a href="#">@item.FilmCategory.Name</a>
+                                        </p>
+                                    </div>
+                                </div> 
+                                }  
+                            break;
+                            case 7:
+                            case 11:
+                                @foreach (var item in Model.Films.Skip(i).Take(1))
+                                {
+                                    <div class="movie movie--test movie--test--light movie--test--left">
+                                        <div class="movie__images" >
+                                            <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
+                                                <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
+                                            </a>
+                                        </div>
 
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">4.1</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--light movie--test--left">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt="" src="images/movie/movie-time1.jpg" />
-                            </a>
-                        </div>
+                                        <div class="movie__info">
+                                            <a href="movie-page-left.html" class="movie__title">
+                                                @item.NameFilm
+                                            </a>
 
-                        <div class="movie__info">
-                            <a href="movie-page-left.html" class="movie__title">
-                                The Hobbit: The Desolation of Smaug (2013)
-                            </a>
+                                            <p class="movie__time">@item.FilmDuration phút</p>
 
-                            <p class="movie__time">169 min</p>
+                                            <p class="movie__option">
+                                                <a href="#">@item.FilmCategory.Name</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+                                break;
+                            case 8:
+                                @foreach (var item in Model.Films.Skip(i).Take(1))
+                                {
+                                    <div class="movie movie--test movie--test--light movie--test--right">
+                                        <div class="movie__images" >
+                                            <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
+                                                <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
+                                            </a>
+                                        </div>
 
-                            <p class="movie__option">
-                                <a href="#">Adventure</a> | <a href="#">Fantasy</a> |
-                                <a href="#">Drama</a>
-                            </p>
+                                        <div class="movie__info">
+                                            <a href="movie-page-left.html" class="movie__title">
+                                                @item.NameFilm
+                                            </a>
 
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">5.0</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--light movie--test--right">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt="" src="images/movie/movie-time9.jpg" />
-                            </a>
-                        </div>
+                                            <p class="movie__time">@item.FilmDuration phút</p>
 
-                        <div class="movie__info">
-                            <a href="movie-page-left.html" class="movie__title">
-                                The Hunger Games: Catching Fire (2013)
-                            </a>
+                                            <p class="movie__option">
+                                                <a href="#">@item.FilmCategory.Name</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+                                break;
+                            case 9:
+                                @foreach (var item in Model.Films.Skip(i).Take(1))
+                                {
+                                    <div class="movie movie--test movie--test--dark movie--test--right">
+                                        <div class="movie__images">
+                                            <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
+                                                <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
+                                            </a>
+                                        </div>
 
-                            <p class="movie__time">146 min</p>
+                                        <div class="movie__info">
+                                            <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie__title">
+                                                @item.NameFilm
+                                            </a>
 
-                            <p class="movie__option">
-                                <a href="#">Action</a> | <a href="#">Adventure</a> |
-                                <a href="#">Sci-Fi</a>
-                            </p>
+                                            <p class="movie__time">@item.FilmDuration phút</p>
 
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">4.9</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--dark movie--test--right">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt="" src="images/movie/movie-time10.jpg" />
-                            </a>
-                        </div>
-
-                        <div class="movie__info">
-                            <a href="movie-page-left.html" class="movie__title">
-                                Thor: The Dark World (2013)
-                            </a>
-
-                            <p class="movie__time">112 min</p>
-
-                            <p class="movie__option">
-                                <a href="#">Action</a> | <a href="#">Adventure</a> |
-                                <a href="#">Fantasy</a>
-                            </p>
-
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">5.0</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--dark movie--test--left">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt="" src="images/movie/movie-time11.jpg" />
-                            </a>
-                        </div>
-
-                        <div class="movie__info">
-                            <a href="movie-page-left.html" class="movie__title">
-                                World War Z (2013)
-                            </a>
-
-                            <p class="movie__time">116 min</p>
-
-                            <p class="movie__option">
-                                <a href="#">Action</a> | <a href="#">Adventure</a> |
-                                <a href="#">Horror</a>
-                            </p>
-
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">4.1</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--light movie--test--left">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt="" src="images/movie/movie-time12.jpg" />
-                            </a>
-                        </div>
-
-                        <div class="movie__info">
-                            <a href="movie-page-left.html" class="movie__title">
-                                Prisoners (2013)
-                            </a>
-
-                            <p class="movie__time">153 min</p>
-
-                            <p class="movie__option">
-                                <a href="#">Crime</a> | <a href="#">Thriller</a> |
-                                <a href="#">Drama</a>
-                            </p>
-
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">5.0</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--light movie--test--right">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt="" src="images/movie/movie-time13.jpg" />
-                            </a>
-                        </div>
-
-                        <div class="movie__info">
-                            <a href="movie-page-left.html" class="movie__title">
-                                This Is the End (2013)
-                            </a>
-
-                            <p class="movie__time">107 min</p>
-
-                            <p class="movie__option">
-                                <a href="#">Comedy</a> | <a href="#">Fantasy</a>
-                            </p>
-
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">4.9</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--dark movie--test--right">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt="" src="images/movie/movie-time14.jpg" />
-                            </a>
-                        </div>
-
-                        <div class="movie__info">
-                            <a href="movie-page-left.html" class="movie__title">
-                                The Internship (2013)
-                            </a>
-
-                            <p class="movie__time">112 min</p>
-
-                            <p class="movie__option"><a href="#">Comedy</a></p>
-
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">5.0</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
+                                            <p class="movie__option">
+                                                <a href="#">@item.FilmCategory.Name</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+                                break;
+                        }
+                    }
 
                     <div class="row">
                         <div class="social-group">

@@ -16,9 +16,13 @@ namespace MoviesBooking.Models
         [Required]
         [DisplayName("Số ghế")]
         public string SeatNumber { get; set; }
+        [Required]
+        [DisplayName("Giá")]
+        public decimal SeatPrice { get; set; } 
         [DisplayName("Tình trạng ghế")]
         [Required]
         public bool IsBooked { get; set; }
+
         // Other properties as needed
         public virtual TheatreRoom TheatreRoom { get; set; }
         public virtual ICollection<TicketDetail>? TicketDetails { get; set; }

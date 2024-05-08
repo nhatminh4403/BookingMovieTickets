@@ -12,8 +12,13 @@ using MoviesBooking.DataAccess;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(BookingMovieTicketsDBContext))]
+<<<<<<<< HEAD:BookingMovieTickets/Migrations/20240507133642_DBCreation.Designer.cs
+    [Migration("20240507133642_DBCreation")]
+    partial class DBCreation
+========
     [Migration("20240506134023_initialDatabase")]
     partial class initialDatabase
+>>>>>>>> origin/Bao:BookingMovieTickets/Migrations/20240506134023_initialDatabase.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -258,7 +263,8 @@ namespace BookingMovieTickets.Migrations
 
                     b.HasIndex("FilmCategoryId");
 
-                    b.HasIndex("PremiereTimeId");
+                    b.HasIndex("PremiereTimeId")
+                        .IsUnique();
 
                     b.ToTable("Films");
                 });
@@ -622,8 +628,8 @@ namespace BookingMovieTickets.Migrations
                         .IsRequired();
 
                     b.HasOne("MoviesBooking.Models.PremiereTime", "PremiereTimes")
-                        .WithMany()
-                        .HasForeignKey("PremiereTimeId")
+                        .WithOne("Film")
+                        .HasForeignKey("MoviesBooking.Models.Film", "PremiereTimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -739,6 +745,12 @@ namespace BookingMovieTickets.Migrations
             modelBuilder.Entity("MoviesBooking.Models.FilmSchedule", b =>
                 {
                     b.Navigation("TicketDetails");
+                });
+
+            modelBuilder.Entity("MoviesBooking.Models.PremiereTime", b =>
+                {
+                    b.Navigation("Film")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.Seat", b =>

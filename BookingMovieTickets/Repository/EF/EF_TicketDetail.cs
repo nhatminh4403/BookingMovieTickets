@@ -18,7 +18,6 @@ namespace BookingMovieTickets.Repository.EF
                 .Include(x => x.Ticket)
                 .Include(x=>x.FilmSchedule)
                 .Include(x=> x.Seat)
-                .Include(x=>x.Film)
                 .ToListAsync();
         }
         public async Task<TicketDetail> GetByIdAsync(int id)
@@ -27,7 +26,6 @@ namespace BookingMovieTickets.Repository.EF
                 .Include(x => x.Ticket)
                 .Include(x => x.FilmSchedule)
                 .Include(x => x.Seat)
-                .Include(x => x.Film)
                 .FirstAsync(x=>x.TicketDetailId == id);
         }
         public async Task AddAsync(TicketDetail ticketDetail)

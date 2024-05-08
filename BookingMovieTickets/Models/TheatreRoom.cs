@@ -16,11 +16,10 @@ namespace MoviesBooking.Models
         [Required]
         [DisplayName("Tên phòng")]
         public string RoomName { get; set; }
-
         // Other properties as needed
         [ForeignKey("TheatreId")]
-
         public virtual Theatre Theatre { get; set; }
+        public virtual ICollection<FilmSchedule>? FilmSchedules { get; set; }
         public virtual ICollection<Seat> Seats { get; set; }
     }
 }
