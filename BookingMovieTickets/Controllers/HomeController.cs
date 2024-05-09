@@ -72,8 +72,27 @@ namespace BookingMovieTickets.Controllers
         }
         public async Task<IActionResult> FilmDetailView(int id)
         {
-            var productsDetail = await _filmRepository.GetByIdAsync(id);
-            return View(productsDetail);
+           
+            var filmDetail = await _filmRepository.GetByIdAsync(id);
+            return View(filmDetail);
+        }
+
+        public async Task<IActionResult> BookingSeat(int idFilm, string ScheduleFilm)
+        {
+
+            var filmSchedule = await _scheduleRepo.GetAllAsync();
+           
+            foreach(var item in filmSchedule)
+            {
+                if(item.FilmId == idFilm && item.FilmScheduleDescription == ScheduleFilm)
+                {
+                    
+                    var room = await _theatreRoomRepo.GetByIdAsync(item.TheatreRoomId);
+                    return View(room);
+                }
+            }
+
+            return NotFound();
         }
         public IActionResult Privacy()
         {
