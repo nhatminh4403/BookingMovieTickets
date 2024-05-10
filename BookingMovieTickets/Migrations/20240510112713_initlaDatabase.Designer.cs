@@ -12,12 +12,8 @@ using MoviesBooking.DataAccess;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(BookingMovieTicketsDBContext))]
-<<<<<<<< HEAD:BookingMovieTickets/Migrations/20240508145121_DataInsertion.Designer.cs
-    [Migration("20240508145121_DataInsertion")]
-========
-    [Migration("20240508132338_DataInsertion")]
->>>>>>>> master:BookingMovieTickets/Migrations/20240508132338_DataInsertion.Designer.cs
-    partial class DataInsertion
+    [Migration("20240510112713_initlaDatabase")]
+    partial class initlaDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
