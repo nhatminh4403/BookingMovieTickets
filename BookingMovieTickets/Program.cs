@@ -11,6 +11,14 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<BookingMovieTicketsDBContext>(
@@ -36,7 +44,7 @@ builder.Services.AddScoped<I_TheatreRoom, EF_Room>();
 builder.Services.AddScoped<I_Ticket, EF_Ticket>();
 builder.Services.AddScoped<I_TicketDetail, EF_TicketDetail>();
 builder.Services.AddScoped<I_ReceiptDetail, EF_ReceiptDetail>();
-
+builder.Services.AddScoped<I_Cart, EF_Cart>();
 
 builder.Services.ConfigureApplicationCookie(option =>
 {
@@ -58,7 +66,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

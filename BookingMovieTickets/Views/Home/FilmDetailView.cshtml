@@ -46,9 +46,9 @@
 
                     <a href="#" class="comment-link">Comments:  10</a>
 
-                    <div class="movie__btns">
-                        <a href="#" class="btn btn-md btn--warning">Đặt vé</a>
-                    </div>
+                            <div class="movie__btns">
+                                <a asp-action="SelectSeats" asp-controller="BookingTicket" asp-route-filmId="@Model.FilmId" class="btn btn-md btn--warning">Đặt vé</a>
+                            </div>
 
                     <div class="share">
                         <span class="share__marker">Share: </span>
@@ -141,16 +141,13 @@
 
                     </div>
                     <ul class="col-sm-8 items-wrap">
-                        @*                         <li class="time-select__item" data-time='09:40'>09:40</li>
-                        <li class="time-select__item" data-time='13:45'>13:45</li>
-                        <li class="time-select__item" data-time='15:45'>15:45</li>
-                        <li class="time-select__item" data-time='19:50'>19:50</li>
-                        <li class="time-select__item" data-time='21:50'>21:50</li> *@
+                                               
                         @foreach (var item in Model.FilmSchedules)
                         {
                             if (item.FilmId == Model.FilmId)
                             {
-                                <li class="time-select__item" data-time='@item.FilmScheduleDescription'>@item.FilmScheduleDescription</li>
+                                <li class="time-select__item" data-time='@item.FilmScheduleDescription'> @Html.ActionLink(item.FilmScheduleDescription, "SelectSeats", "BookingTicket", new { scheduleId = item.FilmScheduleId }, new { @class = "time-select__link" })</li>
+                               
                             }
                         }
                     </ul>
@@ -367,5 +364,4 @@
 </section>
 
 <div class="clearfix"></div>
-
 
