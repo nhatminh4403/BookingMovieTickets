@@ -14,37 +14,7 @@
     <input type="hidden" name="FilmId" value="@Model.Film.FilmId" />
 @*     <input type="hidden" name="FilmScheduleId" value="@Model.FilmScheduleId" />
     <input type="hidden" name="TheatreRoomId" value="@Model.TheatreRoomId" /> *@
-
-    <div class="time-select">
-        <div class="time-select__group group--first">
-            <div class="col-sm-4">
-
-                @if (Model.Schedules!= null)
-                {
-                    @foreach (var item in Model.Schedules.Where(fs => fs.TheatreRoom?.Theatre != null).Select(fs => fs.TheatreRoom.Theatre.Name).Distinct())
-                    {
-                        <p class="time-select__place ">
-                            @item
-                        </p>
-                    }
-                }
-                
-            </div>
-            <ul class="col-sm-8 items-wrap">
-
-                @foreach (var item in Model.Schedules)
-                {
-                    if (item.FilmId == Model.Film.FilmId)
-                    {
-                        <li class="time-select__item" data-time='@item.FilmScheduleDescription'>
-                            @Html.ActionLink(item.FilmScheduleDescription, "SelectSeats", "BookingTicket", new { scheduleId = item.FilmScheduleId }, new { @class = "time-select__link" })
-                        </li>
-                    }
-                }
-            </ul>
-        </div>
-
-    </div>
+  
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
