@@ -1,4 +1,4 @@
-    "use strict";
+﻿    "use strict";
 
     //General function for all pages
 
@@ -349,9 +349,9 @@ function init_Home() {
                         $(this).parent().find('.active-dropdown').css("z-index", '-1');
                     });
 
-                    $('body').click( function (e){
+                    /*$('body').click( function (e){
                       console.log(e.target);
-                    })
+                    })*/
 
     //4. Rating scrore init
     //Rating star
@@ -2066,3 +2066,19 @@ function init_Trailer () {
                     $(this).parent().addClass('trailer-block--short').find('.hidden-content').slideDown(500);
                 })
 }
+
+
+const ListTime = document.querySelectorAll('.time-select__item')
+
+console.log(ListTime);
+
+ListTime.forEach(time => {
+    time.addEventListener('click', function () {
+        // Loại bỏ class "active" từ tất cả các phần tử
+        timeSelectPlaces.forEach(item => {
+            item.classList.remove('active');
+        });
+        // Thêm class "active" vào phần tử được click
+        this.classList.add('active');
+    })
+})

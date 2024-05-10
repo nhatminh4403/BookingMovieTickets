@@ -146,8 +146,11 @@
                         {
                             if (item.FilmId == Model.FilmId)
                             {
-                                <li class="time-select__item" data-time='@item.FilmScheduleDescription'> @Html.ActionLink(item.FilmScheduleDescription, "SelectSeats", "BookingTicket", new { scheduleId = item.FilmScheduleId }, new { @class = "time-select__link" })</li>
-                               
+                                <a asp-controller="BookingTicket" asp-action="SelectSeats" asp-route-filmId="@item.FilmId" asp-route-Time="@item.FilmScheduleDescription">
+                                    <li class="time-select__item" data-time='@item.FilmScheduleDescription'>                                    
+                                           @item.FilmScheduleDescription                                    
+                                    </li>
+                                </a>
                             }
                         }
                     </ul>

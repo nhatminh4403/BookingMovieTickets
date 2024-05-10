@@ -1,4 +1,16 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
 
-// Write your JavaScript code.
+/*const ListTime = document.querySelectorAll('.time-select__item')
+
+console.log(ListTime);
+
+ListTime.forEach(time => {
+    time.addEventListener('click', function () {
+        // Loại bỏ class "active" từ tất cả các phần tử
+        timeSelectPlaces.forEach(item => {
+            item.classList.remove('active');
+        });
+        // Thêm class "active" vào phần tử được click
+        this.classList.add('active');
+    })
+})*/

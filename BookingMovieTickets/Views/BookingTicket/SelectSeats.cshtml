@@ -23,13 +23,12 @@
                 {
                     @foreach (var item in Model.Schedules.Where(fs => fs.TheatreRoom?.Theatre != null).Select(fs => fs.TheatreRoom.Theatre.Name).Distinct())
                     {
-                        <p class="time-select__place">
+                        <p class="time-select__place ">
                             @item
                         </p>
                     }
-
                 }
-
+                
             </div>
             <ul class="col-sm-8 items-wrap">
 
@@ -37,8 +36,9 @@
                 {
                     if (item.FilmId == Model.Film.FilmId)
                     {
-                        <li class="time-select__item" data-time='@item.FilmScheduleDescription'> @Html.ActionLink(item.FilmScheduleDescription, "SelectSeats", "BookingTicket", new { scheduleId = item.FilmScheduleId }, new { @class = "time-select__link" })</li>
-
+                        <li class="time-select__item" data-time='@item.FilmScheduleDescription'>
+                            @Html.ActionLink(item.FilmScheduleDescription, "SelectSeats", "BookingTicket", new { scheduleId = item.FilmScheduleId }, new { @class = "time-select__link" })
+                        </li>
                     }
                 }
             </ul>
@@ -83,6 +83,31 @@
 </form>
 
 
+<script>
+    const ListTime = document.querySelectorAll('.time-select__item')
+    const ListSeat = document.querySelectorAll('.seat')
+
+    console.log(ListTime,ListSeat);
+
+    ListTime.forEach(time => {
+        time.addEventListener('click', function () {
+            
+            // Loại bỏ class "active" từ tất cả các phần tử
+            ListTime.forEach(item => {
+                item.classList.remove('active');
+            });
+            // Thêm class "active" vào phần tử được click
+            time.classList.add('active');
+        })
+    })
+
+    ListSeat.forEach(seat => {
+        seat.addEventListener('click', function () {
+            
+            seat.classList.toggle('active');
+        })
+    })
+</script>
 
 <style>
     .seat {
@@ -94,6 +119,7 @@
         justify-content: center; /* Center the content horizontally */
         border: 1px solid #ccc; /* Add a border for better visibility */
         margin-right: 10px; /* Add margin between seats */
+        cursor:pointer;
     }
 
     .seat-container {
@@ -121,6 +147,10 @@
 
     .seat-number {
         font-weight: bold;
+    }
+
+    .seat.active{
+        background-color: deepskyblue;
     }
 
 </style>
