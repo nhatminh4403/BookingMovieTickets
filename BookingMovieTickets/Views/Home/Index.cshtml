@@ -588,98 +588,110 @@
                             case 10:
                                 @foreach(var item in Model.Films.Skip(i).Take(1))
                                 {
-                                   <div class="movie movie--test movie--test--dark movie--test--left">
-                                        <div class="movie__images">
-                                            <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
-                                                <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
-                                        </a>
-                                    </div>
+                                    <a asp-controller="Home" asp-action="FilmDetailView">
+                                        <div class="movie movie--test movie--test--dark movie--test--left">
+                                            <div class="movie__images">
+                                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
+                                                    <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
+                                                </a>
+                                            </div>
 
-                                    <div class="movie__info">
-                                        <a href="movie-page-left.html" class="movie__title">
-                                            @item.NameFilm
-                                        </a>
+                                            <div class="movie__info">
+                                                <a href="movie-page-left.html" class="movie__title">
+                                                    @item.NameFilm
+                                                </a>
 
-                                        <p class="movie__time">@item.FilmDuration phút</p>
+                                                <p class="movie__time">@item.FilmDuration phút</p>
 
-                                        <p class="movie__option">
-                                            <a href="#">@item.FilmCategory.Name</a>
-                                        </p>
-                                    </div>
-                                </div> 
+                                                <p class="movie__option">
+                                                    <a href="#">@item.FilmCategory.Name</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                   
                                 }  
                             break;
                             case 7:
                             case 11:
                                 @foreach (var item in Model.Films.Skip(i).Take(1))
                                 {
-                                    <div class="movie movie--test movie--test--light movie--test--left">
-                                        <div class="movie__images" >
-                                            <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
-                                                <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
-                                            </a>
+                                    <a asp-controller="Home" asp-action="FilmDetailView">
+                                        <div class="movie movie--test movie--test--light movie--test--left">
+                                            <div class="movie__images">
+                                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
+                                                    <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
+                                                </a>
+                                            </div>
+
+                                            <div class="movie__info">
+                                                <a href="movie-page-left.html" class="movie__title">
+                                                    @item.NameFilm
+                                                </a>
+
+                                                <p class="movie__time">@item.FilmDuration phút</p>
+
+                                                <p class="movie__option">
+                                                    <a href="#">@item.FilmCategory.Name</a>
+                                                </p>
+                                            </div>
                                         </div>
-
-                                        <div class="movie__info">
-                                            <a href="movie-page-left.html" class="movie__title">
-                                                @item.NameFilm
-                                            </a>
-
-                                            <p class="movie__time">@item.FilmDuration phút</p>
-
-                                            <p class="movie__option">
-                                                <a href="#">@item.FilmCategory.Name</a>
-                                            </p>
-                                        </div>
-                                    </div>
+                                    </a>
+                                   
                                 }
                                 break;
                             case 8:
                                 @foreach (var item in Model.Films.Skip(i).Take(1))
                                 {
-                                    <div class="movie movie--test movie--test--light movie--test--right">
-                                        <div class="movie__images" >
-                                            <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
-                                                <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
-                                            </a>
+                                    <a asp-controller="Home" asp-action="FilmDetailView">
+                                        <div class="movie movie--test movie--test--light movie--test--right">
+                                            <div class="movie__images">
+                                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
+                                                    <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
+                                                </a>
+                                            </div>
+
+                                            <div class="movie__info">
+                                                <a href="movie-page-left.html" class="movie__title">
+                                                    @item.NameFilm
+                                                </a>
+
+                                                <p class="movie__time">@item.FilmDuration phút</p>
+
+                                                <p class="movie__option">
+                                                    <a href="#">@item.FilmCategory.Name</a>
+                                                </p>
+                                            </div>
                                         </div>
-
-                                        <div class="movie__info">
-                                            <a href="movie-page-left.html" class="movie__title">
-                                                @item.NameFilm
-                                            </a>
-
-                                            <p class="movie__time">@item.FilmDuration phút</p>
-
-                                            <p class="movie__option">
-                                                <a href="#">@item.FilmCategory.Name</a>
-                                            </p>
-                                        </div>
-                                    </div>
+                                    </a>
+                                    
                                 }
                                 break;
                             case 9:
                                 @foreach (var item in Model.Films.Skip(i).Take(1))
                                 {
-                                    <div class="movie movie--test movie--test--dark movie--test--right">
-                                        <div class="movie__images">
-                                            <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
-                                                <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
-                                            </a>
+                                    <a asp-controller="Home" asp-action="FilmDetailView">
+                                        <div class="movie movie--test movie--test--dark movie--test--right">
+                                            <div class="movie__images">
+                                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie-beta__link">
+                                                    <img alt="" src="@item.PosterUrl" style=" object-fit: cover; " width="212px" height="212px" />
+                                                </a>
+                                            </div>
+
+                                            <div class="movie__info">
+                                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie__title">
+                                                    @item.NameFilm
+                                                </a>
+
+                                                <p class="movie__time">@item.FilmDuration phút</p>
+
+                                                <p class="movie__option">
+                                                    <a href="#">@item.FilmCategory.Name</a>
+                                                </p>
+                                            </div>
                                         </div>
-
-                                        <div class="movie__info">
-                                            <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="movie__title">
-                                                @item.NameFilm
-                                            </a>
-
-                                            <p class="movie__time">@item.FilmDuration phút</p>
-
-                                            <p class="movie__option">
-                                                <a href="#">@item.FilmCategory.Name</a>
-                                            </p>
-                                        </div>
-                                    </div>
+                                    </a>
+                                   
                                 }
                                 break;
                         }

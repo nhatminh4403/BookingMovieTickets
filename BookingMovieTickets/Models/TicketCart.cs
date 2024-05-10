@@ -13,5 +13,19 @@ namespace BookingMovieTickets.Models
         public string UserId { get; set; }
         [ForeignKey(nameof(UserId))]
         public virtual UserInfo UserInfo { get; set; }
+        [NotMapped]
+        public List<TicketCartDetail> Items { get; set; } = new List<TicketCartDetail>();
+        public void AddItem(TicketCartDetail item)
+        {
+            var existingItem = Items.FirstOrDefault(i => i.TicketId == item.TicketId);
+            if (existingItem == null)
+            {
+                Items.Add(item);
+            }
+        }
+        public void RemoveItem(int Id)
+        {
+            Items.RemoveAll(i => i.TicketId == Id);
+        }
     }
 }
