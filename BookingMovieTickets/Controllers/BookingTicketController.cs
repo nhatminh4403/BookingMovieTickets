@@ -44,7 +44,7 @@ namespace BookingMovieTickets.Controllers
             ViewBag.Details=cartDetail;
             return View(cart);
         }
-        public async Task<IActionResult> SelectSeats(int filmId, string Time)
+        public async Task<IActionResult> SelectSeats(int filmId, int Time)
         {
             var film = await _FilmRepository.GetByIdAsync(filmId);
             var schedule = _bookingMovieTicketsDBContext.FilmSchedules

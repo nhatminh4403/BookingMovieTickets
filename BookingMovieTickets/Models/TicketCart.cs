@@ -18,7 +18,12 @@ namespace BookingMovieTickets.Models
         public void AddItem(TicketCartDetail item)
         {
             var existingItem = Items.FirstOrDefault(i => i.TicketId == item.TicketId);
-            if (existingItem == null)
+
+            if (existingItem != null)
+            {
+                Items.Remove(item);
+            }
+            else
             {
                 Items.Add(item);
             }

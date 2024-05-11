@@ -12,7 +12,7 @@ using MoviesBooking.DataAccess;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(BookingMovieTicketsDBContext))]
-    [Migration("20240510114720_DataInsertion")]
+    [Migration("20240511162940_DataInsertion")]
     partial class DataInsertion
     {
         /// <inheritdoc />
@@ -102,6 +102,18 @@ namespace BookingMovieTickets.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartDetailId"));
 
                     b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FilmId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FilmScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("SeatId")
                         .HasColumnType("int");
 
                     b.Property<int>("TicketId")

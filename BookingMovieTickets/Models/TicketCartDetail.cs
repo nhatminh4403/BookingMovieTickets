@@ -8,8 +8,16 @@ namespace BookingMovieTickets.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CartDetailId { get; set; }
+        public int CartDetailId { get; set; }      
+        public int FilmId { get; set; }     
 
+        [Required]
+        public decimal Price { get; set; }
+        [Required]
+        public int FilmScheduleId { get; set; }
+
+        [Required]
+        public int SeatId { get; set; }
         [Required]
         public int CartId { get; set; }
         [Required]

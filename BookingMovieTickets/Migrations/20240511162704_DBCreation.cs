@@ -341,6 +341,10 @@ namespace BookingMovieTickets.Migrations
                 {
                     CartDetailId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    FilmId = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FilmScheduleId = table.Column<int>(type: "int", nullable: false),
+                    SeatId = table.Column<int>(type: "int", nullable: false),
                     CartId = table.Column<int>(type: "int", nullable: false),
                     TicketId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -430,7 +434,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.FilmScheduleId,
                         principalTable: "FilmSchedules",
                         principalColumn: "FilmScheduleId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TicketDetails_Seats_SeatId",
                         column: x => x.SeatId,
@@ -442,7 +446,7 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.TicketId,
                         principalTable: "Tickets",
                         principalColumn: "TicketId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

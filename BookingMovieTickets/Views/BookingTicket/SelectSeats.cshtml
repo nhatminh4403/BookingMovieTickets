@@ -2,6 +2,16 @@
 @using BookingMovieTickets.VIewModel
 @{
     ViewData["Title"] = "Chọn ghế";
+    var scheduleId = 0;
+    foreach(var item in Model.Film.FilmSchedules)
+    {
+        if(item.FilmId == Model.Film.FilmId)
+        {
+            scheduleId =   item.FilmScheduleId;
+            break;
+        }
+    }
+     
 }
 <br />
 <div>
@@ -26,9 +36,15 @@
                             <div class="seat-row">
                                 @foreach (var seat in Model.Seats.Skip(i).Take(9))
                                 {
+
                                     <div class="seat @(seat.IsBooked ? "booked" : "")">
-                                        <img src="~/images/images.png" alt="Seat Icon" /> 
-                                        <span class="seat-number">@seat.SeatNumber</span>
+                                        <a asp-controller="CartTicket" asp-action="AddToCart" asp-route-filmID="@Model.Film.FilmId"
+                                           asp-route-time="@scheduleId"
+                                           asp-route-seatID="@seat.SeatId">
+                                            <img src="~/images/images.png" alt="Seat Icon" />
+                                            <span class="seat-number">@seat.SeatNumber</span>
+                                        </a>
+
                                     </div>
                                 }
                             </div>
@@ -40,41 +56,112 @@
         <div class="row mt-3">
             <div class="col-md-12">
                 <div class="text-center">
-                    <div class="d-inline-block mr-2">
+                    <div class="btn--danger d-inline-block mr-2">
                         <a asp-action="FilmDetailView" asp-area="" asp-route-id="@Model.Film.FilmId" asp-controller="Home" class="btn btn-success">Trở về</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
+    
     <button type="submit" class="btn btn-primary">Đặt Vé</button>
+
+   
 </form>
 
 
 <script>
     const ListTime = document.querySelectorAll('.time-select__item')
     const ListSeat = document.querySelectorAll('.seat')
+    let CountEle = 0;
 
-    console.log(ListTime,ListSeat);
+    function toast({
+        title = "",
+        message = "",
+        type = "info",
+        duration = 3000,
+    }) {
+        const main = document.getElementById("toast");
+        if (main) {
+            const toast = document.createElement("div");
 
-    ListTime.forEach(time => {
-        time.addEventListener('click', function () {
-            
-            // Loại bỏ class "active" từ tất cả các phần tử
-            ListTime.forEach(item => {
-                item.classList.remove('active');
-            });
-            // Thêm class "active" vào phần tử được click
-            time.classList.add('active');
-        })
-    })
+            // Auto remove toast
+            const autoRemoveId = setTimeout(function () {
+                main.removeChild(toast);
+            }, duration + 1000);
+
+            // Remove toast when click
+            toast.onclick = function (e) {
+                if (e.target.closest(".toast__close")) {
+                    main.removeChild(toast);
+                    clearTimeout(autoRemoveId);
+                }
+            };
+
+            const icons = {
+                success: "fa-solid fa-circle-check",
+                info: "fa-solid fa-circle-info",
+                warning: "fa-solid fa-circle-exclamation",
+                error: "fa-solid fa-circle-xmark",
+            };
+            const icon = icons[type];
+            const delay = (duration / 1000).toFixed(2);
+
+            toast.classList.add("toast", `toast--${type}`);
+            toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s 3s forwards`;
+
+            toast.innerHTML = `
+                                    <div class="toast__icon">
+                                        <i class="${icon}"></i>
+                                    </div>
+                                    <div class="toast__body">
+                                        <h3 class="toast__title">${title}</h3>
+                                        <p class="toast__msg">${message}</p>
+                                    </div>
+                                    <div class="toast__close">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </div>
+                                `;
+            main.appendChild(toast);
+        }
+    }
+
+    
 
     ListSeat.forEach(seat => {
-        seat.addEventListener('click', function () {
+        
+        seat.addEventListener('click', function () {  
+            if (!seat.classList.contains('active')) {
+                CountEle++;
+                console.log(CountEle)  
+                
+                if (CountEle > 5) {
+
+                    function showErrorToast() {
+                        toast({
+                            title: "Thất Bại!",
+                            message: "Bạn chỉ được phép đặt tối đa 5 vé!",
+                            type: "error",
+                            duration: 2500,
+                        });
+
+                        CountEle = 5;
+                        console.log("qua 5 lan r")
+
+                        return;
+                    }
+                }
+            }
+
+            if (seat.classList.contains('active')) {
+                CountEle--;
+                console.log(CountEle)
+            }
+
             
+
             seat.classList.toggle('active');
+            
         })
     })
 </script>
