@@ -44,11 +44,10 @@ namespace BookingMovieTickets.Controllers
         {
             var film = await _FilmRepository.GetByIdAsync(fimlID);
 
-            if (film != null)
-            {
+            
                 var cartDetail = new TicketCartDetail
                 {
-                    FilmId = film.FilmId,
+                    FilmId = fimlID,
                     SeatId = seatID,
                     FilmScheduleId = time,
                 };
@@ -57,11 +56,9 @@ namespace BookingMovieTickets.Controllers
                 cart.AddItem(cartDetail);
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
                 return RedirectToAction("Index");
-            }
-            else
-            {
-               return NotFound();
+          
+        
             }
         }
     }
-}
+
