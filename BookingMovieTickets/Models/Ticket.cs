@@ -16,9 +16,6 @@ namespace MoviesBooking.Models
         public DateTime PurchaseDate { get; set; }
         [Required]
         public bool IsPaid { get; set; }
-        [Required]
-        public int SeatId { get; set; }
-
 
         public virtual ICollection<TicketDetail> TicketDetails { get; set; }
         public virtual ICollection<TicketCartDetail> TicketCartDetails { get; set; }

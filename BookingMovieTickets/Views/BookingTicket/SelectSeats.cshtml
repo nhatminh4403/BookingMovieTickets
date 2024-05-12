@@ -20,7 +20,7 @@
 </div>
 
 <h1>SelectSeats</h1>
-<form asp-action="BookTickets" asp-controller="BookingTicket" method="post">
+<form asp-action="AddToCart" asp-controller="BookingTicket" method="post">
     <input type="hidden" name="FilmId" value="@Model.Film.FilmId" />
 @*     <input type="hidden" name="FilmScheduleId" value="@Model.FilmScheduleId" />
     <input type="hidden" name="TheatreRoomId" value="@Model.TheatreRoomId" /> *@
@@ -38,7 +38,7 @@
                                 {
 
                                     <div class="seat @(seat.IsBooked ? "booked" : "")">
-                                        <a asp-controller="CartTicket" asp-action="AddToCart" asp-route-filmID="@Model.Film.FilmId"
+                                        <a asp-controller="BookingTicket" asp-action="AddToCart" asp-route-filmID="@Model.Film.FilmId"
                                            asp-route-time="@scheduleId"
                                            asp-route-seatID="@seat.SeatId">
                                             <img src="~/images/images.png" alt="Seat Icon" />
