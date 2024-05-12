@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using MoviesBooking.Models
 @inject SignInManager<UserInfo> SignInManager
-    @inject UserManager<UserInfo> UserManager
+@inject UserManager<UserInfo> UserManager
 @{
     var user = UserManager.GetUserAsync(User);
 }
@@ -61,16 +61,17 @@
         <header class="header-wrapper">
             
             <div class="container">
-                <!-- Logo link-->@if (User.IsInRole("Admin"))
+                <!-- Logo link-->
+                @if (User.IsInRole("Admin"))
                 {
                     <a asp-action="Index" asp-area="Admin" asp-controller="Manager" class="logo">
-                        <img alt="logo" src="~/images/logo.png" />
+                        <img alt="logo" src="~/images/movie-clapper-open_83519.png" />
                     </a>
                 }
                 else
                 {
                     <a asp-action="Index" asp-area="" asp-controller="Home" class="logo">
-                        <img alt="logo" src="~/images/logo.png" />
+                        <img alt="logo" src="~/images/movie-clapper-open_83519.png" />
                     </a>
                 }
                 
@@ -376,7 +377,7 @@
                                 </a>
                             }
                         </div>
-                        <a href="#"
+                        <a href="/BookingTicket/Index"
                            class="btn btn-md btn--warning btn--book btn-control--home login-window">
                             Book a
                             ticket
