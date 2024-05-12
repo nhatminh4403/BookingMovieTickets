@@ -5,7 +5,7 @@
 namespace BookingMovieTickets.Migrations
 {
     /// <inheritdoc />
-    public partial class DataInsertion : Migration
+    public partial class DBInsertion : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -104,14 +104,34 @@ namespace BookingMovieTickets.Migrations
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FilmName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilmScheduleDes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("FilmScheduleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PosterUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("RoomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("SeatId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SeatNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
@@ -460,9 +480,6 @@ namespace BookingMovieTickets.Migrations
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("SeatId")
-                        .HasColumnType("int");
 
                     b.HasKey("TicketId");
 

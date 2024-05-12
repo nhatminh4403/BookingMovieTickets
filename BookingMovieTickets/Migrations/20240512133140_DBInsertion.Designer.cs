@@ -12,8 +12,8 @@ using MoviesBooking.DataAccess;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(BookingMovieTicketsDBContext))]
-    [Migration("20240512043002_DataInsertion")]
-    partial class DataInsertion
+    [Migration("20240512133140_DBInsertion")]
+    partial class DBInsertion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,14 +107,34 @@ namespace BookingMovieTickets.Migrations
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FilmName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilmScheduleDes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("FilmScheduleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PosterUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("RoomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("SeatId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SeatNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
@@ -463,9 +483,6 @@ namespace BookingMovieTickets.Migrations
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("SeatId")
-                        .HasColumnType("int");
 
                     b.HasKey("TicketId");
 

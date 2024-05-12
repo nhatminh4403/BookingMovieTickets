@@ -84,10 +84,13 @@ namespace BookingMovieTickets.Controllers
                 var cartDetail = new TicketCartDetail
                 {
                     FilmId = filmID,
+                    FilmName = film.NameFilm,
+                    PosterUrl = film.PosterUrl,
                     SeatId = seatID,
+                    SeatNumber = seat.SeatNumber,
                     FilmScheduleId = time,
-
-                    
+                    FilmScheduleDes = schedule.FilmScheduleDescription,
+                    RoomName = room.RoomName,
                     Price =seat.SeatPrice
                 };
                 var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();

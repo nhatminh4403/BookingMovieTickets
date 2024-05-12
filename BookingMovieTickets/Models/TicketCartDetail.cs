@@ -9,15 +9,29 @@ namespace BookingMovieTickets.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CartDetailId { get; set; }      
-        public int FilmId { get; set; }     
+        public int FilmId { get; set; }
+
+        [Required]
+        public string FilmName { get; set; }
+
+        [Required]
+        public string? PosterUrl { get; set; }
 
         [Required]
         public decimal Price { get; set; }
         [Required]
         public int FilmScheduleId { get; set; }
 
+        public string FilmScheduleDes { get; set; }
+
         [Required]
         public int SeatId { get; set; }
+
+        [Required]
+        public string SeatNumber { get; set; }
+
+        [Required]
+        public string RoomName { get; set; }
         [Required]
         public int CartId { get; set; }
         [Required]

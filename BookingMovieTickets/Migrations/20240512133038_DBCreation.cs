@@ -100,8 +100,7 @@ namespace BookingMovieTickets.Migrations
                     TicketId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
-                    SeatId = table.Column<int>(type: "int", nullable: false)
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -342,9 +341,14 @@ namespace BookingMovieTickets.Migrations
                     CartDetailId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FilmId = table.Column<int>(type: "int", nullable: false),
+                    FilmName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PosterUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FilmScheduleId = table.Column<int>(type: "int", nullable: false),
+                    FilmScheduleDes = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SeatId = table.Column<int>(type: "int", nullable: false),
+                    SeatNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CartId = table.Column<int>(type: "int", nullable: false),
                     TicketId = table.Column<int>(type: "int", nullable: false)
                 },
