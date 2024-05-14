@@ -138,13 +138,16 @@ namespace BookingMovieTickets.Controllers
             // Redirect to a page where the user can choose payment method
             return RedirectToAction("ChoosePaymentMethod");
         }
+
         public IActionResult RemoveFromCart(int filmID, int time, int seatID)
         {
             var cart =
            HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
             if (cart is not null)
             {
+
                 cart.RemoveItem(filmID,time,seatID);
+
                 // Lưu lại giỏ hàng vào Session sau khi đã xóa mục
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
             }
