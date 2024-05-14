@@ -83,7 +83,6 @@
 </style>
 
 
-
 <section class="cart-section section-b-space">
     <div class="container">
         <div class="row">
@@ -92,15 +91,14 @@
                 <div class="cart--container">
                     <div>
                         <h3 class="title-gradient">OOPS! CHƯA THÊM SẢN PHẨM NÀO!!!</h3>
-                        <img src="~/img/empty_cart.jpg" style="margin-left:20px" width="auto" height="300px" />
-                        <div class="item--cart">
-                            <a asp-action="Index" asp-controller="product">
-                                <button class="btn-action" style="margin: 20px;">
-                                    <i class="fa-solid fa-arrow-left"></i>
-                                    Tiếp tục mua hàng
-                                </button>
+                                            
+                    <div class="item--cart">
+                            <a asp-action="Index" asp-controller="Home"  class="btn-action" style="margin: 20px; display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Tiếp tục đặt vé
                             </a>
                         </div>
+
                     </div>
                 </div>
 
@@ -150,7 +148,9 @@
                                     </td>
                                     <td style="vertical-align:central" @* class="col-md-3 col-lg-3 col-xl-5" *@>
                                         <div style="font-size:20px; ">
-                                            <a asp-action="RemoveFromCart"  class="text-muted"> x </a>
+                                            <form asp-action="RemoveFromCart" asp-route-filmId="@item.FilmId" asp-route-time="@item.FilmScheduleId" asp-route-seatID="@item.SeatId" method="post">
+                                                <button type="submit" class="btn btn-sm btn-secondary"><i class="fa-solid fa-trash-can"></i></button>
+                                            </form>
                                         </div>
                                     </td>
 
