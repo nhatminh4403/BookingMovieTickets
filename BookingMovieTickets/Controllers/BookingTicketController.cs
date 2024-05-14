@@ -95,7 +95,7 @@ namespace BookingMovieTickets.Controllers
                 };
                 var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
 
-                cart.AddItem(cartDetail);
+                cart.AddOrRemoveItem(cartDetail);
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
                 return RedirectToAction("Index");
             }

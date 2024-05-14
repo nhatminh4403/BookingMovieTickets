@@ -15,7 +15,7 @@ namespace BookingMovieTickets.Models
         public virtual UserInfo UserInfo { get; set; }
         [NotMapped]
         public List<TicketCartDetail> Items { get; set; } = new List<TicketCartDetail>();
-        public void AddItem(TicketCartDetail item)
+        public void AddOrRemoveItem(TicketCartDetail item)
         {
             var existingItem = Items.FirstOrDefault(i => i.FilmId == item.FilmId &&
                                                   i.SeatId == item.SeatId &&
@@ -23,7 +23,7 @@ namespace BookingMovieTickets.Models
 
             if (existingItem != null)
             {
-                Items.Remove(item);
+                Items.Remove(existingItem);
             }
             else
             {
