@@ -99,7 +99,10 @@ namespace BookingMovieTickets.Controllers
 
             return NotFound();
         }
-
+        public IActionResult FAQs()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

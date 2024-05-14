@@ -470,7 +470,7 @@
                         <a href="#" class="btn btn-md btn--danger director">find <span class="hidden-exrtasm">favorite director</span></a>
                         <a href="#" class="btn btn-md btn--danger country">find <span class="hidden-exrtasm">produced country</span></a> *@
                        
-                        @foreach (var item in Model.Films.Take(6))
+                        @foreach (var item in Model.Films.Take(1))
                         {
                             <a href="/Home/FilmDetailView/@item.FilmId" class="btn btn-md btn--danger cinema">find <span class="hidden-exrtasm">suitable cimema</span> </a>
                         }
