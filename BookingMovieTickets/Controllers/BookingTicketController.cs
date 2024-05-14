@@ -91,13 +91,13 @@ namespace BookingMovieTickets.Controllers
                     FilmScheduleId = time,
                     FilmScheduleDes = schedule.FilmScheduleDescription,
                     RoomName = room.RoomName,
-                    Price =seat.SeatPrice
+                    Price = seat.SeatPrice
                 };
                 var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
 
                 cart.AddOrRemoveItem(cartDetail);
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
-                return RedirectToAction("Index");
+                return Json(new { success = true, message = "Seat added to cart successfully!" });
             }
             else
             {

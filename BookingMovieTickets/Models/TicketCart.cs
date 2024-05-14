@@ -21,13 +21,15 @@ namespace BookingMovieTickets.Models
                                                   i.SeatId == item.SeatId &&
                                                   i.FilmScheduleId == item.FilmScheduleId);
 
-            if (existingItem != null)
+            if (existingItem == null)
             {
                 Items.Remove(existingItem);
             }
             else
             {
-                Items.Add(item);
+                Items.RemoveAll(i => i.FilmId == item.FilmId &&
+                                                  i.SeatId == item.SeatId &&
+                                                  i.FilmScheduleId == item.FilmScheduleId);
             }
         }
         public void RemoveItem(int filmID, int time, int seatID)

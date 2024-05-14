@@ -35,17 +35,13 @@
                         {
                             <div class="seat-row">
                                 @foreach (var seat in Model.Seats.Skip(i).Take(9))
-                                {
-
-                                    <div class="seat @(seat.IsBooked ? "booked" : "")">
-                                        <a asp-controller="BookingTicket" asp-action="AddToCart" asp-route-filmID="@Model.Film.FilmId"
-                                           asp-route-time="@scheduleId"
-                                           asp-route-seatID="@seat.SeatId">
-                                            <img src="~/images/images.png" alt="Seat Icon" />
-                                            <span class="seat-number">@seat.SeatNumber</span>
-                                        </a>
-
-                                    </div>
+                                {                                    
+                                        <a href="javascript:void(0);" onclick="addToCart(@Model.Film.FilmId, @scheduleId, @seat.SeatId)">
+                                            <div class="seat @(seat.IsBooked ? "booked" : "")">
+                                                <img src="~/images/images.png" alt="Seat Icon" />
+                                                <span class="seat-number">@seat.SeatNumber</span>
+                                            </div>
+                                        </a>                                   
                                 }
                             </div>
                         }
@@ -53,19 +49,25 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-md-12">
-                <div class="text-center">
-                    <div class="btn--danger d-inline-block mr-2">
-                        <a asp-action="FilmDetailView" asp-area="" asp-route-id="@Model.Film.FilmId" asp-controller="Home" class="btn btn-success">Trở về</a>
-                    </div>
-                </div>
+        
+    </div>   
+</form>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="text-center">
+            <div class="btn--danger d-inline-block mr-2">
+                <a asp-action="FilmDetailView" asp-area="" asp-route-id="@Model.Film.FilmId" asp-controller="Home" class="btn btn-success">Trở về</a>
+
+
             </div>
+
+            <a style="margin-left: 20px;" asp-controller="BookingTicket" asp-action="Index">
+                <button class="btn btn-primary">Đặt Vé</button>
+            </a>
         </div>
     </div>
-    
-    <button type="submit" class="btn btn-primary">Đặt Vé</button>
-</form>
+</div>
 
 
 <script>
@@ -162,6 +164,28 @@
             
         })
     })
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    function addToCart(filmID, time, seatID) {
+        $.ajax({
+            url: '@Url.Action("AddToCart", "BookingTicket")',
+            type: 'POST',
+            data: {
+                filmID: filmID,
+                time: time,
+                seatID: seatID
+            },
+            success: function (response) {  
+                console.log('Ghế đã được chọn');
+            },
+            error: function (xhr, status, error) {
+                // Xử lý lỗi ở đây nếu cần
+                console.error('Lỗi khi thêm sản phẩm vào giỏ hàng:', error);
+            }
+        });
+    }
 </script>
 
 <style>
