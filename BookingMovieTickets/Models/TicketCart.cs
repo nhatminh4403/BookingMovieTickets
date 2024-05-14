@@ -17,20 +17,24 @@ namespace BookingMovieTickets.Models
         public List<TicketCartDetail> Items { get; set; } = new List<TicketCartDetail>();
         public void AddItem(TicketCartDetail item)
         {
-            var existingItem = Items.FirstOrDefault(i => i.TicketId == item.TicketId);
+            var existingItem = Items.FirstOrDefault(i => i.FilmId == item.FilmId &&
+                                                  i.SeatId == item.SeatId &&
+                                                  i.FilmScheduleId == item.FilmScheduleId);
 
-            if (existingItem != null)
-            {
-                Items.Remove(item);
-            }
-            else
+            if (existingItem == null)
             {
                 Items.Add(item);
             }
+            else
+            {
+                Items.RemoveAll(i => i.FilmId == item.FilmId &&
+                                                  i.SeatId == item.SeatId &&
+                                                  i.FilmScheduleId == item.FilmScheduleId);
+            }
         }
-        public void RemoveItem(int Id)
+        public void RemoveItem(int filmID, int time, int seatID)
         {
-            Items.RemoveAll(i => i.TicketId == Id);
+            Items.RemoveAll(i => i.SeatId == seatID && i.FilmId == filmID && i.FilmScheduleId == time);
         }
     }
 }
