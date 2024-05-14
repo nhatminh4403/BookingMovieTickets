@@ -79,7 +79,7 @@ namespace BookingMovieTickets.Controllers
             var schedule = await _ScheduleRepo.GetByIdAsync(time);
             var room = await _TheatreRoomRepo.GetByIdAsync(schedule.TheatreRoomId);
             var seat = await _bookingMovieTicketsDBContext.Seats.FindAsync(seatID);
-            if (film != null)
+            if (film != null && schedule != null && room !=null && seat != null)
             {
                 var cartDetail = new TicketCartDetail
                 {
