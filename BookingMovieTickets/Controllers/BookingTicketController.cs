@@ -79,7 +79,7 @@ namespace BookingMovieTickets.Controllers
             var schedule = await _ScheduleRepo.GetByIdAsync(time);
             var room = await _TheatreRoomRepo.GetByIdAsync(schedule.TheatreRoomId);
             var seat = await _bookingMovieTicketsDBContext.Seats.FindAsync(seatID);
-            if (film != null)
+            if (film != null && schedule != null && room !=null && seat != null)
             {
                 var cartDetail = new TicketCartDetail
                 {
@@ -95,7 +95,7 @@ namespace BookingMovieTickets.Controllers
                 };
                 var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
 
-                cart.AddItem(cartDetail);
+                cart.AddOrRemoveItem(cartDetail);
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
                 return Json(new { success = true, message = "Seat added to cart successfully!" });
             }
@@ -147,12 +147,13 @@ namespace BookingMovieTickets.Controllers
            HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
             if (cart is not null)
             {
-                cart.RemoveItem(filmID, time, seatID);
+
+                cart.RemoveItem(filmID,time,seatID);
+
                 // Lưu lại giỏ hàng vào Session sau khi đã xóa mục
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
             }
             return RedirectToAction("Index");
         }
-
     }
 }

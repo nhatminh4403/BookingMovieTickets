@@ -52,7 +52,11 @@ namespace BookingMovieTickets.Repository.EF
             _context.Films.Remove(movie);
             await _context.SaveChangesAsync();
         }
-
+        public async Task<ICollection<Film>> FindByCategoriesAsync(int id)
+        {
+            ICollection<Film> filmsByCategories = await _context.Films.Where(p=>p.FilmCategoryId == id).ToListAsync();
+            return filmsByCategories;
+        }
     }
 }
 

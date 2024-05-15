@@ -1,7 +1,8 @@
-﻿@model IEnumerable<MoviesBooking.Models.Film>
+﻿@model BookingMovieTickets.VIewModel.FilmVM
 
 @{
-
+    ViewData["Title"] = "SortFilmsByCategories";
+    var selectedCategoryName = ViewBag.Categoryid as string;
 }
 
 
@@ -62,29 +63,33 @@
         margin-top: 120px;
     }
 </style>
-
+<h3>Thể loại phim:</h3><hr />
+<h1> @selectedCategoryName</h1>
 
 <div class="container__film">
-
-
-
     <div class="lis-film">
 
         <h2 class="heading">PHIM</h2>
 
         <div class="list">
-
-            @foreach (var item in Model)
+            @if (Model.Films.Count()==0)
             {
-                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId">
-                    <div class="item__film">
-                        <img src="@item.PosterUrl" class="item__img" />
-                        <span class="item__name">@item.NameFilm</span>
-                    </div>
-                </a>
+                <span>Không tìm thấy phim thuộc thể loại @selectedCategoryName</span>
+                
+            }
+            else
+            {
+                @foreach (var item in Model.Films)
+                {
+                    <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId">
+                        <div class="item__film">
+                            <img src="@item.PosterUrl" class="item__img" />
+                            <span class="item__name">@item.NameFilm</span>
+                        </div>
+                    </a>
+                }
             }
 
         </div>
     </div>
-
 </div>

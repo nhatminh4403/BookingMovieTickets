@@ -4,7 +4,7 @@
 @inject SignInManager<UserInfo> SignInManager
 @inject UserManager<UserInfo> UserManager
 @{
-    var user = UserManager.GetUserAsync(User);
+    var user = UserManager.GetUserAsync(User); 
     var layoutModel = ViewData["LayoutModel"] as FilmVM;
 }
 
@@ -100,20 +100,21 @@
 
                         </li>
                         <li>
-                            <span class="sub-nav-toggle plus"></span>
-                            <a href="page-elements.html">Thể loại</a>
-                            <ul>
-
-                               @*  @foreach (var item in layoutModel.FilmCategories)
+                            <span class="sub-nav-toggle plus "></span>
+                            <a asp-controller="Home" asp-action="AllFilm">Thể loại</a>
+                            <ul class="dropdown-menu">
+                                @if (layoutModel != null)
                                 {
-                                     <li class="menu__nav-item">
-                                        <a asp-controller="Home" asp-action="CategoriesFilm" asp-route-id="1">@item.Name</a>
-                                    </li>
-                                
-                                } *@
-                               
-                                
-                            </ul>
+                                    @foreach (var item in layoutModel.FilmCategories)
+                                    {
+                                        <li class="menu__nav-item">
+                                            <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home" asp-area="" class="dropdown-item">@item.Name</a>
+                                        </li>
+                                    }
+                                }
+                            <span class="sub-nav-toggle plus"></span>
+                            <a href="page-elements.html"></a>
+                            </ul>@* <a href="icon-font.html">Icons</a> *@
                         </li>
                         <li>
                             <span class="sub-nav-toggle plus"></span>
@@ -251,13 +252,30 @@
                                 </li>
                             </ul>
                         </li>
+
+
                     </ul>
                 </nav>
 
                 <!-- Additional header buttons / Auth and direct link to booking-->
-                <div class="control-panel">                   
+                <div class="control-panel">
+                    @* <div class="auth auth--home">
+                    <div class="auth__show">
+                    <span class="auth__image">
+                    <img alt="" src="images/client-photo/auth.png" />
+                    </span>
+                    </div>
+                    <a href="#" class="btn btn--sign btn--singin"> me </a>
+                    <ul class="auth__function">
+                    <li><a href="#" class="auth__function-item">Watchlist</a></li>
+                    <li><a href="#" class="auth__function-item">Booked tickets</a></li>
+                    <li><a href="#" class="auth__function-item">Discussion</a></li>
+                    <li><a href="#" class="auth__function-item">Settings</a></li>
+                    </ul>
+                    </div> *@ @*
+                    <partial name="_LoginPartial" /> *@
                     <div class="row">
-
+@*                         <partial name="_LoginPartial" /> *@
                         @if (!SignInManager.IsSignedIn(User) && user != null)
                         {
                             <div class="col-4 py-lg-2">

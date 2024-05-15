@@ -15,9 +15,9 @@
                         <h5 class="card-title">Phòng: @item.RoomName</h5>
                         <p class="card-text">Số lượng ghế: @item.Seats.Count()</p>
                         <p class="card-text">Số lượng ghế đã đặt: @item.Seats.Count(s => s.IsBooked)</p>
-                        <a asp-action="Edit" asp-area="Admin" asp-controller="TheatreRoom" asp-route-id="@item.TheatreRoomId">Edit</a> |
-                        <a asp-action="Details" asp-area="Admin" asp-controller="TheatreRoom" asp-route-id="@item.TheatreRoomId">Details</a> |
-                        <a asp-action="Delete" asp-area="Admin" asp-controller="TheatreRoom" asp-route-id="@item.TheatreRoomId">Delete</a>
+                        <a asp-action="Edit" asp-area="Admin" asp-controller="TheatreRoom" asp-route-id="@item.TheatreRoomId">Chỉnh sửa</a> |
+                        <a asp-action="Details" asp-area="Admin" asp-controller="TheatreRoom" asp-route-id="@item.TheatreRoomId">Xem chi tiết</a> |
+                        <a asp-action="Delete" asp-area="Admin" asp-controller="TheatreRoom" asp-route-id="@item.TheatreRoomId">Xóa</a>
                     </div>
                 </div>
             </div>

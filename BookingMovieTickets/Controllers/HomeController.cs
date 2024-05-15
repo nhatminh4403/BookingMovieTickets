@@ -59,20 +59,21 @@ namespace BookingMovieTickets.Controllers
             };
 
             ViewData["LayoutModel"] = filmVM;
-          
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
-                if(user !=null)
+                if (user != null)
                 {
                     if (await _userManager.IsInRoleAsync(user, "Admin"))
                     {
                         return RedirectToAction("Index", "Manager", new { area = "Admin" });
                     }
                 }
-               
-            }  return View(filmVM);
+
+            }
+            return View(filmVM);
         }
+
         public async Task<IActionResult> FilmDetailView(int id)
         {
             var film = await _dbContext.Films.Include(p => p.FilmCategory).Include(p => p.PremiereTimes).Include(f => f.FilmSchedules).ThenInclude(fs => fs.TheatreRoom)
@@ -88,12 +89,12 @@ namespace BookingMovieTickets.Controllers
         {
 
             var filmSchedule = await _scheduleRepo.GetAllAsync();
-           
-            foreach(var item in filmSchedule)
+
+            foreach (var item in filmSchedule)
             {
-                if(item.FilmId == idFilm && item.FilmScheduleDescription == ScheduleFilm)
+                if (item.FilmId == idFilm && item.FilmScheduleDescription == ScheduleFilm)
                 {
-                    
+
                     var room = await _theatreRoomRepo.GetByIdAsync(item.TheatreRoomId);
                     return View(room);
                 }
@@ -114,20 +115,35 @@ namespace BookingMovieTickets.Controllers
             return View(film);
         }
 
-        public async Task<IActionResult> CategoriesFilm(int id)
+
+        public async Task<IActionResult> SortFilmsByCategories(int id)
         {
 
-            var categoriesFilm = await _dbContext.Films.Include(i => i.FilmCategory).FirstOrDefaultAsync(i => i.FilmCategoryId == id);
+            var categoriesFilm = await _filmRepository.FindByCategoriesAsync(id);
 
-            if (categoriesFilm == null)
+            var categoryID = await _filmCategoryRepository.GetByIdAsync(id);
+
+            var categories = await _filmCategoryRepository.GetAllAsync();
+            var seats = await _seatRepo.GetAllSeatAsync();
+            var schedules = await _scheduleRepo.GetAllAsync();
+            var premiere = await _premiereTimeRepo.GetAllAsync();
+            var rooms = await _theatreRoomRepo.GetAllRoomAsync();
+            var theaters = await _TheaterRepo.GetAllAsync();
+            var filmVM = new FilmVM
             {
-                return NotFound();
-            }
+                Films = categoriesFilm,
+                FilmCategories = categories,
+                Seats = seats,
+                FilmSchedules = schedules,
+                PremiereTime = premiere,
+                TheatreRooms = rooms,
+                Theatres = theaters
+            };
 
-            return View(categoriesFilm);           
+            ViewBag.Categoryid = categoryID.Name;
+            ViewData["LayoutModel"] = filmVM;
+            return View(filmVM);
         }
-
-
         public IActionResult Privacy()
         {
             return View();

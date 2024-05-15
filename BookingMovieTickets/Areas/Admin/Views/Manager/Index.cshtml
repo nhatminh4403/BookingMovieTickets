@@ -37,21 +37,44 @@
                     <ul class="nav flex-column nav-tabs" id="subTab" role="tablist">
                         @foreach (var theatreRoom in Model.Theatres)
                         {
-                            <li class="nav-item">
+                            <li class="nav-item d-flex align-items-center mb-2">
                                 @if (theatreRoom.TheatreId == Model.Theatres.First().TheatreId)
                                 {
-                                    <a class="nav-link show active" id="subTab-@theatreRoom.TheatreId" data-toggle="tab" href="#subTabContent-@theatreRoom.TheatreId" role="tab"
-                                    aria-controls="subTabContent-@theatreRoom.TheatreId" aria-selected="true">@theatreRoom.Name</a>
+                                    <a class="nav-link show active flex-grow-1 align-items-center justify-content-between" id="subTab-@theatreRoom.TheatreId" data-toggle="tab" href="#subTabContent-@theatreRoom.TheatreId" role="tab"
+                                       aria-controls="subTabContent-@theatreRoom.TheatreId" aria-selected="true">
+                                        
+                                       @theatreRoom.Name
+                                        <form asp-action="Edit" asp-controller="TheatreRoom" asp-route-id="@theatreRoom.TheatreId" method="get" class="d-inline">
+                                            <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                                        </form>
+                                        <form asp-action="Edit" asp-controller="TheatreRoom" asp-route-id="@theatreRoom.TheatreId" method="get" class="d-inline">
+                                            <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                                        </form>
+                                        <form asp-action="Edit" asp-controller="TheatreRoom" asp-route-id="@theatreRoom.TheatreId" method="get" class="d-inline">
+                                            <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                                        </form>
+                                   </a>
+                                    
                                 }
                                 else
                                 {
-                                    <a class="nav-link" id="subTab-@theatreRoom.TheatreId" data-toggle="tab" href="#subTabContent-@theatreRoom.TheatreId" role="tab"
+                                    <a class="nav-link flex-grow-1" id="subTab-@theatreRoom.TheatreId" data-toggle="tab" href="#subTabContent-@theatreRoom.TheatreId" role="tab"
                                        aria-controls="subTabContent-@theatreRoom.TheatreId" aria-selected="true">@theatreRoom.Name</a>
                                 }
+                                   
+
                             </li>
+                            
                         }
                     </ul>
                 </div>
+       @*          <div class="btn-group ml-2" role="group">
+
+                    <a asp-action="Edit" asp-controller="Theatre" asp-route-id="@theatreRoom.TheatreId" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+                    <a asp-action="Details" asp-controller="Theatre" asp-route-id="@theatreRoom.TheatreId" class="btn btn-info btn-sm"><i class="fa fa-info-circle"></i></a>
+                    <a asp-action="Delete" asp-controller="Theatre" asp-route-id="@theatreRoom.TheatreId" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                </div> *@
+
                 <div class="col-md-9">
                     <!-- Sub tab content -->
                     <div class="tab-content" id="subTabContent">
@@ -79,6 +102,56 @@
         <!--Thêm tab content  dưới này-->
     </div>
 </div>
+<style>
+    .nav-item {
+        position: relative;
+    }
+
+        .nav-item .nav-link {
+            flex-grow: 1;
+            margin-right: 1rem;
+        }
+
+        .nav-item .btn {
+            margin-left: 5px;
+        }
+
+        .nav-item .btn,
+        .nav-item .nav-link {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item .btn,
+        .nav-item .nav-link {
+            line-height: normal; /* Ensure buttons and tabs are aligned vertically */
+        }
+
+        .nav-item .btn {
+            height: auto; /* Ensure buttons do not stretch */
+            padding: 0.375rem 0.75rem; /* Same padding as Bootstrap buttons */
+        }
+
+        .nav-item .nav-link {
+            padding: 0.375rem 1rem; /* Adjust the padding of the tab */
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: #495057;
+        background-color: #e9ecef;
+        border-color: #dee2e6 #dee2e6 #fff;
+    }
+
+    .nav-tabs .nav-link {
+        border: 1px solid transparent;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+    }
+
+        .nav-tabs .nav-link:hover {
+            border-color: #e9ecef #e9ecef #dee2e6;
+        }
+</style>
 
 <script>
     $(document).ready(function () {
