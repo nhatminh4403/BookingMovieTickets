@@ -13,7 +13,7 @@ using Website_Selling_Computer.Session;
 
 namespace BookingMovieTickets.Controllers
 {
-    [Authorize]
+    
     public class BookingTicketController : Controller
     {
         private readonly I_Cart _cartRepo;
@@ -104,6 +104,8 @@ namespace BookingMovieTickets.Controllers
                 throw new FilmNotFoundException($"Film with ID {filmID} not found");
             }
         }
+
+        [Authorize]
         public async Task<IActionResult> BookTickets()
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
