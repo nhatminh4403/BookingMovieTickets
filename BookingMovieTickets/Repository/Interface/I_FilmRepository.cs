@@ -12,6 +12,6 @@ namespace BookingMovieTickets.Repository.Interface
         Task DeleteAsync(int id);
 
 
-
+        Task<ICollection<Film>> FindByCategoriesAsync(int id);
     }
 }

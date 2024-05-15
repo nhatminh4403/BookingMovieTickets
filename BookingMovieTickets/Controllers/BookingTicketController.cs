@@ -115,7 +115,7 @@ namespace BookingMovieTickets.Controllers
             var ticket = new Ticket
             {
                 PurchaseDate = DateTime.UtcNow,
-                IsPaid = true
+                IsPaid = false
             };
             await _ticketRepo.AddAsync(ticket);
             // Iterate over items in the cart and transform them into tickets

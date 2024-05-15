@@ -1,10 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using MoviesBooking.Models
+@using BookingMovieTickets.VIewModel
 @inject SignInManager<UserInfo> SignInManager
 @inject UserManager<UserInfo> UserManager
 @{
-    var user = UserManager.GetUserAsync(User);
+    var user = UserManager.GetUserAsync(User); 
+    var layoutModel = ViewData["LayoutModel"] as FilmVM;
 }
+
 <!DOCTYPE html>
 <html>
 
@@ -148,21 +151,17 @@
 
                         </li>
                         <li>
-                            <span class="sub-nav-toggle plus"></span>
-                            <a href="page-elements.html">Features</a>
-                            <ul>
-                                <li class="menu__nav-item">
-                                    <a href="typography.html">Typography</a>
-                                </li>
-                                <li class="menu__nav-item">
-                                    <a href="page-elements.html">Shortcodes</a>
-                                </li>
-                                <li class="menu__nav-item">
-                                    <a href="column.html">Columns</a>
-                                </li>
-                                <li class="menu__nav-item">
-                                    <a href="icon-font.html">Icons</a>
-                                </li>
+                            <span class="sub-nav-toggle plus text-white">Features</span>
+                            <ul class="dropdown-menu">
+                                @if (layoutModel != null)
+                                {
+                                    @foreach (var item in layoutModel.FilmCategories)
+                                    {
+                                        <li class="menu__nav-item">
+                                            <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home" asp-area="" class="dropdown-item">@item.Name</a>
+                                        </li>
+                                    }
+                                }
                             </ul>
                         </li>
                         <li>
@@ -301,6 +300,8 @@
                                 </li>
                             </ul>
                         </li>
+
+
                     </ul>
                 </nav>
 
@@ -320,9 +321,9 @@
                     <li><a href="#" class="auth__function-item">Settings</a></li>
                     </ul>
                     </div> *@ @*
-                    <partial name="_LoginPartial" /> *@
+                     *@
                     <div class="row">
-
+@*                         <partial name="_LoginPartial" /> *@
                         @if (!SignInManager.IsSignedIn(User) && user != null)
                         {
                             <div class="col-4 py-lg-2">
