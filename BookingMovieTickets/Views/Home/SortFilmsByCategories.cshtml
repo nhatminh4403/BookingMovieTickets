@@ -58,18 +58,30 @@
     .heading {
         border-left: 5px solid #ffc936;
         padding: 3px 20px;
-        font-size: 20px;
+        font-size: 35px;
         font-weight: bold;
         margin-top: 120px;
     }
+
+    .categoies__name {
+        margin: 30px 0;
+        padding: 10px 20px;
+        border: 2px solid #ffc936;
+        border-radius: 5px;
+        display: inline-block;
+        font-weight: 600;
+    }
 </style>
-<h3>Thể loại phim:</h3><hr />
-<h1> @selectedCategoryName</h1>
+
 
 <div class="container__film">
     <div class="lis-film">
 
         <h2 class="heading">PHIM</h2>
+
+        <span class="categoies__name">@selectedCategoryName</span>
+
+        <br class="br" />
 
         <div class="list">
             @if (Model.Films.Count()==0)

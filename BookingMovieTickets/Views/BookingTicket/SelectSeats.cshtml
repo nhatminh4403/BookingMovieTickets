@@ -1,6 +1,8 @@
 ﻿@model BookingMovieTickets.VIewModel.SeatVM
 @using BookingMovieTickets.VIewModel
 @{
+
+   
     ViewData["Title"] = "Chọn ghế";
     var scheduleId = 0;
     foreach(var item in Model.Film.FilmSchedules)
@@ -10,16 +12,80 @@
             scheduleId =   item.FilmScheduleId;
             break;
         }
-    }
-     
+    }     
 }
+
+
+<style> 
+    a:hover{
+        color: #ffd564;
+    }
+
+    .contianer__screen{
+        padding: 0 10px;
+    }
+
+    .screen{
+        width: 810px;
+        height: 80px;
+        border: 2px solid black ;
+        border-radius: 3px;      
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-transform: uppercase;  
+        font-weight: bold;
+        font-size: 26px;
+        margin-bottom: 60px;
+        margin-left: 407px;
+    }
+
+    .poter__img{
+        width: 250px;
+        height: 300px;
+        object-fit: cover;
+        border: 2px solid #ffd564;
+    }
+
+    .container__film {
+        display: flex;
+        gap: 22px;
+        margin-bottom: 80px;
+        padding: 10px 50px;  
+        box-shadow: 0px 5px 11px #ffd564;       
+    }
+
+    .film__infor span{
+        display: flex;
+        gap: 10px;
+    }
+
+    .film__infor{
+        font-size: 26px;        
+        display: flex;
+        flex-direction: column;       
+        justify-content: space-between;
+    }
+
+    .film__infor span span{
+            font-weight: 600;
+    }
+</style>
+
 <br />
-<div>
-    <h5>Thông tin phòng: </h5>
-    <h1>@Model.TheatreRoom.RoomName</h1>
+<div class="container__film">
+    <div class="film__poster">
+        <img class="poter__img" src="@Model.Film.PosterUrl" />
+    </div>
+
+    <div class="film__infor">
+        <span class="film__name"> <span>Tên phim:</span> @Model.Film.NameFilm</span>
+        <span class="film__room"> <span>Phòng:</span> @Model.TheatreRoom.RoomName</span>
+        <span class="film__room"><span>Giờ chiếu:</span></span>
+        <span class="film__langue"><span>Ngôn ngữ:</span> @Model.Film.Language</span>
+    </div>
 </div>
 
-<h1>SelectSeats</h1>
 <form asp-action="AddToCart" asp-controller="BookingTicket" method="post">
     <input type="hidden" name="FilmId" value="@Model.Film.FilmId" />
 @*     <input type="hidden" name="FilmScheduleId" value="@Model.FilmScheduleId" />
@@ -28,6 +94,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
+                <div class="contianer__screen">
+                    <div class="screen">màn hình chiếu</div>
+                </div>
                 <div class="seat-container container-fluid">
                     @if (Model.Seats.Count() > 0)
                     {
@@ -41,8 +110,7 @@
                                                 <img src="~/images/images-removebg-preview.png" alt="Seat Icon" />
                                                 <span class="seat-number">@seat.SeatNumber</span>
                                             </div>
-                                        </a>                                   
-                                }
+                                        </a>                                                                  }
                             </div>
                         }
                     }
@@ -56,14 +124,14 @@
 <div class="row mt-3">
     <div class="col-md-12">
         <div class="text-center">
-            <div class="btn--danger d-inline-block mr-2">
+            <div class=" d-inline-block mr-2">
                 <a asp-action="FilmDetailView" asp-area="" asp-route-id="@Model.Film.FilmId" asp-controller="Home" class="btn btn-success">Trở về</a>
 
 
             </div>
 
             <a style="margin-left: 20px;" asp-controller="BookingTicket" asp-action="Index">
-                <button class="btn btn-primary">Đặt Vé</button>
+                <button class="btn btn-primary">Tiếp tục</button>
             </a>
         </div>
     </div>

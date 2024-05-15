@@ -12,7 +12,7 @@ using MoviesBooking.DataAccess;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(BookingMovieTicketsDBContext))]
-    [Migration("20240512133140_DBInsertion")]
+    [Migration("20240515125328_DBInsertion")]
     partial class DBInsertion
     {
         /// <inheritdoc />

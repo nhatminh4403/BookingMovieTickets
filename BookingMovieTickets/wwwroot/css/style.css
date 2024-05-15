@@ -5389,7 +5389,9 @@ ul#navigation li.mega-menu__nav-item:hover:before {
 }
 .time-select .time-select__item:hover {
   background-color: #fe505a;
+  color: #fff;
 }
+
 .time-select .time-select__item:before {
   content: '';
   width: 54px;
