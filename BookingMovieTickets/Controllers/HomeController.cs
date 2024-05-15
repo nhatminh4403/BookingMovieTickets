@@ -100,6 +100,18 @@ namespace BookingMovieTickets.Controllers
             return NotFound();
         }
 
+        public async Task<IActionResult> AllFilm()
+        {
+            var film = await _filmRepository.GetAllAsync();
+
+            if (film == null)
+            {
+                return NotFound();
+            }
+
+            return View(film);
+        }
+        
         public IActionResult Privacy()
         {
             return View();
