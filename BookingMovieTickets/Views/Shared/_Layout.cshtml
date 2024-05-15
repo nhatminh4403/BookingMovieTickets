@@ -1,10 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using MoviesBooking.Models
+@using BookingMovieTickets.VIewModel
 @inject SignInManager<UserInfo> SignInManager
 @inject UserManager<UserInfo> UserManager
 @{
     var user = UserManager.GetUserAsync(User);
+    var layoutModel = ViewData["LayoutModel"] as FilmVM;
 }
+
+
+
 <!DOCTYPE html>
 <html>
 
@@ -96,20 +101,18 @@
                         </li>
                         <li>
                             <span class="sub-nav-toggle plus"></span>
-                            <a href="page-elements.html">Features</a>
+                            <a href="page-elements.html">Thể loại</a>
                             <ul>
-                                <li class="menu__nav-item">
-                                    <a href="typography.html">Typography</a>
-                                </li>
-                                <li class="menu__nav-item">
-                                    <a href="page-elements.html">Shortcodes</a>
-                                </li>
-                                <li class="menu__nav-item">
-                                    <a href="column.html">Columns</a>
-                                </li>
-                                <li class="menu__nav-item">
-                                    <a href="icon-font.html">Icons</a>
-                                </li>
+
+                                @foreach (var item in layoutModel.FilmCategories)
+                                {
+                                     <li class="menu__nav-item">
+                                        <a asp-controller="Home" asp-action="CategoriesFilm" asp-route-id="1">@item.Name</a>
+                                    </li>
+                                
+                                }
+                               
+                                
                             </ul>
                         </li>
                         <li>

@@ -57,6 +57,8 @@ namespace BookingMovieTickets.Controllers
                 TheatreRooms = rooms,
                 Theatres = theaters
             };
+
+            ViewData["LayoutModel"] = filmVM;
           
             if (User.Identity.IsAuthenticated)
             {
@@ -111,7 +113,21 @@ namespace BookingMovieTickets.Controllers
 
             return View(film);
         }
-        
+
+        public async Task<IActionResult> CategoriesFilm(int id)
+        {
+
+            var categoriesFilm = await _dbContext.Films.Include(i => i.FilmCategory).FirstOrDefaultAsync(i => i.FilmCategoryId == id);
+
+            if (categoriesFilm == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoriesFilm);           
+        }
+
+
         public IActionResult Privacy()
         {
             return View();
