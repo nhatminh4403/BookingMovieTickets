@@ -1,4 +1,5 @@
-﻿using BookingMovieTickets.Repository.Interface;
+﻿using BookingMovieTickets.Repository.EF;
+using BookingMovieTickets.Repository.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoviesBooking.Models;
@@ -22,7 +23,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
 
             var categories = await _FilmCategoryRepository.GetAllAsync();
           /*  ViewBag.categories = categories.ToList();*//**/
-            return PartialView("_CategoriesPartialView", categories);
+            return View(categories);
         }
 
         public IActionResult Add()
@@ -42,6 +43,15 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             return View(filmCategory);
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var categoryID = await _FilmCategoryRepository.GetByIdAsync(id);
+            if(categoryID== null)
+            {
+                return NotFound();
+            }
+            return View(categoryID);
+        }
 
         public async Task<IActionResult> Edit(int id)
         {

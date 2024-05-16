@@ -1,7 +1,13 @@
 ﻿@model IEnumerable<MoviesBooking.Models.FilmCategory>
 
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Thể loại phim</h1>
+
 <p>
-    <a asp-action="Add" asp-controller="FilmCategory" asp-area="Admin">Thêm thể loại mới</a>
+    <h3><a asp-action="Add" asp-controller="FilmCategory" asp-area="Admin">Thêm thể loại mới</a></h3>
 </p>
 <table class="table">
     <thead>
@@ -13,16 +19,18 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
                     <a asp-action="Edit" asp-controller="FilmCategory" asp-area="Admin" asp-route-id="@item.FilmCategoryId">Chỉnh sửa</a> |
+                    <a asp-action="Details" asp-controller="FilmCategory" asp-area="Admin" asp-route-id="@item.FilmCategoryId">Xem chi tiết</a> |
                     <a asp-action="Delete" asp-controller="FilmCategory" asp-area="Admin" asp-route-id="@item.FilmCategoryId">Xóa</a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

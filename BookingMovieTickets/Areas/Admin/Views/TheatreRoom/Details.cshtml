@@ -41,7 +41,7 @@
             <div class="text-center">
                 <!-- Button to add a new seat -->
                 <div class="d-inline-block mr-2">
-                    <a asp-action="Index" asp-area="Admin" asp-controller="Manager" class="btn btn-success">Trở về</a>
+                    <a asp-action="Index" asp-area="Admin" asp-controller="Theatre" class="btn btn-success">Trở về</a>
                 </div>
                 <form asp-action="AddNewSeat" asp-controller="TheatreRoom" method="post" class="d-inline-block">
                     <input type="hidden" name="theaterRoomId" value="@Model.TheatreRoomId" />

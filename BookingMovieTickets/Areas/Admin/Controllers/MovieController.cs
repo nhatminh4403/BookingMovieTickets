@@ -24,7 +24,7 @@ namespace BookingMovieTickets.Controllers
         public async Task<IActionResult> Index()
         {
             var films = await _FilmRepository.GetAllAsync();
-            return PartialView("_FilmPartialView", films);
+            return View(films);
         }
         // Hiển thị form thêm sản phẩm mới
         public async Task<IActionResult> Add()
@@ -58,7 +58,8 @@ namespace BookingMovieTickets.Controllers
                     film.PosterUrl = await SaveImage(PosterUrl);
                 }
                 await _FilmRepository.AddAsync(film);
-                return RedirectToAction("Index", "Manager", new { area = "Admin" });
+
+                return RedirectToAction("Index", "Movie", new { area = "Admin" });
             }
             else
             {

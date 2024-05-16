@@ -53,6 +53,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
                 TheatreRooms = rooms,
                 Theatres = theaters
             };
+            ViewData["LayoutModel"] = filmVM;
             return View(filmVM);
         }
         public async Task<IActionResult> GetAllFilm()

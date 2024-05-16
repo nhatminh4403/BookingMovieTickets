@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MoviesBooking.Models.Film>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Quản lý phim</h1>
+<p>
+    <h3><a asp-action="Add">Thêm mới</a></h3>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameFilm)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FilmCategory)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameFilm)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.FilmCategory.Name)
+            </td>
+            <td>
+                <a asp-action="Update" asp-route-id="@item.FilmId">Chỉnh sửa</a> |
+                <a asp-action="Display" asp-route-id="@item.FilmId">Xem chi tiết</a> |
+                <a asp-action="Delete" asp-route-id="@item.FilmId">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -15,11 +15,11 @@ namespace BookingMovieTickets.Repository.EF
         }
         public async Task<IEnumerable<FilmCategory>> GetAllAsync()
         {
-            return await _context.FilmCategory.ToListAsync();
+            return await _context.FilmCategory.Include(p=>p.Film).ToListAsync();
         }
         public async Task<FilmCategory> GetByIdAsync(int id)
         {
-            return await _context.FilmCategory.FirstAsync(i=> i.FilmCategoryId ==  id);
+            return await _context.FilmCategory.Include(p => p.Film).FirstAsync(i=> i.FilmCategoryId ==  id);
         }
         public async Task AddAsync(FilmCategory filmCategory)
         {

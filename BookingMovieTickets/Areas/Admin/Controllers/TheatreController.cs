@@ -1,25 +1,39 @@
 ﻿
 using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MoviesBooking.Models;
 
 namespace BookingMovieTickets.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = UserRole.Role_Admin)]
     public class TheatreController : Controller
     {
         private readonly I_Theater _TheaterRepository;
-        private readonly I_TheatreRoom _TheaterRoomRepositort;
-        public TheatreController(I_Theater theaterRepository, I_TheatreRoom theaterRoomRepositort)
+        private readonly I_TheatreRoom _TheaterRoomRepository;
+        private readonly I_Seat _seatRepo;
+        public TheatreController(I_Theater theaterRepository, I_TheatreRoom theaterRoomRepository, I_Seat seatRepo)
         {
             _TheaterRepository = theaterRepository;
-            _TheaterRoomRepositort = theaterRoomRepositort;
+            _TheaterRoomRepository = theaterRoomRepository;
+            _seatRepo = seatRepo;
         }
 
         // GET: TheatreController
         public async Task<IActionResult> Index()
         {
             var theaters=  await _TheaterRepository.GetAllAsync();
-            return PartialView("_TheaterPartialView", theaters);
+            var rooms = await _TheaterRoomRepository.GetAllRoomAsync();
+            var seat = await _seatRepo.GetAllSeatAsync();
+            var location = new RoomVM
+            {
+                Theatres = theaters,
+                TheatreRoom = rooms,
+                Seats = seat
+            };
+            return View(location);
         }
 
         // GET: TheatreController/Details/5
