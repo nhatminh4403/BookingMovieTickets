@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace BookingMovieTickets.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<UserInfo> _userManager;
@@ -24,7 +24,7 @@ namespace BookingMovieTickets.Controllers
         private readonly I_Theater _TheaterRepo;
 
         public HomeController(ILogger<HomeController> logger, UserManager<UserInfo> userManager, I_FilmCategoryRepository filmCategoryRepository, I_FilmRepository filmRepository,
-            I_PremiereTime premiereTime, I_Seat seatRepo, I_Schedule scheduleRepo, I_TheatreRoom theatreRoomRepo, I_Theater theaterRepo, BookingMovieTicketsDBContext dbContext)
+            I_PremiereTime premiereTime, I_Seat seatRepo, I_Schedule scheduleRepo, I_TheatreRoom theatreRoomRepo, I_Theater theaterRepo, BookingMovieTicketsDBContext dbContext ) : base(dbContext)
         {
             _logger = logger;
             _userManager = userManager;
@@ -36,6 +36,7 @@ namespace BookingMovieTickets.Controllers
             _theatreRoomRepo = theatreRoomRepo;
             _TheaterRepo = theaterRepo;
             _dbContext = dbContext;
+            
         }
 
         public async Task<IActionResult> Index()
@@ -99,20 +100,28 @@ namespace BookingMovieTickets.Controllers
                     return View(room);
                 }
             }
-
             return NotFound();
         }
-
         public async Task<IActionResult> AllFilm()
         {
-            var film = await _filmRepository.GetAllAsync();
-
-            if (film == null)
+            var films = await _filmRepository.GetAllAsync();
+            var categories = await _filmCategoryRepository.GetAllAsync();
+            var seats = await _seatRepo.GetAllSeatAsync();
+            var schedules = await _scheduleRepo.GetAllAsync();
+            var premiere = await _premiereTimeRepo.GetAllAsync();
+            var rooms = await _theatreRoomRepo.GetAllRoomAsync();
+            var theaters = await _TheaterRepo.GetAllAsync();
+            var filmVM = new FilmVM
             {
-                return NotFound();
-            }
-
-            return View(film);
+                Films = films,
+                FilmCategories = categories,
+                Seats = seats,
+                FilmSchedules = schedules,
+                PremiereTime = premiere,
+                TheatreRooms = rooms,
+                Theatres = theaters
+            };
+            return View(filmVM);
         }
 
 
@@ -139,10 +148,14 @@ namespace BookingMovieTickets.Controllers
                 TheatreRooms = rooms,
                 Theatres = theaters
             };
-
+            
             ViewBag.Categoryid = categoryID.Name;
             ViewData["LayoutModel"] = filmVM;
             return View(filmVM);
+        }
+        public IActionResult FAQs()
+        {
+            return View();
         }
         public IActionResult Privacy()
         {

@@ -99,23 +99,34 @@
                             <a asp-controller="Home" asp-action="AllFilm">Phim</a>                           
 
                         </li>
+                        @* <li>
+                            <span class="sub-nav-toggle plus"></span>
+                            <a href="page-elements.html">Features</a>
+                            <ul>
+                                <li class="menu__nav-item">
+                                    <a href="typography.html">Typography</a>
+                                </li>
+                                <li class="menu__nav-item">
+                                    <a href="page-elements.html">Shortcodes</a>
+                                </li>
+                                <li class="menu__nav-item">
+                                    <a href="column.html">Columns</a>
+                                </li>
+                                <li class="menu__nav-item">
+                                    <a href="icon-font.html">Icons</a>
+                                </li>
+                            </ul>
+                        </li> *@
                         <li>
                             <span class="sub-nav-toggle plus "></span>
                             <a asp-controller="Home" asp-action="AllFilm">Thể loại</a>
-                            <ul class="dropdown-menu">
-                                @if (layoutModel != null)
-                                {
-                                    @foreach (var item in layoutModel.FilmCategories)
-                                    {
-                                        <li class="menu__nav-item">
-                                            <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home" asp-area="" class="dropdown-item">@item.Name</a>
-                                        </li>
-                                    }
-                                }
-                            <span class="sub-nav-toggle plus"></span>
-                            <a href="page-elements.html"></a>
-                            </ul>@* <a href="icon-font.html">Icons</a> *@
+                            @await Component.InvokeAsync("FilmCategory")
                         </li>
+                        <li>
+                            <span class="sub-nav-toggle plus"></span>
+                            <a href="~/Home/FAQs">FAQs</a>
+                     
+                        </li> 
                         <li>
                             <span class="sub-nav-toggle plus"></span>
                             <a href="page-elements.html">Booking steps</a>
@@ -252,8 +263,7 @@
                                 </li>
                             </ul>
                         </li>
-
-
+                        
                     </ul>
                 </nav>
 

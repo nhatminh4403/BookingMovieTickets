@@ -1,7 +1,8 @@
-﻿@model IEnumerable<MoviesBooking.Models.Film>
+﻿@model BookingMovieTickets.VIewModel.FilmVM
+@using BookingMovieTickets.VIewModel
 
 @{
-
+    var layoutModel = ViewData["LayoutModel"] as FilmVM;
 }
 
 
@@ -74,7 +75,7 @@
 
         <div class="list">
 
-            @foreach( var item in Model)
+            @foreach( var item in Model.Films)
             {
                 <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId">
                     <div class="item__film">
