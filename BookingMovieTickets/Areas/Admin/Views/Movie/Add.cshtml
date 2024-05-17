@@ -85,6 +85,25 @@
                                         <img id="posterPreview" src="#" alt="Preview Poster" style="max-width: 100%; max-height: 500px; display: none;" />
                                     </div>
                                 </div>
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-sm-2 mb-0">Ngày công chiếu</label>
+                                    <div class="col-sm-10">
+                                        <div class="form-group">
+                                            <label asp-for="StartTime" class="control-label"></label>
+                                            <div class='input-group date' id='datepicker'>
+                                                <input asp-for="StartTime" type="text" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                            <span asp-validation-for="StartTime" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-end border-0 pt-0">
+                                    <button class="btn btn-primary me-3" type="submit">Thêm</button>
+                                    <button class="btn btn-outline-primary" type="reset">Reset</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -109,4 +128,20 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
 </script>
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+    <script>
+        $(function () {
+            $('#datepicker').datetimepicker();
+        });
+    </script>
+}

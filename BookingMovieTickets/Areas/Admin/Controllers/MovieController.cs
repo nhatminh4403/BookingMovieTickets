@@ -10,15 +10,14 @@ namespace BookingMovieTickets.Controllers
     [Authorize(Roles = UserRole.Role_Admin)]
     public class MovieController : Controller
     {
-        private readonly I_PremiereTime _PremiereTimeRepository;
+
         private readonly I_FilmRepository _FilmRepository;
         private readonly I_FilmCategoryRepository _FilmCategoryRepository;
         public MovieController(I_FilmRepository filmRepository,
-        I_FilmCategoryRepository filmCategoryRepository, I_PremiereTime PremiereTimeRepository)
+        I_FilmCategoryRepository filmCategoryRepository)
         {
             _FilmRepository = filmRepository;
             _FilmCategoryRepository = filmCategoryRepository;
-            _PremiereTimeRepository = PremiereTimeRepository;
         }
         // Hiển thị danh sách sản phẩm
         public async Task<IActionResult> Index()
@@ -30,8 +29,6 @@ namespace BookingMovieTickets.Controllers
         public async Task<IActionResult> Add()
         {
             var FilmCategory = await _FilmCategoryRepository.GetAllAsync();
-            var premiereTimes = await _PremiereTimeRepository.GetAllAsync();
-            ViewBag.PremiereTimes = new SelectList(premiereTimes, "PremiereTimeId", "StartTime");
             ViewBag.FilmCategory = new SelectList(FilmCategory, "FilmCategoryId", "Name");
             return View();
         }
@@ -66,9 +63,7 @@ namespace BookingMovieTickets.Controllers
                 ModelState.AddModelError("PosterUrl", "Please enter a image.");
                 // Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
                 var filmCategories = await _FilmCategoryRepository.GetAllAsync();
-                var premiereTimes = await _PremiereTimeRepository.GetAllAsync();
                 ViewBag.FilmCategory = new SelectList(filmCategories, "FilmCategoryId", "Name");
-                ViewBag.PremiereTimes = new SelectList(premiereTimes, "PremiereTimeId", "StartTime");
                 return View(film);
             }
 
@@ -103,8 +98,6 @@ namespace BookingMovieTickets.Controllers
             }
 
             var filmCategories = await _FilmCategoryRepository.GetAllAsync();
-            var premiereTimes = await _PremiereTimeRepository.GetAllAsync();
-            ViewBag.PremiereTimes = new SelectList(premiereTimes, "PremiereTimeId", "StartTime");
             ViewBag.FilmCategories = new SelectList(filmCategories, "FilmCategoryId", "Name");
             return View(film);
         }
@@ -151,7 +144,7 @@ namespace BookingMovieTickets.Controllers
                 existingMovie.NameFilm = film.NameFilm;
                 existingMovie.Description = film.Description;
                 existingMovie.PosterUrl = film.PosterUrl;
-                existingMovie.PremiereTimeId = film.PremiereTimeId;
+                existingMovie.StartTime = film.StartTime;
                 existingMovie.TrailerUrl = film.TrailerUrl;
                 existingMovie.DirectorName = film.DirectorName;
                 existingMovie.Language = film.Language;
@@ -167,8 +160,6 @@ namespace BookingMovieTickets.Controllers
             {
                 ModelState.AddModelError("PosterUrl", "Please enter a image.");
                 var filmCategories = await _FilmCategoryRepository.GetAllAsync();
-                var premiereTimes = await _PremiereTimeRepository.GetAllAsync();
-                ViewBag.PremiereTimes = new SelectList(premiereTimes, "PremiereTimeId", "StartTime");
                 ViewBag.FilmCategories = new SelectList(filmCategories, "FilmCategoryId", "Name");
                 return View(film);
             }

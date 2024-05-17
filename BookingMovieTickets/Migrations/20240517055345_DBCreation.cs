@@ -67,19 +67,6 @@ namespace BookingMovieTickets.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PremiereTimes",
-                columns: table => new
-                {
-                    PremiereTimeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PremiereTimes", x => x.PremiereTimeId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Theatres",
                 columns: table => new
                 {
@@ -269,7 +256,7 @@ namespace BookingMovieTickets.Migrations
                     FilmDuration = table.Column<int>(type: "int", nullable: false),
                     Actors = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FilmCategoryId = table.Column<int>(type: "int", nullable: false),
-                    PremiereTimeId = table.Column<int>(type: "int", nullable: false)
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -279,12 +266,6 @@ namespace BookingMovieTickets.Migrations
                         column: x => x.FilmCategoryId,
                         principalTable: "FilmCategory",
                         principalColumn: "FilmCategoryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Films_PremiereTimes_PremiereTimeId",
-                        column: x => x.PremiereTimeId,
-                        principalTable: "PremiereTimes",
-                        principalColumn: "PremiereTimeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -498,12 +479,6 @@ namespace BookingMovieTickets.Migrations
                 column: "FilmCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Films_PremiereTimeId",
-                table: "Films",
-                column: "PremiereTimeId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_FilmSchedules_FilmId",
                 table: "FilmSchedules",
                 column: "FilmId");
@@ -626,9 +601,6 @@ namespace BookingMovieTickets.Migrations
 
             migrationBuilder.DropTable(
                 name: "FilmCategory");
-
-            migrationBuilder.DropTable(
-                name: "PremiereTimes");
 
             migrationBuilder.DropTable(
                 name: "Theatres");

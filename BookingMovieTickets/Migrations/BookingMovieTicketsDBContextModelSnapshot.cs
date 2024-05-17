@@ -319,8 +319,8 @@ namespace BookingMovieTickets.Migrations
                     b.Property<string>("PosterUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PremiereTimeId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TrailerUrl")
                         .IsRequired()
@@ -329,9 +329,6 @@ namespace BookingMovieTickets.Migrations
                     b.HasKey("FilmId");
 
                     b.HasIndex("FilmCategoryId");
-
-                    b.HasIndex("PremiereTimeId")
-                        .IsUnique();
 
                     b.ToTable("Films");
                 });
@@ -378,22 +375,6 @@ namespace BookingMovieTickets.Migrations
                     b.HasIndex("TheatreRoomId");
 
                     b.ToTable("FilmSchedules");
-                });
-
-            modelBuilder.Entity("MoviesBooking.Models.PremiereTime", b =>
-                {
-                    b.Property<int>("PremiereTimeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PremiereTimeId"));
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("PremiereTimeId");
-
-                    b.ToTable("PremiereTimes");
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.Seat", b =>
@@ -719,15 +700,7 @@ namespace BookingMovieTickets.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MoviesBooking.Models.PremiereTime", "PremiereTimes")
-                        .WithOne("Film")
-                        .HasForeignKey("MoviesBooking.Models.Film", "PremiereTimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("FilmCategory");
-
-                    b.Navigation("PremiereTimes");
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.FilmSchedule", b =>
@@ -816,12 +789,6 @@ namespace BookingMovieTickets.Migrations
             modelBuilder.Entity("MoviesBooking.Models.FilmSchedule", b =>
                 {
                     b.Navigation("TicketDetails");
-                });
-
-            modelBuilder.Entity("MoviesBooking.Models.PremiereTime", b =>
-                {
-                    b.Navigation("Film")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("MoviesBooking.Models.Seat", b =>

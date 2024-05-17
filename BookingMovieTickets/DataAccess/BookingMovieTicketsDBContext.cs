@@ -22,7 +22,6 @@ namespace MoviesBooking.DataAccess
         public DbSet<FilmCategory> FilmCategory { get; set; }
         public DbSet<Film> Films { get; set; }
         public DbSet<FilmSchedule> FilmSchedules { get; set; } // Renamed FilmsSchedule to FilmSchedules
-        public DbSet<PremiereTime> PremiereTimes { get; set; } // Renamed PremiereTime to PremiereTimes
         public DbSet<Theatre> Theatres { get; set; }
         public DbSet<Receipt> Receipts { get; set; } // Renamed Receipt to Receipts for consistency
         public DbSet<ReceiptDetail> ReceiptDetails { get; set; } // Renamed ReceiptDetail to ReceiptDetails

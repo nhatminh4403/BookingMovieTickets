@@ -20,7 +20,6 @@ namespace BookingMovieTickets.Repository.EF
             // return await _context.Products.ToListAsync(); 
             return await _context.Films
             .Include(p => p.FilmCategory) // Include thông tin về category 
-            .Include(p=>p.PremiereTimes)
             .Include(p=>p.FilmSchedules)
             .ToListAsync();
         }
@@ -28,7 +27,7 @@ namespace BookingMovieTickets.Repository.EF
         {
             // return await _context.Products.FindAsync(id); 
             // lấy thông tin kèm theo category 
-            return await _context.Films.Include(p => p.FilmCategory).Include(p => p.PremiereTimes)
+            return await _context.Films.Include(p => p.FilmCategory)
             .Include(p => p.FilmSchedules).FirstOrDefaultAsync(p => p.FilmId == id);
         }
         public async Task AddAsync(Film film)

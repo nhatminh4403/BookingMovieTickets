@@ -43,7 +43,7 @@
                     <p class="movie__option"><strong>Thể loại: </strong><a href="#">@Model.FilmCategory.Name</a>
                     <p class="movie__option">
                         <strong>Ngày ra mắt: </strong>
-                            @Model.PremiereTimes.StartTime.ToString("dd/MM/yyyy hh:mm:ss tt", new System.Globalization.CultureInfo("vi-VN"));
+                            @Model.StartTime.ToString("dd/MM/yyyy hh:mm:ss tt", new System.Globalization.CultureInfo("vi-VN"));
                     </p>
                     <p class="movie__option"><strong>Đạo diễn: </strong><a href="#">@Model.DirectorName</a></p>
                     <p class="movie__option"><strong>Diễn viên: </strong><span>@Model.Actors</span>

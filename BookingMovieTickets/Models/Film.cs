@@ -31,12 +31,13 @@ namespace MoviesBooking.Models
         public string Actors { get; set; }
         [Required]
         public int FilmCategoryId { get; set; }
-        
-        public int PremiereTimeId { get; set; }
+        [Required]
+        [DisplayName("Giờ chiếu")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
+        public DateTime StartTime { get; set; }
         [ForeignKey("FilmCategoryId")]
         public virtual FilmCategory? FilmCategory { get; set; }
-        [ForeignKey("PremiereTimeId")]
-        public virtual PremiereTime PremiereTimes { get; set; }
+    
         public virtual ICollection<FilmSchedule>? FilmSchedules { get; set;}
     }
 }
