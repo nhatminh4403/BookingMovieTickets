@@ -315,83 +315,6 @@
                         </ul>
                     </div>
                 }
-@* 
-                <span class="best-rate">5.0</span>
-
-                                <ul class="movie-beta__info">
-                                    <li><span class="best-voted">idk</span></li>
-                                    <li>
-                                        <p class="movie__time">
-                                            @durationText
-                                        </p>
-                                        <p>@item.FilmCategory.Name</p>
-                                    </li>
-                                    <li class="last-block">
-                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            break;
-                        case 2:
-                            <div class="movie-beta__item third--item">
-                                <img alt="" src="@item.PosterUrl" width="380px" height="600px" />
-                                <span class="best-rate">5.0</span>
-
-                                <ul class="movie-beta__info">
-                                    <li><span class="best-voted">idk</span></li>
-                                    <li>
-                                        <p class="movie__time">
-                                            @durationText
-                                        </p>
-                                        <p>@item.FilmCategory.Name</p>
-                                    </li>
-                                    <li class="last-block">
-                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            break;
-                        case 3:
-                            <div class="movie-beta__item hidden-xs">
-                                <img alt="" src="@item.PosterUrl" width="380px" height="600px" />
-                                <span class="best-rate">5.0</span>
-
-                                <ul class="movie-beta__info">
-                                    <li><span class="best-voted">idk</span></li>
-                                    <li>
-                                        <p class="movie__time">
-                                            @durationText
-                                        </p>
-                                        <p>@item.FilmCategory.Name</p>
-                                    </li>
-                                    <li class="last-block">
-                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            break;
-                        case 4: case 5:
-                            <div class="movie-beta__item hidden-xs hidden-sm">
-                                <img alt="" src="@item.PosterUrl" width="380px" height="600px" />
-                                <span class="best-rate">5.0</span>
-
-                                <ul class="movie-beta__info">
-                                    <li><span class="best-voted">idk</span></li>
-                                    <li>
-                                        <p class="movie__time">
-                                            @durationText
-                                        </p>
-                                        <p>@item.FilmCategory.Name</p>
-                                    </li>
-                                    <li class="last-block">
-                                        <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            break;
-                    }
-                    hotFilmCounter++;
-                } *@
 
             </div>
             <div class="col-sm-10 col-sm-offset-1 movie-best__check">
@@ -461,22 +384,14 @@
                     </ul>
 
                     <input name="search-input" type="text" class="select__field" />
+                    @*  <a href="#" class="btn btn-md btn--danger location">find <span class="hidden-exrtasm">your city</span></a>*@
 
                     <div class="select__btn">
-                       @*  <a href="#" class="btn btn-md btn--danger location">find <span class="hidden-exrtasm">your city</span></a>
-                        <a href="#" class="btn btn-md btn--danger cinema">find <span class="hidden-exrtasm">suitable cimema</span></a>
-                        <a href="#" class="btn btn-md btn--danger film-category">find <span class="hidden-exrtasm">best category</span></a>
-                        <a href="#" class="btn btn-md btn--danger actors">find <span class="hidden-exrtasm">talented actors</span></a>
-                        <a href="#" class="btn btn-md btn--danger director">find <span class="hidden-exrtasm">favorite director</span></a>
-                        <a href="#" class="btn btn-md btn--danger country">find <span class="hidden-exrtasm">produced country</span></a> *@
-                       
-                        @foreach (var item in Model.Films.Take(1))
-                        {
-                            <a href="/Home/FilmDetailView/@item.FilmId" class="btn btn-md btn--danger cinema">find <span class="hidden-exrtasm">suitable cimema</span> </a>
-                        }
-                       
+                        <a href="#" id="searchFilmButton" class="btn btn-md btn--danger cinema"><span class="hidden-exrtasm">Tìm phim</span> </a>
+                        <a href="#" id="searchCategoryButton" class="btn btn-md btn--danger film-category">
+                                <span class="hidden-exrtasm">Tìm phim theo thể loại</span>
+                        </a>
                     </div>
-
                     <div class="select__dropdowns">
                         @* <ul class="select__group location">
                             <li class="select__variant" data-value="London">London</li>
@@ -504,7 +419,7 @@
                             </li> *@
                             @foreach (var item in Model.Films.Take(6))
                             {
-                                <li class="select__variant" data-value="@item.NameFilm">
+                                <li class="select__variant film" data-value="@item.NameFilm" data-id="@item.FilmId">
                                     @item.NameFilm
                                 </li>
                                 
@@ -512,16 +427,12 @@
                         </ul>
 
                         <ul class="select__group film-category">
-                            <li class="select__variant" data-value="Children's">
-                                Children's
-                            </li>
-                            <li class="select__variant" data-value="Comedy">Comedy</li>
-                            <li class="select__variant" data-value="Drama">Drama</li>
-                            <li class="select__variant" data-value="Fantasy">Fantasy</li>
-                            <li class="select__variant" data-value="Horror">Horror</li>
-                            <li class="select__variant" data-value="Thriller">
-                                Thriller
-                            </li>
+                            @foreach (var item in Model.FilmCategories)
+                            {
+                                <li class="select__variant category" data-id="@item.FilmCategoryId" data-value="@item.Name">
+                                    @item.Name
+                                </li>
+                            }
                         </ul>
 
                         @* <ul class="select__group actors">
@@ -907,3 +818,55 @@
         </section>
     </div>
 }
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const categoryVariants = document.querySelectorAll('.select__variant.category');
+        const filmVariants = document.querySelectorAll('.select__variant.film');
+        let selectedCategoryId = null;
+        let selectedFilmId = null;
+
+        function addClickEventListener(variants, type) {
+            variants.forEach(variant => {
+                variant.addEventListener('click', () => {
+                    // Remove 'selected' class from all variants
+                    variants.forEach(v => v.classList.remove('selected'));
+
+                    // Add 'selected' class to the clicked variant
+                    variant.classList.add('selected');
+
+                    // Get the selected ID based on type
+                    if (type === 'category') {
+                        selectedCategoryId = variant.getAttribute('data-id');
+                    } else if (type === 'film') {
+                        selectedFilmId = variant.getAttribute('data-id');
+                    }
+                });
+            });
+        }
+
+        addClickEventListener(categoryVariants, 'category');
+        addClickEventListener(filmVariants, 'film');
+
+        document.getElementById('searchCategoryButton').addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default anchor behavior
+            if (selectedCategoryId) {
+                // Redirect to the SortFilmsByCategories action with the selected category ID
+                window.location.href = `@Url.Action("SortFilmsByCategories", "Home")/${selectedCategoryId}`;
+            } else {
+                alert('Please select a category.');
+            }
+        });
+
+        document.getElementById('searchFilmButton').addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default anchor behavior
+            if (selectedFilmId) {
+                // Redirect to the FilmDetails action with the selected film ID
+                window.location.href = `@Url.Action("FilmDetailView", "Home")/${selectedFilmId}`;
+            } else {
+                alert('Please select a film.');
+            }
+        });
+    });
+</script>
+
+

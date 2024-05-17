@@ -3,6 +3,7 @@ using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
@@ -57,6 +58,7 @@ namespace BookingMovieTickets.Controllers
             };
 
             ViewData["LayoutModel"] = filmVM;
+            ViewBag.FindFilmsByCategory = new SelectList(categories, "FilmCategoryId", "Name");
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
