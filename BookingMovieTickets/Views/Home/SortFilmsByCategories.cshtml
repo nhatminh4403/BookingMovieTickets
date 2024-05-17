@@ -71,6 +71,28 @@
         display: inline-block;
         font-weight: 600;
     }
+
+    .gradient-text{
+        font-size: 24px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #ff7e5f, #feb47b, #86a8e7, #91eae4);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientAnimation 3s ease infinite;
+    }
+
+    @@keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
 </style>
 
 
@@ -86,7 +108,7 @@
         <div class="list">
             @if (Model.Films.Count()==0)
             {
-                <span>Không tìm thấy phim thuộc thể loại @selectedCategoryName</span>
+                <span class="gradient-text">Không tìm thấy phim thuộc thể loại @selectedCategoryName</span>
                 
             }
             else
