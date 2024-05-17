@@ -8,7 +8,7 @@
     @foreach (var item in Model)
     {
         <li class="menu__nav-item">
-            <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home" asp-area="" class="dropdown-item">@item.Name</a>
+            <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home" asp-area="">@item.Name</a>
         </li>
     }
 </ul>
