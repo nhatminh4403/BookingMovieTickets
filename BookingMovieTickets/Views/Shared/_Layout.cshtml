@@ -61,6 +61,7 @@
 <body>
 
  <div id="toast"></div>
+    <form id="logoutForm" style="display:none;" method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"></form>
 
  <section class="wrapper">
         <header class="header-wrapper">
@@ -113,7 +114,7 @@
                         <li>
                             <form action="/Home/SearchByName" method="get" class="">
                                 <div class="input-group mb-3">
-                                    <input type="text" name="film" class="form-control" placeholder="Từ khóa tìm kiếm" aria-label="Từ khóa tìm kiếm" aria-describedby="basic-addon2">
+                                    <input type="text" name="film" class="form-control" placeholder="Từ khóa tìm kiếm" aria-label="Từ khóa tìm kiếm" aria-describedby="basic-addon2" style="width: 300px;height:35px;flex-shrink:inherit" >
                                     <button type="submit" class="input-group-text" id="basic-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
                                 </div>
                             </form>
@@ -162,14 +163,14 @@
                         else
                         {
                             <div class="col-4 py-lg-2">
-                                <div class="row">
-                                    <a asp-area="Identity" asp-page="/Account/Logout" class="text-decoration-none text-light" style="text-align:right;">Đăng xuất</a>
+                                <div class="row justify-content-end">
+                                    <a href="javascript:void(0);" id="logoutLink" class="text-decoration-none text-light" style="text-align:right;">Đăng xuất</a>
                                 </div>
                             </div>
                             <div class="col-5 py-lg-2">
-                                <div class="row">
+                                <div class="row justify-content-end">
                                     <a asp-area="Identity" asp-page="/Account/Manage/Index"
-                                       class="text-decoration-none text-light" style="text-align: right;">
+                                       class="text-decoration-none text-light" style="text-align: center;">
                                         Quản
                                         lí tài khoản
                                     </a>
@@ -188,7 +189,7 @@
                             else
                             {
                                 <a asp-area="Identity" asp-page="/Account/Manage/Index"
-                                   class="text-decoration-none text-light">
+                                   class="text-decoration-none text-light" style="text-align:left;">
                                     <span class="fs-3">
                                         <i class="fa-solid fa-user"></i>
                                     </span>
@@ -331,8 +332,14 @@
         $(document).ready(function () {
             init_Home();
         });
+
     </script>
-    
+    <script>
+        document.getElementById('logoutLink').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('logoutForm').submit();
+        });
+    </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
