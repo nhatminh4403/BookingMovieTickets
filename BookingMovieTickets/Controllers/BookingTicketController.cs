@@ -155,5 +155,12 @@ namespace BookingMovieTickets.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [Authorize]
+
+        public IActionResult PaymentCallBack()
+        {
+            return View();  
+        }
     }
 }
