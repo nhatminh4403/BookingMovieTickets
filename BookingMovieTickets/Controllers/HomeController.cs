@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
+using System.Collections.Generic;
 using System.Diagnostics;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BookingMovieTickets.Controllers
 {
@@ -122,7 +124,13 @@ namespace BookingMovieTickets.Controllers
             return View(filmVM);
         }
 
+        public async Task<IActionResult> SearchByName(string film)
+        {
 
+            var name = await _filmRepository.FindByNameAsync(film);
+            
+            return View("SearchByName", name);
+        }
         public async Task<IActionResult> SortFilmsByCategories(int id)
         {
 

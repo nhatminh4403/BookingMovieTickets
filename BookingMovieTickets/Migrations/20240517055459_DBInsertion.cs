@@ -276,7 +276,7 @@ values: new object[,]
 
  {4,"THANH XUÂN 18x2: LỮ TRÌNH HƯỚNG VỀ EM",
  "Ký ức tình đầu ùa về khi Jimmy nhận được tấm bưu thiếp từ Ami. Cậu quyết định một mình bước lên chuyến tàu đến Nhật Bản gặp lại người con gái cậu đã bỏ lỡ 18 năm trước. Mối tình day dứt thời thanh xuân, liệu sẽ có một kết cục nào tốt đẹp khi đoàn tụ?",
- "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/7/0/700x1000_exhuma-min.jpg",
+ "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/4/0/406x600-18x2.jpg",
  "https://youtu.be/8Pq08VsVUFk",
  "Fujii Michihito","Tiếng Nhật & Tiếng Trung Quốc với phụ đề Tiếng Việt và Tiếng Anh","T13 - Phim được phổ biến đến người xem từ đủ 13 tuổi trở lên (13+)",123,
                         " Greg Hsu, Kaya Kiyohara, Chang Chen, Kuroki Hitomi, Michieda Shunsuke,...",9,new DateTime(2024,4,12, 10, 15, 0)},
@@ -330,7 +330,13 @@ values: new object[,]
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/r/s/rsz_1200x1800_2.jpg",
  "https://youtu.be/FzV3gRevq4Q",
 "Enrico Casarosa","Tiếng Anh với phụ đề tiếng Việt, lồng tiếng","P - Phim được phép phổ biến đến người xem ở mọi độ tuổi.",99,
-                        "(Lồng tiếng): Jacob Tremblay, Jack Dylan Grazer, Emma Berman, Saverio Raimondo, Maya Rudolph, Marco Barricelli, Jim Gaffigan, Sandy Martin,...",7,new DateTime(2024,4,18,10, 15,0)}
+                        "(Lồng tiếng): Jacob Tremblay, Jack Dylan Grazer, Emma Berman, Saverio Raimondo, Maya Rudolph, Marco Barricelli, Jim Gaffigan, Sandy Martin,...",7,new DateTime(2024,4,18,10, 15,0)},
+ {13,"NHỮNG GÃ TRAI HƯ: CHƠI HAY BỊ XƠI - BAD BOY 4",
+ "Chuyện phim mới kể về những diễn biến đầy hành động của thám tử Miami-Dade Mike Lowrey (Will Smith) và Marcus Burnett (Martin Lawrence). Giờ đây, Lowrey và Burnett phải hợp tác để tiêu diệt tên Đại úy Conrad Howard, người đang bị buộc tội hoạt động cùng băng đảng ma túy.",
+ "https://cdn.galaxycine.vn/media/2024/4/12/bad-boy-500_1712891792541.jpg",
+ "https://www.youtube.com/watch?v=RGnBFA_g0rg",
+"Adil El Arbi, Bilall Fallah","Tiếng Anh với phụ đề tiếng Việt","R  - Người từ 16 tuổi trở xuống cần có cha mẹ hoặc người giám hộ đi cùng do có thể gây hoảng loạn hoặc ảnh hưởng xấu đến tư duy, đạo đức của trẻ em.",124,
+                        "Will Smith, Martin Lawrence, Vanessa Hudgens,Alexander Ludwig,Tasha Smith,,Paola Núñez,Jacob Scipio...",1,new DateTime(2024,6  ,7,10, 15,0)}
                 });
 
             migrationBuilder.InsertData(

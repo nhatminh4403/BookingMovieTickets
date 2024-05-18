@@ -1,0 +1,9 @@
+﻿@foreach (var item in Model)
+{
+    <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId">
+        <div class="item__film">
+            <img src="@item.PosterUrl" class="item__img" />
+            <span class="item__name">@item.NameFilm</span>
+        </div>
+    </a>
+}
