@@ -4,105 +4,13 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Mvc.Rendering
 @{
-    ViewData["Title"] = "Index";Layout = "_Layout";
+    ViewData["Title"] = "Quản trị";
+    Layout = "_Layout";
 }
-<div class="justify-content-center text-center"> <h1>Quản lý</h1></div>
 
-<div class="container-fluid">
-    <ul class="nav nav-tabs justify-content-center" id="mainTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Phim</a>
-        </li>
-        <!--Thêm tab nếu cần thiết-->
-        <li class="nav-item">
-            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false"> Thể loại </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Rạp chiếu</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Giờ công chiếu</a>
-        </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
-            <partial name="~/Areas/Admin/Views/Movie/_FilmPartialView.cshtml" model="@Model.Films"/>
-        </div>
-        <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-            <partial name="~/Areas/Admin/Views/FilmCategory/_CategoriesPartialView.cshtml" model="@Model.FilmCategories" />
-        </div>
-        <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-            <div class="row">
-                <div class="col-md-3">
-                    <ul class="nav flex-column nav-tabs" id="subTab" role="tablist">
-                        @foreach (var theatreRoom in Model.Theatres)
-                        {
-                            <li class="nav-item d-flex align-items-center mb-2">
-                                @if (theatreRoom.TheatreId == Model.Theatres.First().TheatreId)
-                                {
-                                    <a class="nav-link show active flex-grow-1 align-items-center justify-content-between" id="subTab-@theatreRoom.TheatreId" data-toggle="tab" href="#subTabContent-@theatreRoom.TheatreId" role="tab"
-                                       aria-controls="subTabContent-@theatreRoom.TheatreId" aria-selected="true">
-                                        
-                                       @theatreRoom.Name
-                                        <form asp-action="Edit" asp-controller="TheatreRoom" asp-route-id="@theatreRoom.TheatreId" method="get" class="d-inline">
-                                            <button type="submit" class="btn btn-primary btn-sm">Edit</button>
-                                        </form>
-                                        <form asp-action="Edit" asp-controller="TheatreRoom" asp-route-id="@theatreRoom.TheatreId" method="get" class="d-inline">
-                                            <button type="submit" class="btn btn-primary btn-sm">Edit</button>
-                                        </form>
-                                        <form asp-action="Edit" asp-controller="TheatreRoom" asp-route-id="@theatreRoom.TheatreId" method="get" class="d-inline">
-                                            <button type="submit" class="btn btn-primary btn-sm">Edit</button>
-                                        </form>
-                                   </a>
-                                    
-                                }
-                                else
-                                {
-                                    <a class="nav-link flex-grow-1" id="subTab-@theatreRoom.TheatreId" data-toggle="tab" href="#subTabContent-@theatreRoom.TheatreId" role="tab"
-                                       aria-controls="subTabContent-@theatreRoom.TheatreId" aria-selected="true">@theatreRoom.Name</a>
-                                }
-                                   
+@* 
 
-                            </li>
-                            
-                        }
-                    </ul>
-                </div>
-       @*          <div class="btn-group ml-2" role="group">
-
-                    <a asp-action="Edit" asp-controller="Theatre" asp-route-id="@theatreRoom.TheatreId" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                    <a asp-action="Details" asp-controller="Theatre" asp-route-id="@theatreRoom.TheatreId" class="btn btn-info btn-sm"><i class="fa fa-info-circle"></i></a>
-                    <a asp-action="Delete" asp-controller="Theatre" asp-route-id="@theatreRoom.TheatreId" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                </div> *@
-
-                <div class="col-md-9">
-                    <!-- Sub tab content -->
-                    <div class="tab-content" id="subTabContent">
-                        @foreach (var theatreRoom in Model.Theatres)
-                        {
-                            @if (theatreRoom.TheatreId == Model.Theatres.First().TheatreId)
-                            {
-                                 <div class="tab-pane show active" id="subTabContent-@theatreRoom.TheatreId" role="tabpanel" aria-labelledby="subTab-@theatreRoom.TheatreId">
-                                <!-- Content for each location -->
-                                    <partial name="~/Areas/Admin/Views/TheatreRoom/_RoomPartialView.cshtml" model="@theatreRoom.TheatreRooms" />
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="tab-pane" id="subTabContent-@theatreRoom.TheatreId" role="tabpanel" aria-labelledby="subTab-@theatreRoom.TheatreId">
-                                    <!-- Content for each location -->
-                                    <partial name="~/Areas/Admin/Views/TheatreRoom/_RoomPartialView.cshtml" model="@theatreRoom.TheatreRooms" />
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--Thêm tab content  dưới này-->
-    </div>
-</div>
-<style>
+ <style>
     .nav-item {
         position: relative;
     }
@@ -165,3 +73,58 @@
         });
     });
 </script>
+ *@
+
+<div class="row">
+    <!-- chart caard section start -->
+    <div class="col-sm-6 col-xxl-3 col-lg-6">
+        <div class="b-b-primary border-5 border-0 card o-hidden">
+            <div class="custome-1-bg b-r-4 card-body">
+                <div class="media align-items-center static-top-widget">
+                    <div class="media-body p-0">
+                        <span class="m-0">Tổng đơn</span>
+                        <h4 class="mb-0 counter">@ViewBag.TotalOrdersCount</h4>
+                    </div>
+                    <div class="align-self-center text-center">
+                        <i data-feather="database"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-sm-6 col-xxl-3 col-lg-6">
+        <div class="b-b-success border-5 border-0 card o-hidden">
+            <div class=" custome-4-bg b-r-4 card-body">
+                <div class="media static-top-widget">
+                    <div class="media-body p-0">
+                        <span class="m-0">Tổng người dùng</span>
+                        <h4 class="mb-0 counter">@ViewBag.CustomersCount</h4>
+                    </div>
+
+                    <div class="align-self-center text-center">
+                        <i data-feather="users"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- chart caard section End -->
+    <div class="col-sm-6 col-xxl-3 col-lg-6">
+        <div class="b-b-success border-5 border-0 card o-hidden">
+            <div class=" custome-4-bg b-r-4 card-body">
+                <div class="media static-top-widget">
+                    <div class="media-body p-0">
+                        <span class="m-0">Doanh thu tạm tính</span>
+                        <h4 class="mb-0 counter">@ViewBag.TotalRevenue$</h4>
+                    </div>
+
+                    <div class="align-self-center text-center">
+                        <i data-feather="activity"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

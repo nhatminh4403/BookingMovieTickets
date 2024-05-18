@@ -247,29 +247,11 @@ values: new object[,]
 
 
                 });
-            migrationBuilder.InsertData(
-               table: "PremiereTimes",
-               columns: new[] { "PremiereTimeId", "StartTime" },
-               values: new object[,]
-               {
-            {1,new DateTime(2024, 4, 26, 10, 15, 0) },
-            {2,new DateTime(2024,3,29, 10, 15, 0)},
-            {3,new DateTime(2024,3,8, 10, 15, 0)},
-            {4,new DateTime(2024,4,12, 10, 15, 0)},
-            {5,new DateTime(2024,3,15,10, 15,0)},
-            {6,new DateTime(2024,7,5,10, 15,0)},
-            {7,new DateTime(2024,5,24,10, 15,0)},
-            {8,new DateTime(2024,5,3,10, 15,0)},
-            {9,new DateTime(2024,4,29, 10, 15,0)},
-            {10,new DateTime(2024,2,10,10, 15,0)},
-            {11,new DateTime(2024,4,12,10, 15,0)},
-            {12,new DateTime(2024,4,18,10, 15,0)}
-               }
-            );
+           
             migrationBuilder.InsertData(
                 table: "Films",
                 columns: new[] { "FilmId", "NameFilm", "Description", "PosterUrl", "TrailerUrl",
-             "DirectorName","Language","FilmRated","FilmDuration","Actors", "FilmCategoryId","PremiereTimeId"},
+             "DirectorName","Language","FilmRated","FilmDuration","Actors", "FilmCategoryId","StartTime"},
                 values: new object[,]
                 {
  {1, "LẬT MẶT 7: MỘT ĐIỀU ƯỚC",
@@ -277,78 +259,78 @@ values: new object[,]
      "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/l/a/lat-mat-7.jpg",
      "https://youtu.be/d1ZHdosjNX8?si=f6_pea9cJ5HtvnJy",
       "Lý Hải","Tiếng Việt - Phụ đề Tiếng Anh","K - Phim được phổ biến đến người xem dưới 13 tuổi và có người bảo hộ đi kèm",138,
-                        "Thanh Hiền, Trương Minh Cường, Đinh Y Nhung, Quách Ngọc Tuyên, Trâm Anh, Trần Kim Hải,...",12,1},
+                        "Thanh Hiền, Trương Minh Cường, Đinh Y Nhung, Quách Ngọc Tuyên, Trâm Anh, Trần Kim Hải,...",12, new DateTime(2024, 4, 26, 10, 15, 0)},
 
  {2,"GODZILLA X KONG: ĐẾ CHẾ MỚI",
  "Kong và Godzilla - hai sinh vật vĩ đại huyền thoại, hai kẻ thủ truyền kiếp sẽ cùng bắt tay thực thi một sứ mệnh chung mang tính sống còn để bảo vệ nhân loại, và trận chiến gắn kết chúng với loài người mãi mãi sẽ bắt đầu.",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/p/o/poster_payoff_godzilla_va_kong_3_1_.jpg",
  "https://youtu.be/RXc2bs_aBuA",
  "Adam Wingard","Tiếng Anh - Phụ đề Tiếng Việt, Tiếng Hàn","K - Phim được phổ biến đến người xem dưới 13 tuổi và có người bảo hộ đi kèm",115,
-                        "Rebecca Hall; Brian Tyree Henry; Dan Stevens; Kaylee Hottle; Alex Ferns; Fala Chen,...",1,2},
+                        "Rebecca Hall; Brian Tyree Henry; Dan Stevens; Kaylee Hottle; Alex Ferns; Fala Chen,...",1,new DateTime(2024,3,29, 10, 15, 0)},
 
  {3,"KUNG FU PANDA 4",
  "Sau khi Po được chọn trở thành Thủ lĩnh tinh thần của Thung lũng Bình Yên, Po cần tìm và huấn luyện một Chiến binh Rồng mới, trong khi đó một mụ phù thủy độc ác lên kế hoạch triệu hồi lại tất cả những kẻ phản diện mà Po đã đánh bại về cõi linh hồn.",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/4/7/470x700-kungfupanda4.jpg",
  "https://youtu.be/egkeFvm26pc",
- "Mike Mitchell","Tiếng Anh - Phụ đề Tiếng Việt; Lồng tiếng","P - Phim được phép phổ biến đến người xem ở mọi độ tuổi.",94,"Jack Black, Dustin Hoffman, James Hong, Awkwafina, ...",7,3},
+ "Mike Mitchell","Tiếng Anh - Phụ đề Tiếng Việt; Lồng tiếng","P - Phim được phép phổ biến đến người xem ở mọi độ tuổi.",94,"Jack Black, Dustin Hoffman, James Hong, Awkwafina, ...",7,new DateTime(2024,3,8, 10, 15, 0)},
 
  {4,"THANH XUÂN 18x2: LỮ TRÌNH HƯỚNG VỀ EM",
  "Ký ức tình đầu ùa về khi Jimmy nhận được tấm bưu thiếp từ Ami. Cậu quyết định một mình bước lên chuyến tàu đến Nhật Bản gặp lại người con gái cậu đã bỏ lỡ 18 năm trước. Mối tình day dứt thời thanh xuân, liệu sẽ có một kết cục nào tốt đẹp khi đoàn tụ?",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/7/0/700x1000_exhuma-min.jpg",
  "https://youtu.be/8Pq08VsVUFk",
  "Fujii Michihito","Tiếng Nhật & Tiếng Trung Quốc với phụ đề Tiếng Việt và Tiếng Anh","T13 - Phim được phổ biến đến người xem từ đủ 13 tuổi trở lên (13+)",123,
-                        " Greg Hsu, Kaya Kiyohara, Chang Chen, Kuroki Hitomi, Michieda Shunsuke,...",9,4},
+                        " Greg Hsu, Kaya Kiyohara, Chang Chen, Kuroki Hitomi, Michieda Shunsuke,...",9,new DateTime(2024,4,12, 10, 15, 0)},
 
  {5,"EXHUMA: QUẬT MỘ TRÙNG MA",
  "Hai pháp sư, một thầy phong thuỷ và một chuyên gia khâm liệm cùng hợp lực khai quật ngôi mộ bị nguyền rủa của một gia đình giàu có, nhằm cứu lấy sinh mạng hậu duệ cuối cùng trong dòng tộc. Bí mật hắc ám của tổ tiên được đánh thức.",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/1800x/71252117777b696995f01934522c402d/7/0/700x1000-exhuma.jpg",
  "https://youtu.be/7LH-TIcPqks",
-"Jang Jae Hyun","Tiếng Hàn - Phụ đề Tiếng Anh & Tiếng Việt","T16 - Phim được phổ biến đến người xem từ đủ 16 tuổi trở lên (16+)",133,"Choi Min Sik, Yoo Hai Jin, Kim Go Eun, Lee Do Hyun,...",4,5},
+"Jang Jae Hyun","Tiếng Hàn - Phụ đề Tiếng Anh & Tiếng Việt","T16 - Phim được phổ biến đến người xem từ đủ 16 tuổi trở lên (16+)",133,"Choi Min Sik, Yoo Hai Jin, Kim Go Eun, Lee Do Hyun,...",4,new DateTime(2024,3,15,10, 15,0)},
 
  {6,"KẺ TRỘM MẶT TRĂNG 4",
  "Gru phải đối mặt với kẻ thù mới là Maxime Le Mal và Valentina đang lên kế hoạch trả thù anh, buộc gia đình anh phải lẩn trốn đi nơi khác. Bên cạnh việc đấu tranh bảo vệ gia đình, Gru đồng thời còn phải tìm ra điểm chung với thành viên mới nhất trong nhà đó là Gru Jr.",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/d/m/dm4_teaser_700x1000.jpg",
  "https://youtu.be/GTupBD8M3yw",
-"Chris Renaud","Tiếng Anh - Phụ đề Tiếng Việt; Lồng tiếng","PG - Cha mẹ nên có hướng dẫn cho con khi xem ",0,"Steve Carell, Kristen Wiig, Joey King,...",7,6},
+"Chris Renaud","Tiếng Anh - Phụ đề Tiếng Việt; Lồng tiếng","PG - Cha mẹ nên có hướng dẫn cho con khi xem ",0,"Steve Carell, Kristen Wiig, Joey King,...",7,new DateTime(2024,7,5,10, 15,0)},
 
  {7,"PHIM ĐIỆN ẢNH DORAEMON: NOBITA VÀ BẢN GIAO HƯỞNG ĐỊA CẦU",
  "TÁC PHẨM KỶ NIỆM 90 NĂM FUJIKO F FUJIO Chuẩn bị cho buổi hòa nhạc ở trường, Nobita đang tập thổi sáo - nhạc cụ mà cậu dở tệ. Thích thú trước nốt \"No\" lạc quẻ của Nobita, Micca - cô bé bí ẩn đã mời Doraemon, Nobita cùng nhóm bạn đến \"Farre\" - Cung điện âm nhạc tọa lạc trên một hành tinh nơi âm nhạc sẽ hóa thành năng lượng. Nhằm cứu cung điện này, Micca đang tìm kiếm \"virtuoso\" - bậc thầy âm nhạc sẽ cùng mình biểu diễn! Với bảo bối thần kì \"chứng chỉ chuyên viên âm nhạc\", Doraemon và các bạn đã chọn nhạc cụ, cùng Micca hòa tấu, từng bước khôi phục cung điện. Tuy nhiên, một vật thể sống đáng sợ sẽ xóa số âm nhạc khỏi thế giới đang đến gần, Trái Đất đang rơi vào nguy hiểm... ! Liệu những người bạn nhỏ có thể cứu được \"tương lai âm nhạc\" và cả địa cầu này?",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/1800x/71252117777b696995f01934522c402d/m/a/main_poster_-_dmmovie2023_1.jpg",
  "https://youtu.be/Yug8gbDd5EQ",
- "Kazuaki Imai","Tiếng Nhật - Phụ đề Tiếng Việt; Lồng tiếng","G - Phim dành cho mọi lứa tuổi",115,"Wasabi Mizuta, Megumi Ôhara, Yumi Kakazu...",7,7},
+ "Kazuaki Imai","Tiếng Nhật - Phụ đề Tiếng Việt; Lồng tiếng","G - Phim dành cho mọi lứa tuổi",115,"Wasabi Mizuta, Megumi Ôhara, Yumi Kakazu...",7,new DateTime(2024,5,24,10, 15,0)},
 
  {8,"TAROT 2024",
  "Bộ phim sẽ là hành trình theo chân một nhóm bạn đại học sau khi sử dụng một bộ bài tarot bí ẩn, từng người trong nhóm đã ra đi theo những cách kì lạ và có liên quan đến lá bài mà họ bốc. Trước khi hết thời gian, họ đã cùng nhau hợp tác để khám phá ra bí ẩn đằng sau bộ bài kí bí ấy. Bạn sẽ nhìn thấy ai khi trút hơi thở cuối cùng?",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/7/0/700x1000-tarot.jpg",
  "https://youtu.be/mqiEnk8Lrco",
-"Spenser Cohen","Tiếng Anh - Phụ đề Tiếng Việt","T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)",160,"Avantika, Jacob Batalon, Olwen Fouéré,...",4,8},
+"Spenser Cohen","Tiếng Anh - Phụ đề Tiếng Việt","T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)",160,"Avantika, Jacob Batalon, Olwen Fouéré,...",4,new DateTime(2024,5,3,10, 15,0)},
 
  {9,"CÁI GIÁ CỦA HẠNH PHÚC",
  "Bà Dương và ông Thoại luôn cố gắng để xây dựng một hình ảnh gia đình tài giỏi và danh giá trong mắt mọi người. Tuy nhiên dưới lớp vỏ bọc hào nhoáng ấy là những biến cố và lục đục gia đình đầy sóng gió. Nhìn kĩ hơn một chút bức tranh gia đình hạnh phúc ấy, rất nhiều \"khuyết điểm\" sẽ lộ ra gây bất ngờ.",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/7/0/700x1000-cghp-min.jpg",
  "https://youtu.be/79BznZKQwIQ",
 "Nguyễn Ngọc Lâm","Tiếng Việt - Phụ đề Tiếng Anh","T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)",115,
-                        " Xuân Lan, Thái Hoà, Lâm Thanh Nhã, Uyển Ân, Hữu Châu, Trâm Anh, Trương Thanh Long, Quang Minh, Bé Quyên,...",9,9},
+                        " Xuân Lan, Thái Hoà, Lâm Thanh Nhã, Uyển Ân, Hữu Châu, Trâm Anh, Trương Thanh Long, Quang Minh, Bé Quyên,...",9,new DateTime(2024,4,29, 10, 15,0)},
 
  {10,"MAI",
  "\"Mai\" xoay quanh cuộc đời của một người phụ nữ đẹp tên Mai có số phận rất đặc biệt. Bởi làm nghề mát xa, Mai thường phải đối mặt với ánh nhìn soi mói, phán xét từ những người xung quanh. Và rồi Mai gặp Dương - chàng trai đào hoa lãng tử. Những tưởng bản thân không còn thiết tha yêu đương và mưu cầu hạnh phúc cho riêng mình thì khao khát được sống một cuộc đời mới trong Mai trỗi dậy khi Dương tấn công cô không khoan nhượng. Họ cho mình những khoảnh khắc tự do, say đắm và tràn đầy tiếng cười. Liệu cặp đôi ấy có nắm giữ được niềm hạnh phúc đó dài lâu khi miệng đời lắm khi cay nghiệt, bất công? \"Mai\" - một câu chuyện tâm lý, tình cảm pha lẫn nhiều tràng cười vui nhộn với sự đầu tư mạnh tay nhất trong ba phim của Trấn Thành hứa hẹn sẽ đem đến cho khán giả những phút giây thật sự ý nghĩa trong mùa Tết năm nay.",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/m/a/mai_teaser_poster_digital_1_.jpg",
  "https://youtu.be/HXWRTGbhb4U",
 "Trấn Thành","Tiếng Việt - Phụ đề Tiếng Anh","T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)",131,
- "Phương Anh Đào, Tuấn Trần, Trấn Thành, Uyển Ân, Hồng Đào, NSND Việt Anh, NSND Ngọc Giàu, Khả Như, Quốc Khánh, Anh Thư, Lý Hạo Mạnh Quỳnh, Anh Đức, Anh Phạm, Lộ Lộ, Kiều Linh, Ngọc Nga, Thanh Hằng, Ngọc Nguyễn, Hoàng Mèo, Mạnh Lân,...",6,10},
+ "Phương Anh Đào, Tuấn Trần, Trấn Thành, Uyển Ân, Hồng Đào, NSND Việt Anh, NSND Ngọc Giàu, Khả Như, Quốc Khánh, Anh Thư, Lý Hạo Mạnh Quỳnh, Anh Đức, Anh Phạm, Lộ Lộ, Kiều Linh, Ngọc Nga, Thanh Hằng, Ngọc Nguyễn, Hoàng Mèo, Mạnh Lân,...",6,new DateTime(2024,2,10,10, 15,0)},
 
  {11,"NGÀY TÀN CỦA ĐẾ QUỐC",
  "Trong một tương lai gần, một nhóm các phóng viên chiến trường quả cảm phải đấu tranh với thời gian và bom đạn nguy hiểm để đến kịp Nhà Trắng giữa bối cảnh nội chiến Hoa Kỳ đang tiến đến cao trào.",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/1800x/71252117777b696995f01934522c402d/k/t/kt_facebook.jpg",
  "https://youtu.be/QGlgPf9jGMA",
-"Alex Garland","Tiếng Anh - Phụ đề Tiếng Việt","T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)",109,"Kirsten Dunst, Wagner Moura, Cailee Spaeny,…",1,11},
+"Alex Garland","Tiếng Anh - Phụ đề Tiếng Việt","T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)",109,"Kirsten Dunst, Wagner Moura, Cailee Spaeny,…",1,new DateTime(2024,4,12,10, 15,0)},
 
  {12,"MÙA HÈ CỦA LUCA",
  "\"Mùa Hè Của Luca\" kể về chuyến hành trình của cậu bé Luca tại hòn đảo Portorosso thuộc vùng biển Địa Trung Hải ở Ý tuyệt đẹp. Ở đây cậu đã làm quen và kết thân với những người bạn nhỏ mới và tận hưởng mùa hè đầy nắng, kem Gelato và cả món mì Ý trứ danh. Tuy nhiên có một điều không ổn lắm, Luca là một THỦY QUÁI và những người dân trên hòn đảo này lại không thích điều này chút nào.",
  "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/r/s/rsz_1200x1800_2.jpg",
  "https://youtu.be/FzV3gRevq4Q",
 "Enrico Casarosa","Tiếng Anh với phụ đề tiếng Việt, lồng tiếng","P - Phim được phép phổ biến đến người xem ở mọi độ tuổi.",99,
-                        "(Lồng tiếng): Jacob Tremblay, Jack Dylan Grazer, Emma Berman, Saverio Raimondo, Maya Rudolph, Marco Barricelli, Jim Gaffigan, Sandy Martin,...",7,12}
+                        "(Lồng tiếng): Jacob Tremblay, Jack Dylan Grazer, Emma Berman, Saverio Raimondo, Maya Rudolph, Marco Barricelli, Jim Gaffigan, Sandy Martin,...",7,new DateTime(2024,4,18,10, 15,0)}
                 });
 
             migrationBuilder.InsertData(

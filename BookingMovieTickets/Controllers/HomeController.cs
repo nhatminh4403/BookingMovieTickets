@@ -3,6 +3,7 @@ using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
@@ -10,7 +11,7 @@ using System.Diagnostics;
 
 namespace BookingMovieTickets.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<UserInfo> _userManager;
@@ -18,13 +19,12 @@ namespace BookingMovieTickets.Controllers
         private readonly I_FilmRepository _filmRepository;
         private readonly I_Seat _seatRepo;
         private readonly BookingMovieTicketsDBContext _dbContext;
-        private readonly I_PremiereTime _premiereTimeRepo;
         private readonly I_Schedule _scheduleRepo;
         private readonly I_TheatreRoom _theatreRoomRepo;
         private readonly I_Theater _TheaterRepo;
 
         public HomeController(ILogger<HomeController> logger, UserManager<UserInfo> userManager, I_FilmCategoryRepository filmCategoryRepository, I_FilmRepository filmRepository,
-            I_PremiereTime premiereTime, I_Seat seatRepo, I_Schedule scheduleRepo, I_TheatreRoom theatreRoomRepo, I_Theater theaterRepo, BookingMovieTicketsDBContext dbContext)
+             I_Seat seatRepo, I_Schedule scheduleRepo, I_TheatreRoom theatreRoomRepo, I_Theater theaterRepo, BookingMovieTicketsDBContext dbContext ) : base(dbContext)
         {
             _logger = logger;
             _userManager = userManager;
@@ -32,10 +32,11 @@ namespace BookingMovieTickets.Controllers
             _seatRepo = seatRepo;
             _scheduleRepo = scheduleRepo;
             _filmCategoryRepository = filmCategoryRepository;
-            _premiereTimeRepo = premiereTime;
+            
             _theatreRoomRepo = theatreRoomRepo;
             _TheaterRepo = theaterRepo;
             _dbContext = dbContext;
+            
         }
 
         public async Task<IActionResult> Index()
@@ -44,7 +45,6 @@ namespace BookingMovieTickets.Controllers
             var categories = await _filmCategoryRepository.GetAllAsync();
             var seats = await _seatRepo.GetAllSeatAsync();
             var schedules = await _scheduleRepo.GetAllAsync();
-            var premiere = await _premiereTimeRepo.GetAllAsync();
             var rooms = await _theatreRoomRepo.GetAllRoomAsync();
             var theaters = await _TheaterRepo.GetAllAsync();
             var filmVM = new FilmVM
@@ -53,12 +53,12 @@ namespace BookingMovieTickets.Controllers
                 FilmCategories = categories,
                 Seats = seats,
                 FilmSchedules = schedules,
-                PremiereTime = premiere,
                 TheatreRooms = rooms,
                 Theatres = theaters
             };
 
             ViewData["LayoutModel"] = filmVM;
+            ViewBag.FindFilmsByCategory = new SelectList(categories, "FilmCategoryId", "Name");
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
@@ -76,7 +76,7 @@ namespace BookingMovieTickets.Controllers
 
         public async Task<IActionResult> FilmDetailView(int id)
         {
-            var film = await _dbContext.Films.Include(p => p.FilmCategory).Include(p => p.PremiereTimes).Include(f => f.FilmSchedules).ThenInclude(fs => fs.TheatreRoom)
+            var film = await _dbContext.Films.Include(p => p.FilmCategory).Include(f => f.FilmSchedules).ThenInclude(fs => fs.TheatreRoom)
                                              .ThenInclude(tr => tr.Theatre)
                                      .FirstOrDefaultAsync(f => f.FilmId == id);
             if (film == null)
@@ -99,20 +99,27 @@ namespace BookingMovieTickets.Controllers
                     return View(room);
                 }
             }
-
             return NotFound();
         }
-
         public async Task<IActionResult> AllFilm()
         {
-            var film = await _filmRepository.GetAllAsync();
-
-            if (film == null)
+            var films = await _filmRepository.GetAllAsync();
+            var categories = await _filmCategoryRepository.GetAllAsync();
+            var seats = await _seatRepo.GetAllSeatAsync();
+            var schedules = await _scheduleRepo.GetAllAsync();
+            var rooms = await _theatreRoomRepo.GetAllRoomAsync();
+            var theaters = await _TheaterRepo.GetAllAsync();
+            var filmVM = new FilmVM
             {
-                return NotFound();
-            }
+                Films = films,
+                FilmCategories = categories,
+                Seats = seats,
+                FilmSchedules = schedules,
 
-            return View(film);
+                TheatreRooms = rooms,
+                Theatres = theaters
+            };
+            return View(filmVM);
         }
 
 
@@ -126,7 +133,6 @@ namespace BookingMovieTickets.Controllers
             var categories = await _filmCategoryRepository.GetAllAsync();
             var seats = await _seatRepo.GetAllSeatAsync();
             var schedules = await _scheduleRepo.GetAllAsync();
-            var premiere = await _premiereTimeRepo.GetAllAsync();
             var rooms = await _theatreRoomRepo.GetAllRoomAsync();
             var theaters = await _TheaterRepo.GetAllAsync();
             var filmVM = new FilmVM
@@ -135,14 +141,18 @@ namespace BookingMovieTickets.Controllers
                 FilmCategories = categories,
                 Seats = seats,
                 FilmSchedules = schedules,
-                PremiereTime = premiere,
+
                 TheatreRooms = rooms,
                 Theatres = theaters
             };
-
+            
             ViewBag.Categoryid = categoryID.Name;
             ViewData["LayoutModel"] = filmVM;
             return View(filmVM);
+        }
+        public IActionResult FAQs()
+        {
+            return View();
         }
         public IActionResult Privacy()
         {
