@@ -1,6 +1,7 @@
 using BookingMovieTickets.Models;
 using BookingMovieTickets.Repository.EF;
 using BookingMovieTickets.Repository.Interface;
+using BookingMovieTickets.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
@@ -52,6 +53,8 @@ builder.Services.ConfigureApplicationCookie(option =>
     option.LogoutPath = $"/Identity/Account/AccessDenied";
 
 });
+
+builder.Services.AddSingleton<IVnPayService, VnPayService>();
 
 var app = builder.Build();
 
