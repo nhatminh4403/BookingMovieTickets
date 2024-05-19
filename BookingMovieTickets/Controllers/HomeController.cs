@@ -40,7 +40,17 @@ namespace BookingMovieTickets.Controllers
             _dbContext = dbContext;
             
         }
+        public async Task<IActionResult> UpcomingFilm()
+        {
+            var upcoming = await _dbContext.Films.Where(p => p.StartTime > DateTime.UtcNow).ToListAsync();
 
+            return View(upcoming);
+        }
+        public async Task<IActionResult> phim_dang_chieu()
+        {
+            var whatNow = await _dbContext.Films.Where(p => p.StartTime <= DateTime.UtcNow).ToListAsync();
+            return View(whatNow);
+        }
         public async Task<IActionResult> Index()
         {
             var films = await _filmRepository.GetAllAsync();

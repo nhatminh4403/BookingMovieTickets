@@ -209,16 +209,17 @@
 
                                 <li class="sidebar-list">
                                     <a class="sidebar-link sidebar-title link-nav" asp-action="Index"
-                                       asp-controller="CustomerAccount" asp-area="Admin">
+                                       asp-controller="Schedule" asp-area="Admin">
                                         <i data-feather="box"></i>
-                                        <span>Quản lý tài khoản</span>
+                                        <span>Lịch chiếu</span>
                                     </a>
                                 </li>
 
                                 <li class="sidebar-list">
-                                    <a class="sidebar-link sidebar-title link-nav" href="~/Admin/Invoices">
+                                    <a class="sidebar-link sidebar-title link-nav" asp-action="Index"
+                                       asp-controller="CustomerAccount" asp-area="Admin">
                                         <i data-feather="archive"></i>
-                                        <span>Đơn hàng</span>
+                                        <span>Quản lý tài khoản</span>
                                     </a>
                                 </li>
 

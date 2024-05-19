@@ -13,7 +13,7 @@ using Website_Selling_Computer.Session;
 
 namespace BookingMovieTickets.Controllers
 {
-    
+    [Authorize]
     public class BookingTicketController : Controller
     {
         private readonly I_Cart _cartRepo;

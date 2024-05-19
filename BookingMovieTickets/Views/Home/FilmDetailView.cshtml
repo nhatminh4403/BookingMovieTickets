@@ -34,11 +34,14 @@
                 <div class="col-sm-6 col-md-8">
                     <p class="movie__time">
                         @{
+
                             int durationInMinutes = Model.FilmDuration;
                             int hours = durationInMinutes / 60;
                             int minutes = durationInMinutes % 60;
+                            string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút ({Model.FilmDuration} phút)";
                         }
-                        @hours giờ @minutes phút (@Model.FilmDuration phút)
+                        
+                        @durationText
                     </p>
 
                     <p class="movie__option"><strong>Thể loại: </strong><a href="#">@Model.FilmCategory.Name</a>

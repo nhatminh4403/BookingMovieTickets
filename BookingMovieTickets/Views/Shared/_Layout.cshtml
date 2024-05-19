@@ -59,7 +59,36 @@
 </head>
 
 <body>
+    <style>
+        .translucent-input {
+            background-color: rgba(255, 255, 255, 0.5); /* White with 50% opacity */
+            border: 2px solid #000; /* Black border */
+            color: #000; /* Text color */
+            padding: 10px;
+            border-radius: 5px;
+            outline: none;
+            font-size: 1em; /* Larger text size */
+        }
 
+            .translucent-input::placeholder {
+                color: white; /* Placeholder text color */
+                font-size: 1em; /* Placeholder text size */
+            }
+
+            .translucent-input::before {
+                content: attr(aria-label);
+                position: absolute;
+                top: -20px; /* Adjust as needed */
+                left: 10px; /* Adjust as needed */
+                color: white;
+                font-size: 12px; /* Adjust as needed */
+                transition: color 0.3s;
+            }
+
+            .translucent-input:focus::before {
+                color: black;
+            }
+    </style>
  <div id="toast"></div>
     <form id="logoutForm" style="display:none;" method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"></form>
 
@@ -98,7 +127,14 @@
                         <li>
                             <span class="sub-nav-toggle plus"></span>
                             <a asp-controller="Home" asp-action="AllFilm">Phim</a>                           
-
+                            <ul>
+                                <li class="menu__nav-item">
+                                    <a asp-controller="Home" asp-action="UpcomingFilm">Phim sấp chiếu</a>
+                                </li>
+                                <li class="menu__nav-item">
+                                    <a asp-controller="Home" asp-action="phim_dang_chieu">Phim đang chiếu</a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li>
@@ -114,7 +150,7 @@
                         <li>
                             <form action="/Home/SearchByName" method="get" class="">
                                 <div class="input-group mb-3">
-                                    <input type="text" name="film" class="form-control" placeholder="Từ khóa tìm kiếm" aria-label="Từ khóa tìm kiếm" aria-describedby="basic-addon2" style="width: 300px;height:35px;flex-shrink:inherit" >
+                                    <input type="text" name="film" class="form-control translucent-input " placeholder="Từ khóa tìm kiếm" aria-label="Từ khóa tìm kiếm" aria-describedby="basic-addon2" style="width: 300px;height:35px;flex-shrink:inherit" >
                                     <button type="submit" class="input-group-text" id="basic-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
                                 </div>
                             </form>
