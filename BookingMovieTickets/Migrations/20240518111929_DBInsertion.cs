@@ -247,7 +247,7 @@ values: new object[,]
 
 
                 });
-           
+
             migrationBuilder.InsertData(
                 table: "Films",
                 columns: new[] { "FilmId", "NameFilm", "Description", "PosterUrl", "TrailerUrl",
