@@ -1,11 +1,14 @@
 ﻿
 using BookingMovieTickets.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
 
 namespace BookingMovieTickets.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = UserRole.Role_Admin)]
     public class SeatController : Controller
     {
         private readonly I_TheatreRoom _TheatreRoomRepository;

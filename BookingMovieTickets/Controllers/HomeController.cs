@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
+using System.Collections.Generic;
 using System.Diagnostics;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BookingMovieTickets.Controllers
 {
@@ -38,7 +40,17 @@ namespace BookingMovieTickets.Controllers
             _dbContext = dbContext;
             
         }
+        public async Task<IActionResult> UpcomingFilm()
+        {
+            var upcoming = await _dbContext.Films.Where(p => p.StartTime > DateTime.UtcNow).ToListAsync();
 
+            return View(upcoming);
+        }
+        public async Task<IActionResult> phim_dang_chieu()
+        {
+            var whatNow = await _dbContext.Films.Where(p => p.StartTime <= DateTime.UtcNow).ToListAsync();
+            return View(whatNow);
+        }
         public async Task<IActionResult> Index()
         {
             var films = await _filmRepository.GetAllAsync();
@@ -122,7 +134,13 @@ namespace BookingMovieTickets.Controllers
             return View(filmVM);
         }
 
+        public async Task<IActionResult> SearchByName(string film)
+        {
 
+            var name = await _filmRepository.FindByNameAsync(film);
+            
+            return View("SearchByName", name);
+        }
         public async Task<IActionResult> SortFilmsByCategories(int id)
         {
 

@@ -1,110 +1,145 @@
 ﻿@model BookingMovieTickets.VIewModel.FilmVM
+@using BookingMovieTickets.Extensions
 @{
     ViewData["Title"] = "Home Page";
     var listMovies = ViewBag.Movies;
     var listMoviesCategories = ViewBag.MoviesCategories;
-    int dem = 0;
-}   
+    var shuffledHotFilm = Model.Films.Shuffle().Where(film=>film.StartTime<= DateTime.UtcNow).Distinct().Take(6).ToList();
+    var shuffledFilm = Model.Films.Shuffle().Distinct().Take(6);
+}  
+<style>
+    .select__group.film-category {
+        max-height: 200px;
+        overflow-y: auto; 
+        border: 1px solid #ccc;
+        padding: 0; 
+        margin: 0; 
+        list-style-type: none; 
+    }
+
+        .select__group.film-category .select__variant.category {
+            padding: 10px; 
+            border-bottom: 1px solid #eee; 
+        }
+
+            .select__group.film-category .select__variant.category:last-child {
+                border-bottom: none; 
+            }
+
+
+        .select__group.film-category::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .select__group.film-category::-webkit-scrollbar-thumb {
+            background-color: #888; 
+            border-radius: 10px; 
+        }
+
+            .select__group.film-category::-webkit-scrollbar-thumb:hover {
+                background-color: #555; 
+            }
+</style>
 @if (!User.IsInRole("Admin"))
 {
     <div class="bannercontainer">
         <div class="banner">
             <ul>
                 <li data-transition="fade"
-                    data-slotamount="7"
-                    class="slide"
-                    data-slide="Rush.">
+                data-slotamount="7"
+                class="slide"
+                data-slide="Rush.">
                     <img alt="" src="images/slides/first-slide.jpg" />
                     <div class="caption slide__name margin-slider"
-                         data-x="right"
-                         data-y="80"
-                         data-splitin="chars"
-                         data-elementdelay="0.1"
-                         data-speed="700"
-                         data-start="1400"
-                         data-easing="easeOutBack"
-                         data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:50% 50%;"
-                         data-frames="{ typ :lines;
-                                                     elementdelay :0.1;
-                                                     start:1650;
-                                                     speed:500;
-                                                     ease:Power3.easeOut;
-                                                     animation:x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:1;transformPerspective:600;transformOrigin:50% 50%;
-                                                     },
-                                                     { typ :lines;
-                                                     elementdelay :0.1;
-                                                     start:2150;
-                                                     speed:500;
-                                                     ease:Power3.easeOut;
-                                                     animation:x:0;y:0;z:0;rotationX:00;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:1;transformPerspective:600;transformOrigin:50% 50%;
-                                                     }
-                                                     "
-                         data-splitout="lines"
-                         data-endelementdelay="0.1"
-                         data-customout="x:-230;y:0;z:0;rotationX:0;rotationY:0;rotationZ:90;scaleX:0.2;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%"
-                         data-endspeed="500"
-                         data-end="8400"
-                         data-endeasing="Back.easeIn">
+                    data-x="right"
+                    data-y="80"
+                    data-splitin="chars"
+                    data-elementdelay="0.1"
+                    data-speed="700"
+                    data-start="1400"
+                    data-easing="easeOutBack"
+                    data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:50% 50%;"
+                    data-frames="{ typ :lines;
+                    elementdelay :0.1;
+                    start:1650;
+                    speed:500;
+                    ease:Power3.easeOut;
+                    animation:x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:1;transformPerspective:600;transformOrigin:50% 50%;
+                    },
+                    { typ :lines;
+                    elementdelay :0.1;
+                    start:2150;
+                    speed:500;
+                    ease:Power3.easeOut;
+                    animation:x:0;y:0;z:0;rotationX:00;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:1;transformPerspective:600;transformOrigin:50% 50%;
+                    }
+                    "
+                    data-splitout="lines"
+                    data-endelementdelay="0.1"
+                    data-customout="x:-230;y:0;z:0;rotationX:0;rotationY:0;rotationZ:90;scaleX:0.2;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%"
+                    data-endspeed="500"
+                    data-end="8400"
+                    data-endeasing="Back.easeIn">
                         RUSH
                     </div>
 
                     <div class="caption slide__time margin-slider sfr str"
-                         data-x="right"
-                         data-hoffset="-243"
-                         data-y="186"
-                         data-speed="300"
-                         data-start="2100"
-                         data-easing="easeOutBack"
-                         data-endspeed="300"
-                         data-end="8700"
-                         data-endeasing="Back.easeIn">
+                    data-x="right"
+                    data-hoffset="-243"
+                    data-y="186"
+                    data-speed="300"
+                    data-start="2100"
+                    data-easing="easeOutBack"
+                    data-endspeed="300"
+                    data-end="8700"
+                    data-endeasing="Back.easeIn">
                         From
                     </div>
                     <div class="caption slide__date margin-slider lfb ltb"
-                         data-x="right"
-                         data-hoffset="-149"
-                         data-y="186"
-                         data-speed="500"
-                         data-start="2400"
-                         data-easing="Power4.easeOut"
-                         data-endspeed="400"
-                         data-end="8200"
-                         data-endeasing="Back.easeIn">
+                    data-x="right"
+                    data-hoffset="-149"
+                    data-y="186"
+                    data-speed="500"
+                    data-start="2400"
+                    data-easing="Power4.easeOut"
+                    data-endspeed="400"
+                    data-end="8200"
+                    data-endeasing="Back.easeIn">
                         October 18
                     </div>
                     <div class="caption slide__time margin-slider sfr str"
-                         data-x="right"
-                         data-hoffset="-113"
-                         data-y="186"
-                         data-speed="300"
-                         data-start="2100"
-                         data-easing="easeOutBack"
-                         data-endspeed="300"
-                         data-end="8700"
-                         data-endeasing="Back.easeIn">
+                    data-x="right"
+                    data-hoffset="-113"
+                    data-y="186"
+                    data-speed="300"
+                    data-start="2100"
+                    data-easing="easeOutBack"
+                    data-endspeed="300"
+                    data-end="8700"
+                    data-endeasing="Back.easeIn">
                         - till
                     </div>
                     <div class="caption slide__date margin-slider lfb ltb"
-                         data-x="right"
-                         data-y="186"
-                         data-speed="500"
-                         data-start="2800"
-                         data-easing="Power4.easeOut"
-                         data-endspeed="400"
-                         data-end="8200"
-                         data-endeasing="Back.easeIn">
+                    data-x="right"
+                    data-y="186"
+                    data-speed="500"
+                    data-start="2800"
+                    data-easing="Power4.easeOut"
+                    data-endspeed="400"
+                    data-end="8200"
+                    data-endeasing="Back.easeIn">
                         November 01
                     </div>
                     <div class="caption slide__text margin-slider customin customout"
-                         data-x="right"
-                         data-y="250"
-                         data-customin="x:0;y:100;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:3;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
-                         data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
-                         data-speed="400"
-                         data-start="3000"
-                         data-endspeed="400"
-                         data-end="8000"
-                         data-endeasing="Back.easeIn">
+                    data-x="right"
+                    data-y="250"
+                    data-customin="x:0;y:100;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:3;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
+                    data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
+                    data-speed="400"
+                    data-start="3000"
+                    data-endspeed="400"
+                    data-end="8000"
+                    data-endeasing="Back.easeIn">
                         Two-time Academy Award winner Ron Howard, teams once again with
                         fellow two-time Academy<br />
                         Award nominee, writer Peter Morgan , on Rush, a spectacular
@@ -112,35 +147,35 @@
                         1970s rivalry between James Hunt and Niki Lauda.
                     </div>
                     <div class="caption margin-slider skewfromright customout"
-                         data-x="right"
-                         data-y="324"
-                         data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
-                         data-speed="400"
-                         data-start="3300"
-                         data-easing="Power4.easeOut"
-                         data-endspeed="300"
-                         data-end="7700"
-                         data-endeasing="Power4.easeOut">
+                    data-x="right"
+                    data-y="324"
+                    data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
+                    data-speed="400"
+                    data-start="3300"
+                    data-easing="Power4.easeOut"
+                    data-endspeed="300"
+                    data-end="7700"
+                    data-endeasing="Power4.easeOut">
                         <a href="#" class="slide__link">check out cinemas &amp; time</a>
                     </div>
                 </li>
 
                 <li data-transition="fade"
-                    data-slotamount="7"
-                    class="slide fading-slide"
-                    data-slide="Travel worldwide.
-    Create trip film.">
+                data-slotamount="7"
+                class="slide fading-slide"
+                data-slide="Travel worldwide.
+                Create trip film.">
                     <img alt="" src="images/bg-video.jpg" />
                     <div class="caption slide__video"
-                         data-x="0"
-                         data-y="0"
-                         data-autoplay="true">
+                    data-x="0"
+                    data-y="0"
+                    data-autoplay="true">
                         <video class="media-element"
-                               autoplay="autoplay"
-                               preload="none"
-                               loop="loop"
-                               muted=""
-                               src="video/TravelIs.mp4">
+                        autoplay="autoplay"
+                        preload="none"
+                        loop="loop"
+                        muted=""
+                        src="video/TravelIs.mp4">
                             <source type="video/webm" src="video/TravelIs.webm" />
                             <source type="video/mp4" src="video/TravelIs.mp4" />
                             <source type="video/ogg" src="video/TravelIs.ogv" />
@@ -148,134 +183,134 @@
                     </div>
 
                     <div class="caption slide__name slide__name--smaller"
-                         data-x="left"
-                         data-y="160"
-                         data-splitin="chars"
-                         data-elementdelay="0.1"
-                         data-speed="700"
-                         data-start="1400"
-                         data-easing="easeOutBack"
-                         data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:50% 50%;"
-                         data-frames="{ typ :lines;
-                                                     elementdelay :0.1;
-                                                     start:1650;
-                                                     speed:500;
-                                                     ease:Power3.easeOut;
-                                                     animation:x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:1;transformPerspective:600;transformOrigin:50% 50%;
-                                                     },
-                                                     { typ :lines;
-                                                     elementdelay :0.1;
-                                                     start:2150;
-                                                     speed:500;
-                                                     ease:Power3.easeOut;
-                                                     animation:x:0;y:0;z:0;rotationX:00;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:1;transformPerspective:600;transformOrigin:50% 50%;
-                                                     }
-                                                     "
-                         data-splitout="lines"
-                         data-endelementdelay="0.1"
-                         data-customout="x:-230;y:0;z:0;rotationX:0;rotationY:0;rotationZ:90;scaleX:0.2;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%"
-                         data-endspeed="500"
-                         data-endeasing="Back.easeIn">
+                    data-x="left"
+                    data-y="160"
+                    data-splitin="chars"
+                    data-elementdelay="0.1"
+                    data-speed="700"
+                    data-start="1400"
+                    data-easing="easeOutBack"
+                    data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:50% 50%;"
+                    data-frames="{ typ :lines;
+                    elementdelay :0.1;
+                    start:1650;
+                    speed:500;
+                    ease:Power3.easeOut;
+                    animation:x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:1;transformPerspective:600;transformOrigin:50% 50%;
+                    },
+                    { typ :lines;
+                    elementdelay :0.1;
+                    start:2150;
+                    speed:500;
+                    ease:Power3.easeOut;
+                    animation:x:0;y:0;z:0;rotationX:00;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:1;transformPerspective:600;transformOrigin:50% 50%;
+                    }
+                    "
+                    data-splitout="lines"
+                    data-endelementdelay="0.1"
+                    data-customout="x:-230;y:0;z:0;rotationX:0;rotationY:0;rotationZ:90;scaleX:0.2;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%"
+                    data-endspeed="500"
+                    data-endeasing="Back.easeIn">
                         Travel, Admire, Remember.
                     </div>
 
                     <div class="caption slide__time position-center postion-place--one sfr stl"
-                         data-x="left"
-                         data-y="242"
-                         data-speed="300"
-                         data-start="2100"
-                         data-easing="easeOutBack"
-                         data-endspeed="300"
-                         data-endeasing="Back.easeIn">
+                    data-x="left"
+                    data-y="242"
+                    data-speed="300"
+                    data-start="2100"
+                    data-easing="easeOutBack"
+                    data-endspeed="300"
+                    data-endeasing="Back.easeIn">
                         From
                     </div>
                     <div class="caption slide__date position-center postion-place--two lfb ltb"
-                         data-x="left"
-                         data-y="242"
-                         data-speed="500"
-                         data-start="2400"
-                         data-easing="Power4.easeOut"
-                         data-endspeed="400"
-                         data-endeasing="Back.easeIn">
+                    data-x="left"
+                    data-y="242"
+                    data-speed="500"
+                    data-start="2400"
+                    data-easing="Power4.easeOut"
+                    data-endspeed="400"
+                    data-endeasing="Back.easeIn">
                         April 18
                     </div>
                     <div class="caption slide__time position-center postion-place--three sfr stl"
-                         data-x="left"
-                         data-y="242"
-                         data-speed="300"
-                         data-start="2100"
-                         data-easing="easeOutBack"
-                         data-endspeed="300"
-                         data-endeasing="Back.easeIn">
+                    data-x="left"
+                    data-y="242"
+                    data-speed="300"
+                    data-start="2100"
+                    data-easing="easeOutBack"
+                    data-endspeed="300"
+                    data-endeasing="Back.easeIn">
                         - till
                     </div>
                     <div class="caption slide__date position-center postion-place--four lfb ltb"
-                         data-x="left"
-                         data-y="242"
-                         data-speed="500"
-                         data-start="2800"
-                         data-easing="Power4.easeOut"
-                         data-endspeed="400"
-                         data-endeasing="Back.easeIn">
+                    data-x="left"
+                    data-y="242"
+                    data-speed="500"
+                    data-start="2800"
+                    data-easing="Power4.easeOut"
+                    data-endspeed="400"
+                    data-endeasing="Back.easeIn">
                         May 01
                     </div>
 
                     <div class="caption lfb slider-wrap-btn ltb"
-                         data-x="left"
-                         data-y="310"
-                         data-speed="400"
-                         data-start="3300"
-                         data-easing="Power4.easeOut"
-                         data-endspeed="500"
-                         data-endeasing="Power4.easeOut">
+                    data-x="left"
+                    data-y="310"
+                    data-speed="400"
+                    data-start="3300"
+                    data-easing="Power4.easeOut"
+                    data-endspeed="500"
+                    data-endeasing="Power4.easeOut">
                         <a href="#" class="btn btn-md btn--danger btn--wide slider--btn">learn more</a>
                     </div>
                 </li>
 
                 <li data-transition="fade"
-                    data-slotamount="7"
-                    class="slide"
-                    data-slide="Stop wishing.
-    Start doing.">
+                data-slotamount="7"
+                class="slide"
+                data-slide="Stop wishing.
+                Start doing.">
                     <img alt="" src="images/slides/next-slide.jpg" />
                     <div class="caption slide__name slide__name--smaller slide__name--specific customin customout"
-                         data-x="left"
-                         data-y="160"
-                         data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
-                         data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
-                         data-speed="700"
-                         data-start="1400"
-                         data-easing="easeOutBack"
-                         data-endspeed="500"
-                         data-end="8600"
-                         data-endeasing="Back.easeIn">
+                    data-x="left"
+                    data-y="160"
+                    data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
+                    data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
+                    data-speed="700"
+                    data-start="1400"
+                    data-easing="easeOutBack"
+                    data-endspeed="500"
+                    data-end="8600"
+                    data-endeasing="Back.easeIn">
                         Stop <span class="highlight">wishing.</span> Start
                         <span class="highlight">doing.</span>
                     </div>
 
                     <div class="caption slide__descript customin customout"
-                         data-x="left"
-                         data-y="240"
-                         data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
-                         data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
-                         data-speed="700"
-                         data-start="2000"
-                         data-endspeed="500"
-                         data-end="8400"
-                         data-endeasing="Back.easeIn">
+                    data-x="left"
+                    data-y="240"
+                    data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
+                    data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
+                    data-speed="700"
+                    data-start="2000"
+                    data-endspeed="500"
+                    data-end="8400"
+                    data-endeasing="Back.easeIn">
                         find your best match movie with A.MOVIE
                     </div>
 
                     <div class="caption lfb customout slider-wrap-btn"
-                         data-x="left"
-                         data-y="310"
-                         data-speed="500"
-                         data-start="2800"
-                         data-easing="Power4.easeOut"
-                         data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
-                         data-endspeed="400"
-                         data-end="8000"
-                         data-endeasing="Power4.easeOut">
+                    data-x="left"
+                    data-y="310"
+                    data-speed="500"
+                    data-start="2800"
+                    data-easing="Power4.easeOut"
+                    data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
+                    data-endspeed="400"
+                    data-end="8000"
+                    data-endeasing="Power4.easeOut">
                         <a href="#" class="btn btn-md btn--danger slider--btn">check out movies</a>
                     </div>
                 </li>
@@ -291,30 +326,41 @@
                 Phim hot hiện nay
             </div>
             <div class="col-sm-12 change--col">
-                
-                @foreach(var item in Model.Films.Take(6))
+
+                @*                 @foreach(var item in shuffledHotFilm.ToList())
+                { *@
+                @*      sẽ thêm nếu có nhiều phim hơn số hiện tại trong db test               @if(item.StartTime <= DateTime.UtcNow)
+                    { *@
+                @if (shuffledHotFilm.Count >= 6)
                 {
-                    int durationInMinutes = item.FilmDuration;
-                    string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút";
+                    for(int i = 0; i < shuffledHotFilm.Count(); i++)
+                    {
+                        int durationInMinutes = shuffledHotFilm[i].FilmDuration;
+                        string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút";
 
-                    <div class="movie-beta__item">
-                        <img alt="" src="@item.PosterUrl" width="190px" height="300px"/>
-                        <span class="best-rate">5.0</span>
+                        <div class="movie-beta__item">
+                        <img alt="" src="@shuffledHotFilm[i].PosterUrl" width="190px" height="300px" />
+                            <span class="best-rate">5.0</span>
 
-                        <ul class="movie-beta__info" style="width:100%;">
-                            <li><span class="best-voted">idk</span></li>
-                            <li>
-                                <p class="movie__time">
-                                   @durationText
-                                </p>
-                                <p>@item.FilmCategory.Name</p>
-</li>
-                            <li class="last-block">
-                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">more</a>
-                            </li>
-                        </ul>
-                    </div>
+                            <ul class="movie-beta__info" style="width:100%;">
+                                <li><span class="best-voted">idk</span></li>
+                                <li>
+                                    <p class="movie__time">
+                                        @durationText
+                                    </p>
+                                <p>@shuffledHotFilm[i].FilmCategory.Name</p>
+                                </li>
+                                <li class="last-block">
+                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@shuffledHotFilm[i].FilmId" class="slide__link">more</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    
                 }
+                
+                    @* } *@
+                @* } *@
 
             </div>
             <div class="col-sm-10 col-sm-offset-1 movie-best__check">
@@ -366,58 +412,33 @@
                 <div class="mega-select pull-right">
                     <span class="mega-select__point">Tìm kiếm theo: </span>
                     <ul class="mega-select__sort">
-                        <li class="filter-wrap">
 
-                        </li>
                         <li class="filter-wrap">
-                            <a href="#" class="mega-select__filter" data-filter="cinema">Tên</a>
+                            <a href="#" class="mega-select__filter" data-filter="cinema">Phim hay ngẫu nhiên</a>
                         </li>
                         <li class="filter-wrap">
                             <a href="#"
                                class="mega-select__filter"
                                data-filter="film-category">Thể loại</a>
                         </li>
-                        @* <li class="filter-wrap">
-                            <a href="#" class="mega-select__filter" data-filter="director">Đạo diễn</a>
-                        </li> *@
-
                     </ul>
 
                     <input name="search-input" type="text" class="select__field" />
-                    @*  <a href="#" class="btn btn-md btn--danger location">find <span class="hidden-exrtasm">your city</span></a>*@
 
                     <div class="select__btn">
-                        <a href="#" id="searchFilmButton" class="btn btn-md btn--danger cinema"><span class="hidden-exrtasm">Tìm phim</span> </a>
+                       
+                        <a href="#" id="searchFilmButton" class="btn btn-md btn--danger cinema"><span class="hidden-exrtasm">
+                            Tìm phim</span>
+                        </a>
                         <a href="#" id="searchCategoryButton" class="btn btn-md btn--danger film-category">
                                 <span class="hidden-exrtasm">Tìm phim theo thể loại</span>
                         </a>
                     </div>
-                    <div class="select__dropdowns">
-                        @* <ul class="select__group location">
-                            <li class="select__variant" data-value="London">London</li>
-                            <li class="select__variant" data-value="New York">
-                                New York
-                            </li>
-                            <li class="select__variant" data-value="Paris">Paris</li>
-                            <li class="select__variant" data-value="Berlin">Berlin</li>
-                            <li class="select__variant" data-value="Moscow">Moscow</li>
-                            <li class="select__variant" data-value="Minsk">Minsk</li>
-                            <li class="select__variant" data-value="Warsawa">Warsawa</li>
-                        </ul> *@
+                    <div class="select__dropdowns" id="filmSearchResults">
 
-                        <ul class="select__group cinema">
-                            @* <li class="select__variant" data-value="Cineworld">
-                                Cineworld
-                            </li>
-                            <li class="select__variant" data-value="Empire">Empire</li>
-                            <li class="select__variant" data-value="Everyman">
-                                Everyman
-                            </li>
-                            <li class="select__variant" data-value="Odeon">Odeon</li>
-                            <li class="select__variant" data-value="Picturehouse">
-                                Picturehouse
-                            </li> *@
-                            @foreach (var item in Model.Films.Take(6))
+                        <ul class="select__group cinema" >
+
+                            @foreach (var item in shuffledFilm)
                             {
                                 <li class="select__variant film" data-value="@item.NameFilm" data-id="@item.FilmId">
                                     @item.NameFilm
@@ -479,8 +500,8 @@
                                 Tim Burton
                             </li>
                         </ul>
- *@
-                        @* <ul class="select__group country">
+
+                        <ul class="select__group country">
                             <li class="select__variant" data-value="USA">USA</li>
                             <li class="select__variant" data-value="Germany">Germany</li>
                             <li class="select__variant" data-value="Australia">
@@ -488,22 +509,35 @@
                             </li>
                             <li class="select__variant" data-value="UK">UK</li>
                             <li class="select__variant" data-value="Japan">Japan</li>
-                            <li class="select__variant" data-value="Serbia">Serbia</li>
-                        </ul> *@
+                    <li class="select__variant" data-value="Serbia">Serbia</li>
+                        </ul>  *@
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="clearfix"></div>
-
-        <h2 id="target" class="page-heading heading--outcontainer">
-            Đang chiếu tại các rạp
-        </h2>
-
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-8 col-md-9">
+                    <h2 id="target" class="page-heading heading--outcontainer">
+                        Đang chiếu tại các rạp
+                    </h2>
+                </div>
+                <div class="col-sm-4 col-md-3">
+                    <h2 id="target" class="page-heading">
+                        Các phim sắp chiếu
+                    </h2>
+                </div>
+              </div>
+        </div>
+        
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-8 col-md-9">
+                    @{
+                        var randomAtMoment = Model.Films.Shuffle().Distinct().Skip(6).Take(6).ToList();//dễ tạm
+                    }
                     @for(int i = 6; i < Model.Films.Count(); i++)
                     {
                         switch (i)
@@ -662,10 +696,36 @@
 
                 <aside class="col-sm-4 col-md-3">
                     <div class="sitebar first-banner--left">
-                        <div class="banner-wrap first-banner--left">
-                            <img alt="banner" src="images/banners/sale.jpg" />
-                        </div>
-
+                        @{
+                            var randomUpcoming = Model.Films.Shuffle().Where(film=>film.StartTime > DateTime.UtcNow).Distinct().Take(3).ToList();
+                            
+                        }
+                        @if(randomUpcoming.Count >=3)
+                        {
+                            <div class="banner-wrap first-banner--left">
+                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@randomUpcoming[0].FilmId">
+                                    <img alt="banner" src="@randomUpcoming[0].PosterUrl" />
+                                </a>
+                                
+                            </div>
+                            <div class="banner-wrap">
+                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@randomUpcoming[1].FilmId">
+                                    <img alt="banner" src="@randomUpcoming[1].PosterUrl" />
+                                </a>
+                                
+                            </div>
+                            <div class="banner-wrap banner-wrap--last">
+                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@randomUpcoming[2].FilmId">
+                                    <img alt="banner" src="@randomUpcoming[2].PosterUrl" />
+                                </a>
+                                
+                            </div>
+                        }
+                        else
+                        {
+                            <p>N.A</p>
+                        }
+                        @* 
                         <div class="banner-wrap">
                             <img alt="banner" src="images/banners/sport.jpg" />
                         </div>
@@ -673,7 +733,7 @@
                         <div class="banner-wrap banner-wrap--last">
                             <img alt="banner" src="images/banners/boots.jpg" />
                         </div>
-
+ *@
                         <div class="promo marginb-sm">
                             <div class="promo__head">A.Movie app</div>
                             <div class="promo__describe">
@@ -818,55 +878,56 @@
         </section>
     </div>
 }
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const categoryVariants = document.querySelectorAll('.select__variant.category');
-        const filmVariants = document.querySelectorAll('.select__variant.film');
-        let selectedCategoryId = null;
-        let selectedFilmId = null;
+@section Scripts {
+    <script>
+        // Submit the form on Enter key press
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const categoryVariants = document.querySelectorAll('.select__variant.category');
+            const filmVariants = document.querySelectorAll('.select__variant.film');
+            let selectedCategoryId = null;
+            let selectedFilmId = null;
 
-        function addClickEventListener(variants, type) {
-            variants.forEach(variant => {
-                variant.addEventListener('click', () => {
-                    // Remove 'selected' class from all variants
-                    variants.forEach(v => v.classList.remove('selected'));
+            function addClickEventListener(variants, type) {
+                variants.forEach(variant => {
+                    variant.addEventListener('click', () => {
+                        // Remove 'selected' class from all variants
+                        variants.forEach(v => v.classList.remove('selected'));
 
-                    // Add 'selected' class to the clicked variant
-                    variant.classList.add('selected');
+                        // Add 'selected' class to the clicked variant
+                        variant.classList.add('selected');
 
-                    // Get the selected ID based on type
-                    if (type === 'category') {
-                        selectedCategoryId = variant.getAttribute('data-id');
-                    } else if (type === 'film') {
-                        selectedFilmId = variant.getAttribute('data-id');
-                    }
+                        // Get the selected ID based on type
+                        if (type === 'category') {
+                            selectedCategoryId = variant.getAttribute('data-id');
+                        } else if (type === 'film') {
+                            selectedFilmId = variant.getAttribute('data-id');
+                        }
+                    });
                 });
+            }
+
+            addClickEventListener(categoryVariants, 'category');
+            addClickEventListener(filmVariants, 'film');
+
+            document.getElementById('searchCategoryButton').addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default anchor behavior
+                if (selectedCategoryId) {
+                    // Redirect to the SortFilmsByCategories action with the selected category ID
+                    window.location.href = `@Url.Action("SortFilmsByCategories", "Home")/${selectedCategoryId}`;
+                } else {
+                    alert('Please select a category.');
+                }
             });
-        }
 
-        addClickEventListener(categoryVariants, 'category');
-        addClickEventListener(filmVariants, 'film');
-
-        document.getElementById('searchCategoryButton').addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default anchor behavior
-            if (selectedCategoryId) {
-                // Redirect to the SortFilmsByCategories action with the selected category ID
-                window.location.href = `@Url.Action("SortFilmsByCategories", "Home")/${selectedCategoryId}`;
-            } else {
-                alert('Please select a category.');
-            }
+            document.getElementById('searchFilmButton').addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default anchor behavior
+                if (selectedFilmId) {
+                    // Redirect to the FilmDetails action with the selected film ID
+                    window.location.href = `@Url.Action("FilmDetailView", "Home")/${selectedFilmId}`;
+                } else {
+                    alert('Please select a film.');
+                }
+            });
         });
-
-        document.getElementById('searchFilmButton').addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default anchor behavior
-            if (selectedFilmId) {
-                // Redirect to the FilmDetails action with the selected film ID
-                window.location.href = `@Url.Action("FilmDetailView", "Home")/${selectedFilmId}`;
-            } else {
-                alert('Please select a film.');
-            }
-        });
-    });
-</script>
-
-
+    </script>
+}

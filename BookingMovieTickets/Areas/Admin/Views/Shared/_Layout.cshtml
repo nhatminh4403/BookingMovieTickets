@@ -146,7 +146,7 @@
             <div class="sidebar-wrapper">
                 <div>
                     <div class="logo-wrapper logo-wrapper-center">
-                        <a href="~/Admin/Dashboard/Index" data-bs-original-title="" title="">
+                        <a href="~/Admin/Manager/Index" data-bs-original-title="" title="">
                             <img class="img-fluid for-dark" src="~/images/movie-clapper-open_83519.png" style="padding-right: 20px" alt="">
                         </a>
                         <div class="back-btn">
@@ -157,7 +157,7 @@
                         </div>
                     </div>
                     <div class="logo-icon-wrapper">
-                        <a href="~/Admin/Dashboard/Index">
+                        <a href="~/Admin/Manager/Index">
                             <img class="img-fluid main-logo" src="/admin/assets/images/logo/logo.png" alt="logo">
                         </a>
                     </div>
@@ -208,16 +208,18 @@
                                 </li>
 
                                 <li class="sidebar-list">
-                                    <a class="sidebar-link sidebar-title link-nav" href="~/Admin/Category/Index">
+                                    <a class="sidebar-link sidebar-title link-nav" asp-action="Index"
+                                       asp-controller="Schedule" asp-area="Admin">
                                         <i data-feather="box"></i>
-                                        <span>Loại sản phẩm</span>
+                                        <span>Lịch chiếu</span>
                                     </a>
                                 </li>
 
                                 <li class="sidebar-list">
-                                    <a class="sidebar-link sidebar-title link-nav" href="~/Admin/Invoices">
+                                    <a class="sidebar-link sidebar-title link-nav" asp-action="Index"
+                                       asp-controller="CustomerAccount" asp-area="Admin">
                                         <i data-feather="archive"></i>
-                                        <span>Đơn hàng</span>
+                                        <span>Quản lý tài khoản</span>
                                     </a>
                                 </li>
 
@@ -282,8 +284,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="button-box">
                         <button type="button" class="btn btn--no " data-bs-dismiss="modal">Không</button>
-                        <a href="@Url.Action("Index", "Logout")" type="button" class="btn  btn--yes btn-primary">Có</a>
-                    </div>
+                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout" type="submit" class="btn  btn--yes btn-primary ">Có</button>
+                        </form>
+                 </div>
                 </div>
             </div>
         </div>

@@ -40,6 +40,7 @@ namespace BookingMovieTickets.Repository.EF
         //    _context.FilmSchedules.Add(filmSchedule);
         //    await _context.SaveChangesAsync();
         //}
+
         public async Task UpdateAsync(Film film)
         {
             _context.Films.Update(film);
@@ -53,8 +54,13 @@ namespace BookingMovieTickets.Repository.EF
         }
         public async Task<ICollection<Film>> FindByCategoriesAsync(int id)
         {
-            ICollection<Film> filmsByCategories = await _context.Films.Where(p=>p.FilmCategoryId == id).ToListAsync();
+            ICollection<Film> filmsByCategories = await _context.Films.Where(p => p.FilmCategoryId == id).ToListAsync();
             return filmsByCategories;
+        }
+        public async Task<IEnumerable<Film>> FindByNameAsync(string name)
+        {
+           return  await _context.Films.Where(p =>p.NameFilm !=null  && p.NameFilm.Contains(name)).ToListAsync();
+            
         }
     }
 }

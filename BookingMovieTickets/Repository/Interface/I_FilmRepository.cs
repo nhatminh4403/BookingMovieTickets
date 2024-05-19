@@ -13,5 +13,6 @@ namespace BookingMovieTickets.Repository.Interface
 
 
         Task<ICollection<Film>> FindByCategoriesAsync(int id);
+        Task<IEnumerable<Film>> FindByNameAsync(string name);
     }
 }
