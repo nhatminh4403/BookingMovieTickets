@@ -334,7 +334,7 @@ values: new object[,]
  {13,"NHỮNG GÃ TRAI HƯ: CHƠI HAY BỊ XƠI - BAD BOY 4",
  "Chuyện phim mới kể về những diễn biến đầy hành động của thám tử Miami-Dade Mike Lowrey (Will Smith) và Marcus Burnett (Martin Lawrence). Giờ đây, Lowrey và Burnett phải hợp tác để tiêu diệt tên Đại úy Conrad Howard, người đang bị buộc tội hoạt động cùng băng đảng ma túy.",
  "https://cdn.galaxycine.vn/media/2024/4/12/bad-boy-500_1712891792541.jpg",
- "https://www.youtube.com/watch?v=RGnBFA_g0rg",
+ "https://youtu.be/RGnBFA_g0rg?si=WianLCSq3iavyafs",
 "Adil El Arbi, Bilall Fallah","Tiếng Anh với phụ đề tiếng Việt","R  - Người từ 16 tuổi trở xuống cần có cha mẹ hoặc người giám hộ đi cùng do có thể gây hoảng loạn hoặc ảnh hưởng xấu đến tư duy, đạo đức của trẻ em.",124,
                         "Will Smith, Martin Lawrence, Vanessa Hudgens,Alexander Ludwig,Tasha Smith,,Paola Núñez,Jacob Scipio...",1,new DateTime(2024,6  ,7,10, 15,0)}
                 });

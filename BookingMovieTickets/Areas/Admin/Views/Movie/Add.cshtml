@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -15,10 +16,11 @@
                             <h5>Thêm phim vào cơ sở dữ liệu</h5>
                         </div>
 
-                        <form class="theme-form theme-form-2 mega-form" method="post" action="" enctype="multipart/form-data">
+                        <form class="theme-form theme-form-2 mega-form" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row">
                                 <div class="mb-4 row align-items-center">
-                                    <label class="form-label-title col-sm-2 mb-0" class="control-label">Tên sản phẩm</label>
+                                    <label class="form-label-title col-sm-2 mb-0" class="control-label">Tên pjim</label>
                                     <div class="col-sm-10">
                                         <input asp-for="NameFilm" class="form-control" /><span asp-validation-for="NameFilm" class="text-danger"></span>
                                     </div>
@@ -27,14 +29,14 @@
                                 <div class="mb-4 row align-items-center">
                                     <label class="col-sm-2 col-form-label form-label-title" name="CategoryId">Thể loại phim</label>
                                     <div class="col-sm-10">
-                                        <select asp-for="FilmCategoryId" class="form-control" class="js-example-basic-single w-100" asp-items="ViewBag.FilmCategory"></select>
+                                        <select asp-for="FilmCategoryId" class="form-control" class="js-example-basic-single w-100" asp-items="ViewBag.FilmCategory" style="height:50px"></select>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Liên kết Trailer</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="TrailerUrl" name="Trailer" class="form-control" required />
+                                        <input asp-for="TrailerUrl" class="form-control" required />
                                         <span asp-validation-for="TrailerUrl" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -43,6 +45,12 @@
                                     <label class="form-label-title col-sm-2 mb-0">Ảnh</label>
                                     <div class="col-sm-10">
                                         <input asp-for="PosterUrl" class="form-control" type="file" accept="image/*" id="posterInput" onchange="previewPoster(event)" />
+                                    </div>
+                                </div>
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-sm-2 mb-0">Xem trước Poster</label>
+                                    <div class="col-sm-10">
+                                        <img id="posterPreview" src="#" alt="Preview Poster" style="max-width: 100%; max-height: 500px; display: none;" />
                                     </div>
                                 </div>
                                 <div class="mb-4 row align-items-center">
@@ -80,27 +88,16 @@
                                     </div>
                                 </div>
                                 <div class="mb-4 row align-items-center">
-                                    <label class="form-label-title col-sm-2 mb-0">Xem trước Poster</label>
-                                    <div class="col-sm-10">
-                                        <img id="posterPreview" src="#" alt="Preview Poster" style="max-width: 100%; max-height: 500px; display: none;" />
-                                    </div>
-                                </div>
-                                <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Ngày công chiếu</label>
                                     <div class="col-sm-10">
                                         <div class="form-group">
-                                            <label asp-for="StartTime" class="control-label"></label>
-                                            <div class='input-group date' id='datepicker'>
-                                                <input asp-for="StartTime" type="text" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                            </div>
+                                            <input asp-for="StartTime" type="text" id="datepicker" class="form-control" value="@DateTime.Now.ToString("dd-MM-yyyy")" />
                                             <span asp-validation-for="StartTime" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer text-end border-0 pt-0">
+                                    <a asp-action="Index" asp-area="Admin" asp-controller="Movie" class="btn btn-warning">Trở về danh sách</a>
                                     <button class="btn btn-primary me-3" type="submit">Thêm</button>
                                     <button class="btn btn-outline-primary" type="reset">Reset</button>
                                 </div>
@@ -111,9 +108,6 @@
             </div>
         </div>
     </div>
-</div>
-<div>
-    <a asp-action="Index" asp-area="Admin" asp-controller="Movie">Trở về danh sách</a>
 </div>
 <script>
     function previewPoster(event) {
@@ -128,20 +122,21 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-
+    
 </script>
-@section Scripts
-{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+@section Scripts{
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function () {
-            $('#datepicker').datetimepicker();
+       $(function () {
+        $('#datepicker').datepicker({
+            format: 'DD-MM-YYYY', // Specify the format of the displayed date
+            useCurrent: false
+        }).on('dp.change', function (e) {
+            var formattedDate = moment(e.date).format('DD-MM-YYYY');
+            $(this).val(formattedDate);
         });
+    });
     </script>
 }

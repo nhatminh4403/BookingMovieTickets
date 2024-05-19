@@ -23,6 +23,7 @@ namespace BookingMovieTickets.Controllers
         public async Task<IActionResult> Index()
         {
             var films = await _FilmRepository.GetAllAsync();
+
             return View(films);
         }
         // Hiển thị form thêm sản phẩm mới
