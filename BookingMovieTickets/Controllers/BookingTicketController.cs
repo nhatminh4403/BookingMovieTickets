@@ -15,7 +15,7 @@ using Website_Selling_Computer.Session;
 namespace BookingMovieTickets.Controllers
 {
     [Authorize]
-    public class BookingTicketController : Controller
+    public class BookingTicketController : BaseController
     {
         private readonly I_Cart _cartRepo;
         private readonly I_Ticket _ticketRepo;
@@ -54,7 +54,7 @@ namespace BookingMovieTickets.Controllers
             var schedule = _bookingMovieTicketsDBContext.FilmSchedules
                             .Where(fs => fs.FilmId == filmId && fs.FilmScheduleId == Time)
                             .ToList();
-            ViewBag.schedule = schedule;
+            var categories = await _FilmCategoryRepository.GetAllAsync();
             if (schedule.Any())
             {
                 var firstSchedule = schedule.First();
@@ -62,15 +62,17 @@ namespace BookingMovieTickets.Controllers
                                  .FirstOrDefaultAsync(room => room.TheatreRoomId == firstSchedule.TheatreRoomId);
 
                 var availableSeats = _bookingMovieTicketsDBContext.Seats.Where(s => s.TheatreRoomId == room.TheatreRoomId).ToList();
-
+                
                 var viewModel = new SeatVM
                 {
                     Film = film,
                     Schedules = schedule,
                     TheatreRoom = room,
-                    Seats = availableSeats
+                    Seats = availableSeats,
+                    ScheduleId = Time,
+                    Categories = categories
                 };
-
+                ViewData["SeatVM"] = viewModel;
                 return View(viewModel);
             }
             return NotFound();

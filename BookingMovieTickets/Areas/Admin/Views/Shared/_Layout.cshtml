@@ -30,6 +30,7 @@
     <!-- Font awesome - icon font -->
     <link rel="stylesheet" href="~/admin/assets/css/linearicon.css">
 
+
     <!-- fontawesome css -->
     <link rel="stylesheet" type="text/css" href="~/admin/assets/css/vendors/font-awesome.css">
 
@@ -65,6 +66,7 @@
     <!-- Select2 css -->
     <link rel="stylesheet" type="text/css" href="~/admin/assets/css/select2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 
 <body>
@@ -117,8 +119,8 @@
                         <span class="lnr lnr-moon"></span>
                         </div>
                         </li>*@
-                        <li class="profile-nav onhover-dropdown pe-0 me-0">
-                            <div class="media profile-media">
+                        <li class="profile-nav onhover-dropdown pe-0 me-0" style="height:50px">
+                            <div class="media profile-media" style="height:50px">
                                 <img class="user-profile rounded-circle" src="/admin/assets/images/users/4.jpg" alt="">
                                 <div class="user-name-hide media-body">
                                     <span>Xin chào!</span>
@@ -287,7 +289,7 @@
                         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                             <button id="logout" type="submit" class="btn  btn--yes btn-primary ">Có</button>
                         </form>
-                 </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -295,7 +297,9 @@
     <!-- Slider -->
     <!-- JavaScript-->
     <!-- jQuery 1.9.1-->
-    @* <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script> *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
     <script src="/admin/assets/js/jquery-3.6.0.min.js"></script>
 
     <!-- Bootstrap js -->
@@ -345,6 +349,7 @@
         }
     </script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 
 </html>

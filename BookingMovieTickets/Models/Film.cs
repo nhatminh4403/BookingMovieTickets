@@ -17,7 +17,7 @@ namespace MoviesBooking.Models
         [Required]
         public string Description { get; set; }
         public string? PosterUrl { get; set; }
-        [Required]
+
         public string? TrailerUrl { get; set; }
         [Required]
         public string DirectorName { get; set; }

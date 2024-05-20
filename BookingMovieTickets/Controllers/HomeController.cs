@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TextTemplating;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-
+using BookingMovieTickets.Helper;
 namespace BookingMovieTickets.Controllers
 {
     public class HomeController : BaseController
@@ -70,7 +71,7 @@ namespace BookingMovieTickets.Controllers
             };
 
             ViewData["LayoutModel"] = filmVM;
-            ViewBag.FindFilmsByCategory = new SelectList(categories, "FilmCategoryId", "Name");
+            ViewData["FilmCategories"] = categories;
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
@@ -113,7 +114,7 @@ namespace BookingMovieTickets.Controllers
             }
             return NotFound();
         }
-        public async Task<IActionResult> AllFilm()
+        public async Task<IActionResult> AllFilm(string namefilm)
         {
             var films = await _filmRepository.GetAllAsync();
             var categories = await _filmCategoryRepository.GetAllAsync();
@@ -121,6 +122,12 @@ namespace BookingMovieTickets.Controllers
             var schedules = await _scheduleRepo.GetAllAsync();
             var rooms = await _theatreRoomRepo.GetAllRoomAsync();
             var theaters = await _TheaterRepo.GetAllAsync();
+
+            if (!string.IsNullOrEmpty(namefilm))
+            {
+                var normalizedSearchString = StringHelper.RemoveDiacritics(namefilm).ToLower();
+                films = films.Where(f => StringHelper.RemoveDiacritics(f.NameFilm).ToLower().Contains(normalizedSearchString)).ToList();
+            }
             var filmVM = new FilmVM
             {
                 Films = films,
@@ -133,6 +140,7 @@ namespace BookingMovieTickets.Controllers
             };
             return View(filmVM);
         }
+
 
         public async Task<IActionResult> SearchByName(string film)
         {
@@ -169,6 +177,10 @@ namespace BookingMovieTickets.Controllers
             return View(filmVM);
         }
         public IActionResult FAQs()
+        {
+            return View();
+        }
+        public IActionResult Contact()
         {
             return View();
         }

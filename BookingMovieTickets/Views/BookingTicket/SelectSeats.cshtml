@@ -1,5 +1,7 @@
 ﻿@model BookingMovieTickets.VIewModel.SeatVM
 @using BookingMovieTickets.VIewModel
+
+
 @{
 
    
@@ -57,6 +59,7 @@
         padding: 10px 50px;  
         box-shadow: 0px 5px 11px #fff;     
         background: #fff;
+        width:100%;
     }
 
     .film__infor span{
@@ -89,7 +92,16 @@
     <div class="film__infor">
         <span class="film__name"> <span>Tên phim:</span> @Model.Film.NameFilm</span>
         <span class="film__room"> <span>Phòng:</span> @Model.TheatreRoom.RoomName</span>
-        <span class="film__room"><span>Giờ chiếu:</span>@Model.Schedules</span>
+        <span class="film__room"><span>Giờ chiếu:
+                           @foreach(var item in Model.Schedules)
+            {
+                    if(Model.ScheduleId == item.FilmScheduleId)
+                    {
+                        @item.FilmScheduleDescription
+                    }
+                }
+
+        </span></span>
         <span class="film__langue"><span>Ngôn ngữ:</span> @Model.Film.Language</span>
     </div>
 </div>
