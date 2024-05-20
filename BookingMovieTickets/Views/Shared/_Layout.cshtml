@@ -263,7 +263,6 @@
         <section class="container">
             <div class="col-xs-4 col-md-2 footer-nav">
                 <ul class="nav-link">
-                    <li><a href="#" class="nav-link__item">Cities</a></li>
                     <li>
                         <a asp-controller="Home" asp-action="AllFilm" class="nav-link__item">Tất cả Phim</a>  
 
@@ -279,23 +278,23 @@
             <div class="col-xs-4 col-md-2 footer-nav">
                 <ul class="nav-link">
                     <li>
-                        <a href="coming-soon.html" class="nav-link__item">Coming soon</a>
+                        <a asp-controller="Home" asp-action="UpcomingFilm" class="nav-link__item">Phim sắp chiếu</a>
                     </li>
-                    <li>
+@*                     <li>
                         <a href="cinema-list.html" class="nav-link__item">Cinemas</a>
-                    </li>
+                    </li> *@
                     <li>
-                        <a href="offers.html" class="nav-link__item">Best offers</a>
+                        <a href="#" class="nav-link__item" id="backToTop">Phim hot cho bạn</a>
                     </li>
                     <li><a href="news-left.html" class="nav-link__item">News</a></li>
                 </ul>
             </div>
             <div class="col-xs-4 col-md-2 footer-nav">
                 <ul class="nav-link">
-                    <li><a href="#" class="nav-link__item">Terms of use</a></li>
-                    <li>
+                    <li><a href="/Home/FAQs" class="nav-link__item">FAQs</a></li>
+@*                     <li>
                         <a href="gallery-four.html" class="nav-link__item">Gallery</a>
-                    </li>
+                    </li> *@
                     <li>
                         <a href="contact.html" class="nav-link__item">Contacts</a>
                     </li>
@@ -320,8 +319,9 @@
                     </div>
 
                     <div class="clearfix"></div>
-                    <p class="copy">
-                        &copy; A.Movie, 2013. All rights reserved. Done by Olia Gozha
+                    <p class="copy" style="font-size:15px">
+                        &copy; InfinityCinema, @DateTime.UtcNow.Year.<br />
+                        Được thực hiện bởi Bùi Chí Bảo, Phạm Trần Nhật Minh, Lê Trường An
                     </p>
                 </div>
             </div>
@@ -381,6 +381,12 @@
         document.getElementById('logoutLink').addEventListener('click', function (event) {
             event.preventDefault();
             document.getElementById('logoutForm').submit();
+        });
+    </script>
+    <script>
+        document.getElementById('backToTop').addEventListener('click', function (event) {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

@@ -44,7 +44,7 @@
                         @durationText
                     </p>
 
-                    <p class="movie__option"><strong>Thể loại: </strong><a href="#">@Model.FilmCategory.Name</a>
+                    <p class="movie__option"><strong>Thể loại: </strong><a asp-action="SortFilmsByCategories" asp-controller="Home" asp-route-id="@Model.FilmCategoryId">@Model.FilmCategory.Name</a>
                     <p class="movie__option">
                         <strong>Ngày ra mắt: </strong>
                             @Model.StartTime.ToString("dd/MM/yyyy hh:mm:ss tt", new System.Globalization.CultureInfo("vi-VN"));
