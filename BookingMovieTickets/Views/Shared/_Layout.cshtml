@@ -6,6 +6,8 @@
 @{
     var user = UserManager.GetUserAsync(User);
     var model = ViewData["LayoutModel"] as FilmVM;
+    var model2 = ViewData["SeatVM"] as SeatVM;
+
 }
 
 
@@ -62,10 +64,7 @@
 
 <body>
     <style>
-        ul#navigation a:hover {
-            color: #000;
-            text-align: center;
-        }
+
         .translucent-input {
             background-color: rgba(255, 255, 255, 0.5); /* White with 50% opacity */
             border: 2px solid #000; /* Black border */

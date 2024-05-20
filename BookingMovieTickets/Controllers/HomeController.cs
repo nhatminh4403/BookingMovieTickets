@@ -71,7 +71,7 @@ namespace BookingMovieTickets.Controllers
             };
 
             ViewData["LayoutModel"] = filmVM;
-            ViewBag.FindFilmsByCategory = new SelectList(categories, "FilmCategoryId", "Name");
+            ViewData["FilmCategories"] = categories;
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);

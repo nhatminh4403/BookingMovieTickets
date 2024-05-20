@@ -14,7 +14,7 @@ using Website_Selling_Computer.Session;
 namespace BookingMovieTickets.Controllers
 {
     [Authorize]
-    public class BookingTicketController : Controller
+    public class BookingTicketController : BaseController
     {
         private readonly I_Cart _cartRepo;
         private readonly I_Ticket _ticketRepo;
@@ -26,7 +26,7 @@ namespace BookingMovieTickets.Controllers
         private readonly I_FilmCategoryRepository _FilmCategoryRepository;
         private readonly BookingMovieTicketsDBContext _bookingMovieTicketsDBContext;
         public BookingTicketController(I_Cart cartRepo, I_Ticket ticketRepo, I_FilmRepository FilmRepository, I_Schedule scheduleRepo, I_Receipt receiptRepo,
-            BookingMovieTicketsDBContext bookingMovieTicketsDBContext,I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository,I_TicketDetail ticketDetail )
+            BookingMovieTicketsDBContext bookingMovieTicketsDBContext,I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository,I_TicketDetail ticketDetail ) : base(bookingMovieTicketsDBContext)
         {
             _cartRepo = cartRepo;
             _ticketRepo = ticketRepo;
@@ -51,7 +51,7 @@ namespace BookingMovieTickets.Controllers
             var schedule = _bookingMovieTicketsDBContext.FilmSchedules
                             .Where(fs => fs.FilmId == filmId && fs.FilmScheduleId == Time)
                             .ToList();
-
+            var categories = await _FilmCategoryRepository.GetAllAsync();
             if (schedule.Any())
             {
                 var firstSchedule = schedule.First();
@@ -59,16 +59,17 @@ namespace BookingMovieTickets.Controllers
                                  .FirstOrDefaultAsync(room => room.TheatreRoomId == firstSchedule.TheatreRoomId);
 
                 var availableSeats = _bookingMovieTicketsDBContext.Seats.Where(s => s.TheatreRoomId == room.TheatreRoomId).ToList();
-
+                
                 var viewModel = new SeatVM
                 {
                     Film = film,
                     Schedules = schedule,
                     TheatreRoom = room,
                     Seats = availableSeats,
-                    ScheduleId = Time
+                    ScheduleId = Time,
+                    Categories = categories
                 };
-
+                ViewData["SeatVM"] = viewModel;
                 return View(viewModel);
             }
             return NotFound();

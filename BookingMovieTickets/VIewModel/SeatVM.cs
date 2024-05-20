@@ -9,5 +9,6 @@ namespace BookingMovieTickets.VIewModel
         public IEnumerable<FilmSchedule> Schedules { get; set; }
         public TheatreRoom? TheatreRoom { get; set; }
         public IEnumerable<Seat> Seats { get; set; }
+        public IEnumerable<FilmCategory> Categories { get; set; }
     }
 }

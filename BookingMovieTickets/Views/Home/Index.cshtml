@@ -327,7 +327,7 @@
             </div>
             <div class="col-sm-12 change--col">
 
-                @foreach(var item in Model.Films.Take(6))
+                @foreach(var item in Model.Films.Shuffle().Distinct().Take(6))
                 {
                     int durationInMinutes = item.FilmDuration;
                     string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút";
@@ -511,12 +511,12 @@
             <div class="row">
                 <div class="col-sm-8 col-md-9">
                     <h2 id="target" class="page-heading heading--outcontainer">
-                        Đang chiếu tại các rạp
+                        <a asp-action="phim_dang_chieu" asp-controller="Home" style="font-size:20px">Đang chiếu tại các rạp</a>
                     </h2>
                 </div>
                 <div class="col-sm-4 col-md-3">
                     <h2 id="target" class="page-heading">
-                        Các phim sắp chiếu
+                        <a asp-action="UpcomingFilm" asp-controller="Home" style="font-size:20px"> Các phim sắp chiếu</a>
                     </h2>
                 </div>
               </div>
