@@ -66,8 +66,7 @@ namespace BookingMovieTickets.Controllers
                     Schedules = schedule,
                     TheatreRoom = room,
                     Seats = availableSeats,
-                    ScheduleId = Time,
-                    Categories = categories
+                    ScheduleId = Time
                 };
                 ViewData["SeatVM"] = viewModel;
                 return View(viewModel);

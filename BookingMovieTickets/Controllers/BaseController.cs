@@ -1,10 +1,11 @@
-﻿using BookingMovieTickets.Repository.Interface;
+﻿using BookingMovieTickets.Repository.EF;
+using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
-
+using System.Web;
 namespace BookingMovieTickets.Controllers
 {
     public class BaseController : Controller
@@ -25,7 +26,7 @@ namespace BookingMovieTickets.Controllers
                     .Include(p => p.FilmSchedules)
                     .ToList();
             var categories = _dbContext.FilmCategory.Include(p => p.Film).ToList();
-            var seats =        _dbContext.Seats.ToList();
+            var seats = _dbContext.Seats.ToList();
 
             var schedules = _dbContext.FilmSchedules.Include(p => p.Film).Include(p => p.TheatreRoom).Include(p => p.TheatreRoom.Theatre).ToList();
             var rooms = _dbContext.TheatreRooms.Include(p => p.Theatre).Include(p => p.FilmSchedules).ToList();
@@ -40,8 +41,13 @@ namespace BookingMovieTickets.Controllers
                 Theatres = theaters
             };
             // Giả sử bạn có một service để lấy dữ liệu thể loại phim
-            
-            ViewData["LayoutModel"] = filmVM;
+
+            ViewData["LayoutViewModel"] = filmVM;
+        }
+        public async Task<IActionResult> FilmCategories()
+        {
+            var categories = await _dbContext.FilmCategory.Include(p => p.Film).ToListAsync();
+            return PartialView("_FilmCategoriesPartial", categories);
         }
     }
 }

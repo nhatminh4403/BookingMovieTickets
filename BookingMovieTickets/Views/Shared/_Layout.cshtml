@@ -5,8 +5,7 @@
 @inject UserManager<UserInfo> UserManager
 @{
     var user = UserManager.GetUserAsync(User);
-    var model = ViewData["LayoutModel"] as FilmVM;
-    var model2 = ViewData["SeatVM"] as SeatVM;
+    var model = ViewData["LayoutViewModel"] as FilmVM;
 
 }
 
@@ -145,16 +144,28 @@
                         <li>
                             <span class="sub-nav-toggle plus "></span>
                             <a asp-controller="Home" asp-action="AllFilm">Thể loại</a>
-@*                             @await Component.InvokeAsync("FilmCategory")*@ 
-                            <ul>
-
-                                @foreach (var item in model.FilmCategories)
+                            @* @if(model?.FilmCategories != null)
                                 {
-                                    <li class="menu__nav-item">
-                                        <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home" asp-area="">@item.Name</a>
-                                    </li>
+
+                                
+                                    @* @foreach (var item in model?.FilmCategories)
+                                    {
+                                        <li class="menu__nav-item">
+                                            <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home" asp-area="">@item.Name</a>
+                                        </li>
+                                    } 
+                                    <partial name="_FilmCategoriesPartial" model="model.FilmCategories" />
+
                                 }
-                            </ul>
+                                else
+                                {
+                                    <ul>
+                                    <li class="menu__nav-item">lỗi</li>
+
+                                    </ul>
+                                }
+                             *@
+                            @await Component.InvokeAsync("FilmCategory")
                         </li>
                         <li>
                             <span class="sub-nav-toggle plus"></span>

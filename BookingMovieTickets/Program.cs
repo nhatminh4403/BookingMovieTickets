@@ -20,7 +20,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddControllersWithViews();
+
 
 builder.Services.AddDbContext<BookingMovieTicketsDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -45,7 +45,7 @@ builder.Services.AddScoped<I_Ticket, EF_Ticket>();
 builder.Services.AddScoped<I_TicketDetail, EF_TicketDetail>();
 builder.Services.AddScoped<I_ReceiptDetail, EF_ReceiptDetail>();
 builder.Services.AddScoped<I_Cart, EF_Cart>();
-
+builder.Services.AddControllersWithViews();
 builder.Services.ConfigureApplicationCookie(option =>
 {
     option.LoginPath = $"/Identity/Account/Login";

@@ -1,0 +1,10 @@
+﻿@model IEnumerable<MoviesBooking.Models.FilmCategory>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li class="menu__nav-item">
+            <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home">@item.Name</a>
+        </li>
+    }
+</ul>

@@ -70,8 +70,8 @@ namespace BookingMovieTickets.Controllers
                 Theatres = theaters
             };
 
-            ViewData["LayoutModel"] = filmVM;
-            ViewData["FilmCategories"] = categories;
+/*            ViewData["LayoutModel"] = filmVM;
+*/            ViewData["FilmCategories"] = categories;
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
