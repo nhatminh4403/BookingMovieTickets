@@ -15,10 +15,10 @@
 
     public class VnPaymentRequestModel
     {
-        public int OrderId { get; set; }
+        public int ReceiptId { get; set; }
         public string FullName { get; set; }
-        public string Desc { get; set; }
-        public double Amount { get; set; }
+        public string Desc { get; set; }       
+        public decimal SeatPrice { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 }

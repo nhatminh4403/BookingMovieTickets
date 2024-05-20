@@ -12,7 +12,9 @@
             scheduleId =   item.FilmScheduleId;
             break;
         }
-    }     
+    }  
+    
+    var schedule = ViewBag.schedule;
 }
 
 
@@ -48,6 +50,7 @@
     }
 
     .container__film {
+        width: 100%;
         display: flex;
         gap: 22px;
         margin-bottom: 80px;
@@ -86,7 +89,7 @@
     <div class="film__infor">
         <span class="film__name"> <span>Tên phim:</span> @Model.Film.NameFilm</span>
         <span class="film__room"> <span>Phòng:</span> @Model.TheatreRoom.RoomName</span>
-        <span class="film__room"><span>Giờ chiếu:</span></span>
+        <span class="film__room"><span>Giờ chiếu:</span>@Model.Schedules</span>
         <span class="film__langue"><span>Ngôn ngữ:</span> @Model.Film.Language</span>
     </div>
 </div>
