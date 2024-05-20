@@ -4,8 +4,8 @@
 @inject SignInManager<UserInfo> SignInManager
 @inject UserManager<UserInfo> UserManager
 @{
-    var user = UserManager.GetUserAsync(User); 
-    var layoutModel = ViewData["LayoutModel"] as FilmVM;
+    var user = UserManager.GetUserAsync(User);
+    var model = ViewData["LayoutModel"] as FilmVM;
 }
 
 
@@ -146,7 +146,16 @@
                         <li>
                             <span class="sub-nav-toggle plus "></span>
                             <a asp-controller="Home" asp-action="AllFilm">Thể loại</a>
-                            @await Component.InvokeAsync("FilmCategory")
+@*                             @await Component.InvokeAsync("FilmCategory")*@ 
+                            <ul>
+
+                                @foreach (var item in model.FilmCategories)
+                                {
+                                    <li class="menu__nav-item">
+                                        <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home" asp-area="">@item.Name</a>
+                                    </li>
+                                }
+                            </ul>
                         </li>
                         <li>
                             <span class="sub-nav-toggle plus"></span>

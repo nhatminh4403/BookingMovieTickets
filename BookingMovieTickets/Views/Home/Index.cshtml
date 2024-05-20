@@ -327,40 +327,30 @@
             </div>
             <div class="col-sm-12 change--col">
 
-                @*                 @foreach(var item in shuffledHotFilm.ToList())
-                { *@
-                @*      sẽ thêm nếu có nhiều phim hơn số hiện tại trong db test               @if(item.StartTime <= DateTime.UtcNow)
-                    { *@
-                @if (shuffledHotFilm.Count >= 6)
+                @foreach(var item in Model.Films.Take(6))
                 {
-                    for(int i = 0; i < shuffledHotFilm.Count(); i++)
-                    {
-                        int durationInMinutes = shuffledHotFilm[i].FilmDuration;
-                        string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút";
+                    int durationInMinutes = item.FilmDuration;
+                    string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút";
 
-                        <div class="movie-beta__item">
-                        <img alt="" src="@shuffledHotFilm[i].PosterUrl" width="190px" height="300px" />
-                            <span class="best-rate">5.0</span>
+                    <div class="movie-beta__item">
+                        <img alt="" src="@item.PosterUrl" width="190px" height="300px" />
+                        <span class="best-rate">5.0</span>
 
-                            <ul class="movie-beta__info" style="width:100%;">
-                                <li><span class="best-voted">idk</span></li>
-                                <li>
-                                    <p class="movie__time">
-                                        @durationText
-                                    </p>
-                                <p>@shuffledHotFilm[i].FilmCategory.Name</p>
-                                </li>
-                                <li class="last-block">
-                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@shuffledHotFilm[i].FilmId" class="slide__link">more</a>
-                                </li>
-                            </ul>
-                        </div>
-                    }
-                    
+                        <ul class="movie-beta__info" style="width:100%;">
+                            <li><span class="best-voted">idk</span></li>
+                            <li>
+                                <p class="movie__time">
+                                    @durationText
+                                </p>
+                                <p>@item.FilmCategory.Name</p>
+                            </li>
+                            <li class="last-block">
+                                <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">Xem chi tiết</a>
+                            </li>
+                        </ul>
+                    </div>
                 }
-                
-                    @* } *@
-                @* } *@
+
 
             </div>
             <div class="col-sm-10 col-sm-offset-1 movie-best__check">
