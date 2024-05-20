@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Contact";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/contact.js"></script>
+
+<div class="container">
+    <main class="contact-page ptb100">
+        <div class="container">
+            <div class="row">
+
+                <!-- Start of Contact Details -->
+                <div class="col-md-4 col-sm-12">
+                    <h3 class="title" style="margin-bottom: 15px; text-transform: uppercase; font-weight: 500; color: #444444; text-decoration: underline; background-image: url(/Content/img/tag.png); -webkit-background-size: 21px 6px; background-size: 21px 6px; background-position: left center; background-repeat: no-repeat; padding-left: 30px;">Thông tin</h3>
+
+                    <div class="details-wrapper">
+                        <ul class="contact-details">
+                            <li>
+                                <i class="icon-phone"></i>
+                                <strong>Hotline:</strong>
+                                <span>19001122</span>
+                            </li>
+                            <li>
+                                <i class="icon-printer"></i>
+                                <strong>TRỤ SỞ CHÍNH:</strong>
+                                <span>Quận 9, Thành Phố Hồ Chí Minh</span>
+                            </li>
+                            <li>
+                                <i class="icon-globe"></i>
+                                <strong>Web:</strong>
+                                <span><a href="#">www.infinity.vn</a></span>
+                            </li>
+                            <li>
+                                <i class="icon-paper-plane"></i>
+                                <strong>E-Mail:</strong>
+                                <span><a href="mailto:support@infinity.vn">support@infinity.vn</a></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- End of Contact Details -->
+                <!-- Start of Contact Form -->
+                <div class="col-md-8 col-sm-12">
+                    <h3 class="title" style="margin-bottom: 15px; text-transform: uppercase; font-weight: 500; color: #444444; text-decoration: underline; background-image: url(/Content/img/tag.png); -webkit-background-size: 21px 6px; background-size: 21px 6px; background-position: left center; background-repeat: no-repeat; padding-left: 30px;">Gửi liên hệ</h3>
+
+                    <!-- Start of Contact Form -->
+                    <form>
+                        <h2>Thông tin liên hệ</h2>
+                        <input type="text" placeholder="Họ Và Tên" id="name" />
+                        <input type="tel" placeholder="Số Điện Thoại" id="phone" />
+                        <textarea placeholder="Nội dung tư vấn" id="content"></textarea>
+                        <button id="submit" type="button">Gửi</button>
+                    </form>
+                    <!-- End of Contact Form -->
+                </div>
+                <!-- End of Contact Form -->
+
+            </div>
+        </div>
+    </main>
+</div>

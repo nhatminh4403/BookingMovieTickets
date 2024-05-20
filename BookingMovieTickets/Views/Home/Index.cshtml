@@ -4,6 +4,7 @@
     var listMovies = ViewBag.Movies;
     var listMoviesCategories = ViewBag.MoviesCategories;
     int dem = 0;
+    int x = 0;
 }   
 @if (!User.IsInRole("Admin"))
 {
@@ -292,7 +293,7 @@
             </div>
             <div class="col-sm-12 change--col">
                 
-                @foreach(var item in Model.Films.Take(6))
+                @foreach(var item in Model.Films)
                 {
                     int durationInMinutes = item.FilmDuration;
                     string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút";
@@ -469,11 +470,15 @@
                         <a href="#" class="btn btn-md btn--danger actors">find <span class="hidden-exrtasm">talented actors</span></a>
                         <a href="#" class="btn btn-md btn--danger director">find <span class="hidden-exrtasm">favorite director</span></a>
                         <a href="#" class="btn btn-md btn--danger country">find <span class="hidden-exrtasm">produced country</span></a> *@
-                       
-                        @foreach (var item in Model.Films.Take(1))
+
+                        @foreach (var item in Model.Films.Select(x => x.NameFilm))
                         {
-                            <a href="/Home/FilmDetailView/@item.FilmId" class="btn btn-md btn--danger cinema">find <span class="hidden-exrtasm">suitable cimema</span> </a>
+                            
                         }
+                        <a href="/Home/FilmDetailView/@x" class="btn btn-md btn--danger cinema">find 
+                        <span class="hidden-exrtasm">suitable cimema</span> </a>
+
+                        
                        
                     </div>
 
@@ -502,7 +507,7 @@
                             <li class="select__variant" data-value="Picturehouse">
                                 Picturehouse
                             </li> *@
-                            @foreach (var item in Model.Films.Take(6))
+                            @foreach (var item in Model.Films)
                             {
                                 <li class="select__variant" data-value="@item.NameFilm">
                                     @item.NameFilm
