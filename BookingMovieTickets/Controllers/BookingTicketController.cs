@@ -4,8 +4,6 @@ using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.Services;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
@@ -28,7 +26,7 @@ namespace BookingMovieTickets.Controllers
         private readonly I_FilmCategoryRepository _FilmCategoryRepository;
         private readonly BookingMovieTicketsDBContext _bookingMovieTicketsDBContext;
         public BookingTicketController(I_Cart cartRepo, I_Ticket ticketRepo, I_FilmRepository FilmRepository, I_Schedule scheduleRepo, I_Receipt receiptRepo,
-            BookingMovieTicketsDBContext bookingMovieTicketsDBContext,I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository,I_TicketDetail ticketDetail, IVnPayService vnPayService )
+            BookingMovieTicketsDBContext bookingMovieTicketsDBContext,I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository,I_TicketDetail ticketDetail, IVnPayService vnPayService ) : base(bookingMovieTicketsDBContext)
         {
             _cartRepo = cartRepo;
             _ticketRepo = ticketRepo;
@@ -126,10 +124,15 @@ namespace BookingMovieTickets.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> BookTickets(Receipt receipt)
+        public async Task<IActionResult> BookTickets(Receipt receipt, string payment)
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
 
+
+            if(payment == "thanh toán")
+            {
+
+         
             var vnPayModel = new VnPaymentRequestModel
             {
                 SeatPrice = cart.Items.Sum(x => x.Price),
@@ -171,13 +174,14 @@ namespace BookingMovieTickets.Controllers
             }
 
             return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnPayModel));
-
+            }
         }
 
         public IActionResult RemoveFromCart(int filmID, int time, int seatID)
         {
             var cart =
            HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
+
             if (cart is not null)
             {
 
@@ -193,7 +197,21 @@ namespace BookingMovieTickets.Controllers
 
         public IActionResult PaymentCallBack()
         {
-            return View();  
+            var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
+
+            var response = _vnPayService.PaymentExecute(Request.Query);
+            if (response == null || response.VnPayResponseCode != "00")
+
+            {
+                TempData["Message"] = $"Lỗi thanh toán VNPay: {response.VnPayResponseCode}";
+                return RedirectToAction("PaymentFail");
+            }
+            TempData["MessageSucess"] = $"Thanh toán VNPAY thành công: {response.VnPayResponseCode}";
+            //  TempData["Message"] = $"Thanh toán VNPAY thành công: {response.VnPayResponseCode}";
+
+            TempData["OrderId"] = response.ReceiptId;
+
+            return View("SucessfulOrder");
         }
     }
 }

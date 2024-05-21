@@ -147,13 +147,13 @@
                             <a asp-controller="Home" asp-action="AllFilm">Thể loại</a>
 @*                             @await Component.InvokeAsync("FilmCategory")*@ 
                             <ul>
-
+@* 
                                 @foreach (var item in model.FilmCategories)
                                 {
                                     <li class="menu__nav-item">
                                         <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home" asp-area="">@item.Name</a>
                                     </li>
-                                }
+                                } *@
                             </ul>
                         </li>
                         <li>
