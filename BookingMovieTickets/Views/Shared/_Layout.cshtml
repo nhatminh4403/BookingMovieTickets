@@ -130,42 +130,42 @@
                     <ul id="navigation">
                         <li>
                             <span class="sub-nav-toggle plus"></span>
-                            <a asp-controller="Home" asp-action="AllFilm">Phim</a>                           
+                            <a href="~/Home/AllFilm">Phim</a>                           
                             <ul>
                                 <li class="menu__nav-item">
-                                    <a asp-controller="Home" asp-action="UpcomingFilm">Phim sấp chiếu</a>
+                                    <a href="~/Home/UpcomingFilm">Phim sắp chiếu</a>
                                 </li>
                                 <li class="menu__nav-item">
-                                    <a asp-controller="Home" asp-action="phim_dang_chieu">Phim đang chiếu</a>
+                                    <a href="~/Home/phim_dang_chieu">Phim đang chiếu</a>
                                 </li>
                             </ul>
                         </li>
 
                         <li>
                             <span class="sub-nav-toggle plus "></span>
-                            <a asp-controller="Home" asp-action="AllFilm">Thể loại</a>
-                            @* @if(model?.FilmCategories != null)
+                            <a href="~/Home/AllFilm">Thể loại</a>
+                            <ul>
+                                @if (model?.FilmCategories != null)
                                 {
 
-                                
-                                    @* @foreach (var item in model?.FilmCategories)
+
+                                    @foreach (var item in model?.FilmCategories)
                                     {
                                         <li class="menu__nav-item">
-                                            <a asp-action="SortFilmsByCategories" asp-route-id="@item.FilmCategoryId" asp-controller="Home" asp-area="">@item.Name</a>
+                                            <a href="@Url.Action("SortFilmsByCategories", "Home", new { area = "", id = item.FilmCategoryId })">@item.Name</a>
                                         </li>
-                                    } 
-                                    <partial name="_FilmCategoriesPartial" model="model.FilmCategories" />
+                                    }
+                                    @*  <partial name="_FilmCategoriesPartial" model="model.FilmCategories" /> *@
 
                                 }
                                 else
                                 {
-                                    <ul>
-                                    <li class="menu__nav-item">lỗi</li>
 
-                                    </ul>
+                                        <li class="menu__nav-item text-white" >Hoàn thành đăng nhập/đăng ký để tiếp tục xem</li>
+
                                 }
-                             *@
-                            @await Component.InvokeAsync("FilmCategory")
+                            </ul>
+@*                            @await Component.InvokeAsync("FilmCategory") *@ 
                         </li>
                         <li>
                             <span class="sub-nav-toggle plus"></span>
