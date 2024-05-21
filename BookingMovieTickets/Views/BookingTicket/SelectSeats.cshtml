@@ -14,7 +14,9 @@
             scheduleId =   item.FilmScheduleId;
             break;
         }
-    }     
+    }  
+    
+    var schedule = ViewBag.schedule;
 }
 
 
@@ -50,6 +52,7 @@
     }
 
     .container__film {
+        width: 100%;
         display: flex;
         gap: 22px;
         margin-bottom: 80px;
