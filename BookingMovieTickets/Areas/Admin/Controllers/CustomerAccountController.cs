@@ -21,7 +21,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             IList<UserInfo> customer = await _userManager.GetUsersInRoleAsync("Customer");
             return View(customer);
         }
-
+        
         // GET: CustomerAccountController/Details/5
         public  ActionResult Details(int id)
         {

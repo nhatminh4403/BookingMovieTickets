@@ -7,11 +7,24 @@
 
 
 <div class="container-fluid">
+    <a asp-action="Create" asp-area="Admin" asp-controller="Theatre">Tạo mới</a>
     <ul class="nav nav-tabs justify-content-center" id="mainTab" role="tablist">
         @foreach (var item in Model.Theatres)
         {
             <li class="nav-item">
-                <a class="nav-link" id="tab-@item.TheatreId-tab" data-toggle="tab" href="#tab-@item.TheatreId" role="tab" aria-controls="tab-@item.TheatreId" aria-selected="true">@item.Name</a>
+                
+                <div class="d-flex align-items-center ms-2">
+                    <a class="nav-link" id="tab-@item.TheatreId-tab" data-toggle="tab" href="#tab-@item.TheatreId" role="tab" aria-controls="tab-@item.TheatreId" aria-selected="true">@item.Name</a>
+                    <form asp-action="Edit" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline">
+                        <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                    </form>
+                    <form asp-action="Details" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline ms-2">
+                        <button type="submit" class="btn btn-primary btn-sm">Details</button>
+                    </form>
+                    <form asp-action="Delete" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline ms-2">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
             </li>
         }
 

@@ -1,4 +1,5 @@
 ﻿using BookingMovieTickets.Repository.Interface;
+using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,24 +18,37 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         private readonly I_Schedule _ScheduleRepository;
         private readonly I_TheatreRoom _TheatreRoomRepository;
         private readonly I_Seat _SeatRepository;
+        private readonly I_FilmRepository _FilmRepository;
         private readonly I_Theater _TheaterRepository; 
-        public ScheduleController(BookingMovieTicketsDBContext context, I_Schedule scheduleRepository, I_TheatreRoom theatreRoomRepository, I_Seat seatRepository, I_Theater theaterRepository)
+        public ScheduleController(BookingMovieTicketsDBContext context, I_Schedule scheduleRepository, I_TheatreRoom theatreRoomRepository, I_Seat seatRepository, I_Theater theaterRepository, I_FilmRepository filmRepository)
         {
             _context = context;
             _ScheduleRepository = scheduleRepository;
             _TheatreRoomRepository = theatreRoomRepository;
             _SeatRepository = seatRepository;
             _TheaterRepository = theaterRepository;
+            _FilmRepository = filmRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            var filmSchedules = await _ScheduleRepository.GetAllAsync();
-            return View(filmSchedules);
+            var filmSchedules = await _context.FilmSchedules.Include(p=>p.Film).Include(p=>p.TheatreRoom).Include(p=>p.TheatreRoom.Theatre).ToListAsync();
+            var films = await _FilmRepository.GetAllAsync();
+/*            var scheduleVM = filmSchedules.Select(p => new FilmScheduleVM
+            {
+
+                FilmId = p.FilmId,
+                FilmName = p.Film.NameFilm,
+                TheatreRoomId = p.TheatreRoomId,
+                RoomName = p.TheatreRoom.RoomName,
+                TheatreId = p.TheatreRoom.TheatreId,
+                Name = p.TheatreRoom.Theatre.Name
+            }).Distinct().ToList();*/
+            return View(films);
         }
         public async Task<IActionResult> Details(int id)
         {
-            var filmSchedule = await _ScheduleRepository.GetByIdAsync(id);
+            var filmSchedule = await _FilmRepository.GetByIdAsync(id);
             if (filmSchedule == null)
             {
                 return NotFound();

@@ -79,33 +79,20 @@
     <!-- page-wrapper Start-->
     <div class="page-wrapper compact-wrapper dark-sidebar" id="pageWrapper">
         <!-- Page Header Start-->
-        <div class="page-header">
-            <div class="header-wrapper row m-0">
-                <div class="header-logo-wrapper col-auto p-0">
-                    <div class="logo-wrapper">
+        <div class="page-header" >
+            <div class="header-wrapper row m-0" style="padding: unset">
+                @* <div class="header-logo-wrapper col-auto p-0">
+                                        <div class="logo-wrapper">
                         <a href="~/img/AppleLogo.png">
                             <img class="img-fluid main-logo" src="/admin/assets/images/logo/logo.png" alt="logo">
                             <img class="img-fluid white-logo" src="/admin/assets/images/logo/logo-white.png" alt="logo">
-                        </a>
+                        </a> 
                     </div>
                     <div class="toggle-sidebar">
                         <i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i>
                     </div>
-                </div>
+                </div>*@
                 <form class="form-inline search-full col" action="javascript:void(0)" method="get">
-                    @*<div class="form-group w-100">
-                    <div class="Typeahead Typeahead--twitterUsers">
-                    <div class="u-posRelative">
-                    <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text"
-                    placeholder="Search Voxo .." name="q" title="" autofocus>
-                    <i class="close-search" data-feather="x"></i>
-                    <div class="spinner-border Typeahead-spinner" role="status">
-                    <span class="sr-only">Loading...</span>
-                    </div>
-                    </div>
-                    <div class="Typeahead-menu"></div>
-                    </div>
-                    </div>*@
                 </form>
                 <div class="nav-right col-4 pull-right right-header p-0">
                     <ul class="nav-menus">
@@ -114,15 +101,10 @@
                                 <span class="lnr lnr-magnifier"></span>
                             </span>
                         </li>
-                        @*<li>
-                        <div class="mode">
-                        <span class="lnr lnr-moon"></span>
-                        </div>
-                        </li>*@
                         <li class="profile-nav onhover-dropdown pe-0 me-0" style="height:50px">
                             <div class="media profile-media" style="height:50px">
                                 <img class="user-profile rounded-circle" src="/admin/assets/images/users/4.jpg" alt="">
-                                <div class="user-name-hide media-body">
+                                <div class="user-name-hide">
                                     <span>Xin chào!</span>
                                     <p class="mb-0 font-roboto">@UserManager.GetUserName(User)<i class="middle fa fa-angle-down"></i></p>
                                 </div>
@@ -340,6 +322,7 @@
     <!-- select2 js -->
     <script src="/admin/assets/js/select2.min.js"></script>
     <script src="/admin/assets/js/select2-custom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <!-- Theme js -->
     <script src="/admin/assets/js/script.js"></script>

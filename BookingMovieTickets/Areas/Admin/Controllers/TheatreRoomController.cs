@@ -5,6 +5,7 @@ using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authorization;
 using MoviesBooking.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace BookingMovieTickets.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -14,13 +15,15 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         private readonly I_TheatreRoom _TheatreRoomRepository;
         private readonly I_Seat _SeatRepo;
         private readonly I_Schedule _FilmScheduleRepo;
+        private readonly I_Theater _TheaterRepo;
         private readonly BookingMovieTicketsDBContext _dbContext;
-        public TheatreRoomController(I_TheatreRoom theatreRoomRepository, I_Seat seatRepo, I_Schedule filmScheduleRepo, BookingMovieTicketsDBContext dbContext)
+        public TheatreRoomController(I_TheatreRoom theatreRoomRepository, I_Seat seatRepo, I_Schedule filmScheduleRepo, BookingMovieTicketsDBContext dbContext,I_Theater theaterRepo)
         {
             _TheatreRoomRepository = theatreRoomRepository;
             _SeatRepo = seatRepo;
             _FilmScheduleRepo = filmScheduleRepo;
             _dbContext = dbContext;
+            _TheaterRepo = theaterRepo;
         }
 
         // GET: TheatreRoomController
@@ -130,8 +133,11 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         }
 
         // GET: TheatreRoomController/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var theater = await _TheaterRepo.GetAllAsync();
+            ViewBag.Theaters = new SelectList(theater, "TheatreId", "Name");
+
             return View();
         }
 
@@ -140,9 +146,11 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TheatreRoom theatreRoom)
         {
+            var theater = await _TheaterRepo.GetAllAsync();
             if (ModelState.IsValid)
             {
-                await _TheatreRoomRepository.AddAsync(theatreRoom); 
+                await _TheatreRoomRepository.AddAsync(theatreRoom);
+                ViewBag.Theaters = new SelectList(theater, "TheatreId", "Name");
                 return RedirectToAction("Index", "Manager", new { area = "Admin" });
             }
             return View(theatreRoom);

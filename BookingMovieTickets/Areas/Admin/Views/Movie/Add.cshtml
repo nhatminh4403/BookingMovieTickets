@@ -1,5 +1,12 @@
 ﻿@model MoviesBooking.Models.Film
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+    .page-header {
+        margin: unset;
+    }
+</style>
 @{
     ViewData["Title"] = "Add";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -20,7 +27,7 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row">
                                 <div class="mb-4 row align-items-center">
-                                    <label class="form-label-title col-sm-2 mb-0" class="control-label">Tên pjim</label>
+                                    <label class="form-label-title col-sm-2 mb-0" class="control-label">Tên phim</label>
                                     <div class="col-sm-10">
                                         <input asp-for="NameFilm" class="form-control" /><span asp-validation-for="NameFilm" class="text-danger"></span>
                                     </div>
@@ -67,6 +74,13 @@
                                     </div>
                                 </div>
                                 <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-sm-2 mb-0">Dàn diễn viên</label>
+                                    <div class="col-sm-10">
+                                        <input asp-for="Actors" class="form-control" />
+                                        <span asp-validation-for="Actors" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Ngôn ngữ</label>
                                     <div class="col-sm-10">
                                         <input asp-for="Language  " class="form-control" />
@@ -80,18 +94,17 @@
                                         <span asp-validation-for="FilmRated" class="text-danger"></span>
                                     </div>
                                 </div>
-                                <div class="mb-4 row align-items-center">
-                                    <label class="form-label-title col-sm-2 mb-0">Dàn diễn viên</label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="Actors" class="form-control" />
-                                        <span asp-validation-for="Actors" class="text-danger"></span>
-                                    </div>
-                                </div>
+                               
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Ngày công chiếu</label>
                                     <div class="col-sm-10">
                                         <div class="form-group">
-                                            <input asp-for="StartTime" type="text" id="datepicker" class="form-control" value="@DateTime.Now.ToString("dd-MM-yyyy")" />
+                                            <div class='input-group date' id='datepicker'>
+                                                <input asp-for="StartTime" type="text" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>                                       
                                             <span asp-validation-for="StartTime" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -109,6 +122,7 @@
         </div>
     </div>
 </div>
+
 <script>
     function previewPoster(event) {
         const input = event.target;
@@ -125,18 +139,16 @@
     
 </script>
 @section Scripts{
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+
     <script>
-       $(function () {
-        $('#datepicker').datepicker({
-            format: 'DD-MM-YYYY', // Specify the format of the displayed date
-            useCurrent: false
-        }).on('dp.change', function (e) {
-            var formattedDate = moment(e.date).format('DD-MM-YYYY');
-            $(this).val(formattedDate);
+        $(function () {
+            $('#datepicker').datetimepicker();
         });
-    });
     </script>
 }

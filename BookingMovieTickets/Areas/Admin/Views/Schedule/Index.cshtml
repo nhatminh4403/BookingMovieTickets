@@ -1,45 +1,51 @@
-﻿@model IEnumerable<MoviesBooking.Models.FilmSchedule>
-
+﻿@model IEnumerable<MoviesBooking.Models.Film>
+@using BookingMovieTickets.VIewModel
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
+ 
             <th>
-                @Html.DisplayNameFor(model => model.FilmScheduleDescription)
+                Phim
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Film)
+                Tên phòng
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TheatreRoom)
+                Tên rạp
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Distinct()) {
         <tr>
+
             <td>
-                @Html.DisplayFor(modelItem => item.FilmScheduleDescription)
+                @Html.DisplayFor(modelItem => item.NameFilm)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Film.NameFilm)
+            @foreach (var item1 in item?.FilmSchedules.Where(fs => fs.TheatreRoom?.Theatre != null).Select(fs => fs.TheatreRoom.RoomName).Distinct())
+            {
+                @item1
+            }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TheatreRoom.RoomName)
+                @foreach (var item1 in item?.FilmSchedules.Where(fs => fs.TheatreRoom?.Theatre != null).Select(fs => fs.TheatreRoom.Theatre.Name).Distinct())
+                {
+                    @item1
+                }
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.FilmScheduleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FilmScheduleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FilmScheduleId">Delete</a>
+                <a asp-action="Create" asp-route-id="@item.FilmId">Thêm lịch chiếu</a> |
+                <a asp-action="Edit" asp-route-id="@item.FilmId">Sửa lịch chiếu</a> |
+                <a asp-action="Details" asp-route-id="@item.FilmId">Chi tiết</a> |
+                <a asp-action="Delete" asp-route-id="@item.FilmId">Xóa</a>
             </td>
         </tr>
 }

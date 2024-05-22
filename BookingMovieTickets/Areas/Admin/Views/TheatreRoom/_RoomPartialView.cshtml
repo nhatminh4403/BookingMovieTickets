@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MoviesBooking.Models.TheatreRoom>
 
 <p>
-    <a asp-action="Create">Thêm phòng mới</a>
+    <a asp-action="Create" asp-area="Admin" asp-controller="TheatreRoom">Thêm phòng mới</a>
 </p>
 
 @for (int i = 0; i < Model.Count(); i += 3)
