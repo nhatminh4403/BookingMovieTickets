@@ -62,6 +62,10 @@ namespace BookingMovieTickets.Repository.EF
            return  await _context.Films.Where(p =>p.NameFilm !=null  && p.NameFilm.Contains(name)).ToListAsync();
             
         }
+        public async Task<IEnumerable<Film>> GetAllShowAsync(int movieId)
+        {
+            return await _context.Films.Where(x => x.FilmId == movieId).ToListAsync();
+        }
     }
 }
 

@@ -3,6 +3,7 @@ using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
@@ -33,18 +34,22 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var filmSchedules = await _context.FilmSchedules.Include(p=>p.Film).Include(p=>p.TheatreRoom).Include(p=>p.TheatreRoom.Theatre).ToListAsync();
-            var films = await _FilmRepository.GetAllAsync();
-/*            var scheduleVM = filmSchedules.Select(p => new FilmScheduleVM
-            {
+            var films = await _context.Films
+            .Include(f => f.FilmSchedules)
+            .ThenInclude(fs => fs.TheatreRoom)
+            .ThenInclude(tr => tr.Theatre)
+            .ToListAsync();
 
-                FilmId = p.FilmId,
-                FilmName = p.Film.NameFilm,
-                TheatreRoomId = p.TheatreRoomId,
-                RoomName = p.TheatreRoom.RoomName,
-                TheatreId = p.TheatreRoom.TheatreId,
-                Name = p.TheatreRoom.Theatre.Name
-            }).Distinct().ToList();*/
-            return View(films);
+            var filmsWithSchedules = films.Where(f => f.FilmSchedules.Any()).ToList();
+            var filmsWithoutSchedules = films.Where(f => !f.FilmSchedules.Any()).ToList();
+
+            var filmIndexViewModel = new FilmScheduleVM
+            {
+                FilmsWithSchedules = filmsWithSchedules,
+                FilmsWithoutSchedules = filmsWithoutSchedules
+            };
+
+            return View(filmIndexViewModel);
         }
         public async Task<IActionResult> Details(int id)
         {
@@ -135,6 +140,45 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         private bool FilmScheduleExists(int id)
         {
             return _ScheduleRepository.GetByIdAsync(id) != null;
+        }
+        public async Task<IActionResult> AddSchedule(FilmSchedule schedule, int movieId) // Use the Showtime model as the parameter
+        {
+            //showtime.MovieId = movieId;
+            var movies = await _FilmRepository.GetAllShowAsync(movieId);
+            ViewBag.Movies = new SelectList(movies, "FilmId", "NameFilm");
+
+/*            var screentimes = await _screentimeRepo.GetAllAsync();
+            ViewBag.Screentimes = new SelectList(screentimes, "ScreenTimeId", "ScreenTime");*/
+
+            var rooms = await _TheatreRoomRepository.GetAllRoomAsync();
+            ViewBag.Rooms = new SelectList(rooms, "TheatreRoomId", "RoomName");
+
+            return View(schedule); // Re-render the view with populated showtime object (for validation errors)
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddSchedule(FilmSchedule schedule, int movieId, string roomId)
+        {
+            //var movie = await _movieRepo.GetByIdAsync(movieId);
+            //var room = await _roomRepo.GetByIdAsync(roomId);
+            if (ModelState.IsValid)
+            {
+                await _ScheduleRepository.AddAsync(schedule);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
+                var movies = await _FilmRepository.GetAllShowAsync(movieId);
+                ViewBag.Movies = new SelectList(movies, "FilmId", "NameFilm");
+
+                /*            var screentimes = await _screentimeRepo.GetAllAsync();
+                            ViewBag.Screentimes = new SelectList(screentimes, "ScreenTimeId", "ScreenTime");*/
+
+                var rooms = await _TheatreRoomRepository.GetAllRoomAsync();
+                ViewBag.Rooms = new SelectList(rooms, "TheatreRoomId", "RoomName");
+                return View(schedule);
+            }
+
         }
     }
 }

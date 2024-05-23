@@ -1,53 +1,87 @@
-﻿@model IEnumerable<MoviesBooking.Models.Film>
+﻿@model BookingMovieTickets.VIewModel.FilmScheduleVM
 @using BookingMovieTickets.VIewModel
 @{
     ViewData["Title"] = "Index";
 }
-
-
-
-<table class="table">
-    <thead>
-        <tr>
- 
-            <th>
-                Phim
-            </th>
-            <th>
-                Tên phòng
-            </th>
-            <th>
-                Tên rạp
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Distinct()) {
-        <tr>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.NameFilm)
-            </td>
-            <td>
-            @foreach (var item1 in item?.FilmSchedules.Where(fs => fs.TheatreRoom?.Theatre != null).Select(fs => fs.TheatreRoom.RoomName).Distinct())
-            {
-                @item1
-            }
-            </td>
-            <td>
-                @foreach (var item1 in item?.FilmSchedules.Where(fs => fs.TheatreRoom?.Theatre != null).Select(fs => fs.TheatreRoom.Theatre.Name).Distinct())
+<div class="container">
+    <h2>Phim có lịch chiếu và phòng</h2>
+    <div class="film-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Phim</th>
+                    <th>Tên phòng</th>
+                    <th>Tên rạp</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.FilmsWithSchedules.Distinct())
                 {
-                    @item1
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.NameFilm)</td>
+                        <td>
+                            @foreach (var item1 in item?.FilmSchedules.Where(fs => fs.TheatreRoom?.Theatre != null).Select(fs => fs.TheatreRoom.RoomName).Distinct())
+                            {
+                                @item1 <br />
+                            }
+                        </td>
+                        <td>
+                            @foreach (var item1 in item?.FilmSchedules.Where(fs => fs.TheatreRoom?.Theatre != null).Select(fs => fs.TheatreRoom.Theatre.Name).Distinct())
+                            {
+                                @item1 <br />
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.FilmId">Sửa lịch chiếu</a> |
+                            <a asp-action="Details" asp-route-id="@item.FilmId">Chi tiết</a> |
+                            <a asp-action="Delete" asp-route-id="@item.FilmId">Xóa</a>
+                        </td>
+                    </tr>
                 }
-            </td>
-            <td>
-                <a asp-action="Create" asp-route-id="@item.FilmId">Thêm lịch chiếu</a> |
-                <a asp-action="Edit" asp-route-id="@item.FilmId">Sửa lịch chiếu</a> |
-                <a asp-action="Details" asp-route-id="@item.FilmId">Chi tiết</a> |
-                <a asp-action="Delete" asp-route-id="@item.FilmId">Xóa</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <h2>Phim không có lịch chiếu</h2>
+    <div class="film-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Phim</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.FilmsWithoutSchedules.Distinct())
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.NameFilm)</td>
+                        <td>
+                            <a asp-action="Create" asp-route-id="@item.FilmId">Thêm lịch chiếu</a> |
+                            <a asp-action="Edit" asp-route-id="@item.FilmId">Sửa lịch chiếu</a> |
+                            <a asp-action="Details" asp-route-id="@item.FilmId">Chi tiết</a> |
+                            <a asp-action="Delete" asp-route-id="@item.FilmId">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .container {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .film-container {
+        margin-top: 15px;
+    }
+</style>
