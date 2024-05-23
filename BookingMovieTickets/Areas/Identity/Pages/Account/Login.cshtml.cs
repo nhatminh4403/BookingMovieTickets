@@ -15,6 +15,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MoviesBooking.Models;
+using BookingMovieTickets.Repository.Interface;
+using MoviesBooking.DataAccess;
+using BookingMovieTickets.VIewModel;
 
 namespace BookingMovieTickets.Areas.Identity.Pages.Account
 {
@@ -23,11 +26,29 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
         private readonly SignInManager<UserInfo> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly UserManager<UserInfo> _userManager;
-        public LoginModel(SignInManager<UserInfo> signInManager, ILogger<LoginModel> logger, UserManager<UserInfo> userManager)
+
+
+        private readonly I_FilmCategoryRepository _filmCategoryRepository;
+        private readonly I_FilmRepository _filmRepository;
+        private readonly I_Seat _seatRepo;
+        private readonly BookingMovieTicketsDBContext _dbContext;
+        private readonly I_Schedule _scheduleRepo;
+        private readonly I_TheatreRoom _theatreRoomRepo;
+        private readonly I_Theater _TheaterRepo;
+        public LoginModel(SignInManager<UserInfo> signInManager, ILogger<LoginModel> logger, UserManager<UserInfo> userManager, I_FilmCategoryRepository filmCategoryRepository,
+         I_FilmRepository filmRepository, I_Seat searRepo,BookingMovieTicketsDBContext dBContext,I_Schedule scheduleRepo, I_TheatreRoom theatreRoomRepo, I_Theater theaterRepo)
         {
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
+            _filmRepository = filmRepository;
+            _seatRepo = searRepo;
+            _filmCategoryRepository = filmCategoryRepository;
+            _scheduleRepo = scheduleRepo;
+            _theatreRoomRepo = theatreRoomRepo;
+            _TheaterRepo = theaterRepo;
+
+            _dbContext = dBContext;
         }
 
         /// <summary>
@@ -60,6 +81,8 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        /// 
+        public FilmVM FilmVM { get; set; }
         public class InputModel
         {
             /// <summary>
@@ -86,63 +109,95 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-            public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null)
+        {
+            if (!string.IsNullOrEmpty(ErrorMessage))
             {
-                if (!string.IsNullOrEmpty(ErrorMessage))
-                {
-                    ModelState.AddModelError(string.Empty, ErrorMessage);
-                }
-
-                returnUrl ??= Url.Content("~/");
-
-                // Clear the existing external cookie to ensure a clean login process
-                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-                ReturnUrl = returnUrl;
+                ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
-            public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+            returnUrl ??= Url.Content("~/");
+
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            ReturnUrl = returnUrl;
+
+            var films = await _filmRepository.GetAllAsync();
+            var categories = await _filmCategoryRepository.GetAllAsync();
+            var seats = await _seatRepo.GetAllSeatAsync();
+            var schedules = await _scheduleRepo.GetAllAsync();
+            var rooms = await _theatreRoomRepo.GetAllRoomAsync();
+            var theaters = await _TheaterRepo.GetAllAsync();
+            FilmVM = new FilmVM
             {
-                returnUrl ??= Url.Content("~/");
+                Films = films,
+                FilmCategories = categories,
+                Seats = seats,
+                FilmSchedules = schedules,
+                TheatreRooms = rooms,
+                Theatres = theaters
+            }; ViewData["LayoutViewModel"] = FilmVM;
 
-                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        }
 
-                if (ModelState.IsValid)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        {
+            returnUrl ??= Url.Content("~/");
+
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
                 {
-                    // This doesn't count login failures towards account lockout
-                    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    if (result.Succeeded)
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    if (user != null && await _userManager.IsInRoleAsync(user, "Admin") && User.Identity.IsAuthenticated)
                     {
-                        var user = await _userManager.FindByEmailAsync(Input.Email);
-                        if (user != null && await _userManager.IsInRoleAsync(user, "Admin") && User.Identity.IsAuthenticated)
-                        {
                         // If the user is an admin, redirect to the Manager view
-                            return RedirectToAction("Index", "Manager", new { area = "Admin" });
-                        }
-                        _logger.LogInformation("User logged in.");
-                        return LocalRedirect(returnUrl);
+                        return RedirectToAction("Index", "Manager", new { area = "Admin" });
                     }
-                    if (result.RequiresTwoFactor)
-                    {
-                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                    }
-                    if (result.IsLockedOut)
-                    {
-                        _logger.LogWarning("User account locked out.");
-                        return RedirectToPage("./Lockout");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
-                    }
+                    _logger.LogInformation("User logged in.");
+                    return LocalRedirect(returnUrl);
                 }
-
-                // If we got this far, something failed, redisplay form
-                return Page();
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                }
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return RedirectToPage("./Lockout");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
             }
+            var films = await _filmRepository.GetAllAsync();
+            var categories = await _filmCategoryRepository.GetAllAsync();
+            var seats = await _seatRepo.GetAllSeatAsync();
+            var schedules = await _scheduleRepo.GetAllAsync();
+            var rooms = await _theatreRoomRepo.GetAllRoomAsync();
+            var theaters = await _TheaterRepo.GetAllAsync();
+            FilmVM = new FilmVM
+            {
+                Films = films,
+                FilmCategories = categories,
+                Seats = seats,
+                FilmSchedules = schedules,
+                TheatreRooms = rooms,
+                Theatres = theaters
+            }; ViewData["LayoutViewModel"] = FilmVM;
+
+            // If we got this far, something failed, redisplay form
+            return Page();
+        }
     }
 }
