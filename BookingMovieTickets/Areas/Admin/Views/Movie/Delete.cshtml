@@ -106,9 +106,9 @@
     </div>
 </div>
 <div> 
-    <form asp-action="Delete">
+    <form asp-action="Delete" asp-controller="Movie">
         <input type="hidden" asp-for="FilmId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" asp-controller="Manager" asp-area="Admin">Back to List</a>
+        <input type="submit" value="Xóa" class="btn btn-danger" /> |
+        <a asp-action="Index" asp-controller="Movie" asp-area="Admin">Back to List</a>
     </form>
 </div>

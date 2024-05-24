@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
+using System.Globalization;
 using System.Security.Cryptography.Xml;
 using System.Text.Json.Serialization;
 
@@ -45,6 +46,8 @@ builder.Services.AddScoped<I_Ticket, EF_Ticket>();
 builder.Services.AddScoped<I_TicketDetail, EF_TicketDetail>();
 builder.Services.AddScoped<I_ReceiptDetail, EF_ReceiptDetail>();
 builder.Services.AddScoped<I_Cart, EF_Cart>();
+builder.Services.AddScoped<I_ScheduleDescription, EF_ScheduleDescription>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.ConfigureApplicationCookie(option =>
 {
@@ -52,6 +55,18 @@ builder.Services.ConfigureApplicationCookie(option =>
     option.LogoutPath = $"/Identity/Account/Logout";
     option.LogoutPath = $"/Identity/Account/AccessDenied";
 
+});
+
+var defaultCulture = new CultureInfo("vi-VN");
+defaultCulture.DateTimeFormat.ShortDatePattern = "dd-MM-yyyy";
+defaultCulture.DateTimeFormat.DateSeparator = "-";
+var supportedCulture = new[] { defaultCulture };
+
+builder.Services.Configure<RequestLocalizationOptions>(option =>
+{
+    option.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("vn");
+    option.SupportedCultures = supportedCulture;
+    option.SupportedUICultures = supportedCulture;
 });
 
 builder.Services.AddSingleton<IVnPayService, VnPayService>();

@@ -360,9 +360,8 @@ namespace BookingMovieTickets.Migrations
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FilmScheduleDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ScheduleDescriptionId")
+                        .HasColumnType("int");
 
                     b.Property<int>("TheatreRoomId")
                         .HasColumnType("int");
@@ -370,6 +369,8 @@ namespace BookingMovieTickets.Migrations
                     b.HasKey("FilmScheduleId");
 
                     b.HasIndex("FilmId");
+
+                    b.HasIndex("ScheduleDescriptionId");
 
                     b.HasIndex("TheatreRoomId");
 
@@ -580,6 +581,22 @@ namespace BookingMovieTickets.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("WebCinema.Models.ScheduleDescription", b =>
+                {
+                    b.Property<int>("ScheduleDescriptionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleDescriptionId"));
+
+                    b.Property<TimeSpan>("Description")
+                        .HasColumnType("time");
+
+                    b.HasKey("ScheduleDescriptionId");
+
+                    b.ToTable("ScheduleDescriptions");
+                });
+
             modelBuilder.Entity("BookingMovieTickets.Models.Receipt", b =>
                 {
                     b.HasOne("MoviesBooking.Models.UserInfo", "User")
@@ -710,6 +727,12 @@ namespace BookingMovieTickets.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebCinema.Models.ScheduleDescription", "ScheduleDescription")
+                        .WithMany("FilmSchedules")
+                        .HasForeignKey("ScheduleDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MoviesBooking.Models.TheatreRoom", "TheatreRoom")
                         .WithMany("FilmSchedules")
                         .HasForeignKey("TheatreRoomId")
@@ -717,6 +740,8 @@ namespace BookingMovieTickets.Migrations
                         .IsRequired();
 
                     b.Navigation("Film");
+
+                    b.Navigation("ScheduleDescription");
 
                     b.Navigation("TheatreRoom");
                 });
@@ -820,6 +845,11 @@ namespace BookingMovieTickets.Migrations
 
                     b.Navigation("TicketCart")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebCinema.Models.ScheduleDescription", b =>
+                {
+                    b.Navigation("FilmSchedules");
                 });
 #pragma warning restore 612, 618
         }

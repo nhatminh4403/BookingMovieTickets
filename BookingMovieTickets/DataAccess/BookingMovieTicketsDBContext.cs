@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.Models;
 
+
 namespace MoviesBooking.DataAccess
 {
     public class BookingMovieTicketsDBContext : IdentityDbContext<UserInfo>
@@ -13,6 +14,7 @@ namespace MoviesBooking.DataAccess
 
 
         public DbSet<UserInfo> Users { get; set; }
+        public DbSet<ScheduleDescription> ScheduleDescriptions { get; set; }
         public DbSet<TicketCart> TicketCarts { get; set; }
         public DbSet<TicketCartDetail> TicketCartDetails { get; set; }
         public DbSet<TheatreRoom> TheatreRooms { get; set; }

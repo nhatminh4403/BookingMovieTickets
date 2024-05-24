@@ -90,30 +90,16 @@ namespace BookingMovieTickets.Controllers
         public async Task<IActionResult> FilmDetailView(int id)
         {
             var film = await _dbContext.Films.Include(p => p.FilmCategory).Include(f => f.FilmSchedules).ThenInclude(fs => fs.TheatreRoom)
-                                             .ThenInclude(tr => tr.Theatre)
-                                     .FirstOrDefaultAsync(f => f.FilmId == id);
+                                             .ThenInclude(tr => tr.Theatre).Include(f => f.FilmSchedules)
+                                            .ThenInclude(fs => fs.ScheduleDescription)
+                                             .FirstOrDefaultAsync(f => f.FilmId == id);
             if (film == null)
             {
                 return NotFound();
             }
             return View(film);
         }
-        public async Task<IActionResult> BookingSeat(int idFilm, string ScheduleFilm)
-        {
 
-            var filmSchedule = await _scheduleRepo.GetAllAsync();
-
-            foreach (var item in filmSchedule)
-            {
-                if (item.FilmId == idFilm && item.FilmScheduleDescription == ScheduleFilm)
-                {
-
-                    var room = await _theatreRoomRepo.GetByIdAsync(item.TheatreRoomId);
-                    return View(room);
-                }
-            }
-            return NotFound();
-        }
         public async Task<IActionResult> AllFilm(string namefilm)
         {
             var films = await _filmRepository.GetAllAsync();

@@ -24,9 +24,10 @@ namespace BookingMovieTickets.Controllers
         private readonly I_TicketDetail _TicketDetailRepo;
         private readonly IVnPayService _vnPayService;
         private readonly I_FilmCategoryRepository _FilmCategoryRepository;
+        private readonly I_ScheduleDescription _ScheduleDescriptionRepo;
         private readonly BookingMovieTicketsDBContext _bookingMovieTicketsDBContext;
         public BookingTicketController(I_Cart cartRepo, I_Ticket ticketRepo, I_FilmRepository FilmRepository, I_Schedule scheduleRepo, I_Receipt receiptRepo,
-            BookingMovieTicketsDBContext bookingMovieTicketsDBContext,I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository,I_TicketDetail ticketDetail, IVnPayService vnPayService )
+            BookingMovieTicketsDBContext bookingMovieTicketsDBContext,I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository,I_TicketDetail ticketDetail, IVnPayService vnPayService,I_ScheduleDescription scheduleDescription)
             : base(bookingMovieTicketsDBContext)
         {
             _cartRepo = cartRepo;
@@ -39,6 +40,7 @@ namespace BookingMovieTickets.Controllers
             _FilmCategoryRepository = filmCategoryRepository;
             _TicketDetailRepo = ticketDetail;
             _vnPayService = vnPayService;
+            _ScheduleDescriptionRepo = scheduleDescription;
         }
 
         // GET: BookingTicketController
@@ -47,12 +49,17 @@ namespace BookingMovieTickets.Controllers
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
             return View(cart);
         }
-        public async Task<IActionResult> SelectSeats(int filmId, int Time)
+        public async Task<IActionResult> SelectSeats(int filmId, int Time, int descriptionId)
         {
             var film = await _FilmRepository.GetByIdAsync(filmId);
-            var schedule = _bookingMovieTicketsDBContext.FilmSchedules
+            var schedule = await _bookingMovieTicketsDBContext.FilmSchedules
+                            .Include(fs => fs.TheatreRoom)
+                             .Include(fs => fs.ScheduleDescription)
                             .Where(fs => fs.FilmId == filmId && fs.FilmScheduleId == Time)
-                            .ToList();
+                            .ToListAsync();
+            var scheduleDescription = await _bookingMovieTicketsDBContext.ScheduleDescriptions
+                        .Where(fs =>  fs.ScheduleDescriptionId == descriptionId).ToListAsync();
+
             var categories = await _FilmCategoryRepository.GetAllAsync();
             if (schedule.Any())
             {
@@ -60,28 +67,31 @@ namespace BookingMovieTickets.Controllers
                 var room = await _bookingMovieTicketsDBContext.TheatreRooms
                                  .FirstOrDefaultAsync(room => room.TheatreRoomId == firstSchedule.TheatreRoomId);
 
-                var availableSeats = _bookingMovieTicketsDBContext.Seats.Where(s => s.TheatreRoomId == room.TheatreRoomId).ToList();
-                
+                var availableSeats = await _bookingMovieTicketsDBContext.Seats.Where(s => s.TheatreRoomId == room.TheatreRoomId).ToListAsync();
+
                 var viewModel = new SeatVM
                 {
                     Film = film,
                     Schedules = schedule,
                     TheatreRoom = room,
                     Seats = availableSeats,
-                    ScheduleId = Time
+                    ScheduleId = Time,
+                    ScheduleDescriptions = scheduleDescription,
+                    ScheduleDescriptionId = descriptionId
                 };
                 ViewData["SeatVM"] = viewModel;
                 return View(viewModel);
             }
             return NotFound();
         }
-
-        public async Task<IActionResult> AddToCart(int filmID, int time, int seatID)
+        
+        public async Task<IActionResult> AddToCart(int filmID, int time, int seatID, int descriptionId)
         {
             var film = await _FilmRepository.GetByIdAsync(filmID);
             var schedule = await _ScheduleRepo.GetByIdAsync(time);
             var room = await _TheatreRoomRepo.GetByIdAsync(schedule.TheatreRoomId);
             var seat = await _bookingMovieTicketsDBContext.Seats.FindAsync(seatID);
+            var scheduleDescription = await _ScheduleDescriptionRepo.GetByIdAsync(descriptionId);
             if (film != null && schedule != null && room !=null && seat != null)
             {
                 var cartDetail = new TicketCartDetail
@@ -92,9 +102,9 @@ namespace BookingMovieTickets.Controllers
                     SeatId = seatID,
                     SeatNumber = seat.SeatNumber,
                     FilmScheduleId = time,
-                    FilmScheduleDes = schedule.FilmScheduleDescription,
-                    RoomName = room.RoomName,
-                    Price = seat.SeatPrice
+                   RoomName = room.RoomName,
+                    Price = seat.SeatPrice,
+                    FilmScheduleDes= scheduleDescription.Description.ToString("hh\\:mm")
                 };
                 var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
 

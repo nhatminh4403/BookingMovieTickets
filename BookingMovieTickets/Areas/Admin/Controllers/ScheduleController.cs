@@ -42,11 +42,14 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
 
             var filmsWithSchedules = films.Where(f => f.FilmSchedules.Any()).ToList();
             var filmsWithoutSchedules = films.Where(f => !f.FilmSchedules.Any()).ToList();
+            var filmsWithoutSchedulesStartDateBeforeNow = filmsWithoutSchedules.Where(f=>f.StartTime > DateTime.UtcNow).ToList();
+            var filmsWithoutSchedulesStartDateAfterNow = filmsWithoutSchedules.Where(f => f.StartTime<=DateTime.UtcNow).ToList();
 
             var filmIndexViewModel = new FilmScheduleVM
             {
                 FilmsWithSchedules = filmsWithSchedules,
-                FilmsWithoutSchedules = filmsWithoutSchedules
+                FilmsWithoutSchedulesStartDateBeforeNow = filmsWithoutSchedulesStartDateBeforeNow,
+                FilmsWithoutSchedulesStartDateAfterNow=filmsWithoutSchedulesStartDateAfterNow
             };
 
             return View(filmIndexViewModel);
@@ -153,6 +156,9 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             var rooms = await _TheatreRoomRepository.GetAllRoomAsync();
             ViewBag.Rooms = new SelectList(rooms, "TheatreRoomId", "RoomName");
 
+            var location = await _TheaterRepository.GetAllAsync();
+            ViewBag.Theaters = new SelectList(location, "TheatreId", "Name");
+
             return View(schedule); // Re-render the view with populated showtime object (for validation errors)
         }
         [HttpPost]
@@ -176,6 +182,10 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
 
                 var rooms = await _TheatreRoomRepository.GetAllRoomAsync();
                 ViewBag.Rooms = new SelectList(rooms, "TheatreRoomId", "RoomName");
+
+                var location = await _TheaterRepository.GetAllAsync();
+                ViewBag.Theaters = new SelectList(location, "TheatreId", "Name");
+
                 return View(schedule);
             }
 

@@ -99,7 +99,7 @@ namespace BookingMovieTickets.Controllers
             }
 
             var filmCategories = await _FilmCategoryRepository.GetAllAsync();
-            ViewBag.FilmCategories = new SelectList(filmCategories, "FilmCategoryId", "Name");
+            ViewBag.FilmCategory = new SelectList(filmCategories, "FilmCategoryId", "Name");
             return View(film);
         }
 
@@ -161,7 +161,7 @@ namespace BookingMovieTickets.Controllers
             {
                 ModelState.AddModelError("PosterUrl", "Please enter a image.");
                 var filmCategories = await _FilmCategoryRepository.GetAllAsync();
-                ViewBag.FilmCategories = new SelectList(filmCategories, "FilmCategoryId", "Name");
+                ViewBag.FilmCategory= new SelectList(filmCategories, "FilmCategoryId", "Name");
                 return View(film);
             }
 

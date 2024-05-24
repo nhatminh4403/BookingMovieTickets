@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Display";
 }
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.FilmId">Chỉnh sửa</a> |
+    <a asp-action="Index" asp-area="Admin" asp-controller="Movie">Trở về</a>
+</div>
 
 
 <h3>Thông tin phim:</h3><br />
@@ -60,11 +64,14 @@
                 </dt>
                 <dd class="col-sm-9">
                     @{
+
                         int durationInMinutes = Model.FilmDuration;
                         int hours = durationInMinutes / 60;
                         int minutes = durationInMinutes % 60;
+                        string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút ({Model.FilmDuration} phút)";
                     }
-                    @hours giờ @minutes phút
+
+                    @durationText
                 </dd>
 
                 <dt class="col-sm-3">
@@ -112,8 +119,4 @@
     </div>
 </div>
 <br />
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.FilmId">Chỉnh sửa</a> |
-    <a asp-action="Index" asp-area="Admin" asp-controller="Movie">Trở về</a>
-</div>
 

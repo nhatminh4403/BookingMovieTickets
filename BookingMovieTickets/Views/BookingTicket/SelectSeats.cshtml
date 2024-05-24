@@ -4,7 +4,7 @@
 
 @{
 
-   
+
     ViewData["Title"] = "Chọn ghế";
     var scheduleId = 0;
     foreach(var item in Model.Film.FilmSchedules)
@@ -14,9 +14,18 @@
             scheduleId =   item.FilmScheduleId;
             break;
         }
-    }  
-    
+    }
+    var scheduleDescriptionId = 0;
+    foreach(var item in Model.ScheduleDescriptions)
+    {
+        if(item.ScheduleDescriptionId == Model.ScheduleDescriptionId)
+        {
+            scheduleDescriptionId = item.ScheduleDescriptionId;
+            break;
+        }
+    }
     var schedule = ViewBag.schedule;
+    var scheduleDescription = ViewBag.scheduleDescription;
 }
 
 
@@ -92,12 +101,12 @@
     <div class="film__infor">
         <span class="film__name"> <span>Tên phim:</span> @Model.Film.NameFilm</span>
         <span class="film__room"> <span>Phòng:</span> @Model.TheatreRoom.RoomName</span>
-        <span class="film__room"><span>Giờ chiếu:
-                           @foreach(var item in Model.Schedules)
+                <span class="film__room"><span>Giờ chiếu:
+            @foreach(var item in Model.Schedules)
             {
                     if(Model.ScheduleId == item.FilmScheduleId)
                     {
-                        @item.FilmScheduleDescription
+                        @item.ScheduleDescription.Description.ToString("hh\\:mm")
                     }
                 }
 
@@ -125,12 +134,13 @@
                             <div class="seat-row">
                                 @foreach (var seat in Model.Seats.Skip(i).Take(9))
                                 {                                    
-                                        <a href="javascript:void(0);" onclick="addToCart(@Model.Film.FilmId, @scheduleId, @seat.SeatId)">
+                                        <a href="javascript:void(0);" onclick="addToCart(@Model.Film.FilmId, @scheduleId, @seat.SeatId,@scheduleDescriptionId)">
                                             <div class="seat @(seat.IsBooked ? "booked" : "")">
                                                 <img src="~/images/images-removebg-preview.png" alt="Seat Icon" />
                                                 <span class="seat-number">@seat.SeatNumber</span>
                                             </div>
-                                        </a>                                                                  }
+                                        </a>                                                                  
+                                }
                             </div>
                         }
                     }
@@ -256,14 +266,15 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-    function addToCart(filmID, time, seatID) {
+    function addToCart(filmID, time, seatID, descriptionId) {
         $.ajax({
             url: '@Url.Action("AddToCart", "BookingTicket")',
             type: 'POST',
             data: {
                 filmID: filmID,
                 time: time,
-                seatID: seatID
+                seatID: seatID,
+                descriptionId: descriptionId
             },
             success: function (response) {  
                 console.log('Ghế đã được chọn');

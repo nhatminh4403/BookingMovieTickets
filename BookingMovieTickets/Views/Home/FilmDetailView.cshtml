@@ -155,12 +155,12 @@
                         {
                             if (item.FilmId == Model.FilmId)
                             {
-                                <a asp-controller="BookingTicket" asp-action="SelectSeats" asp-route-filmId="@item.FilmId" asp-route-Time="@item.FilmScheduleId">
-                                    <li class="time-select__item" data-time='@item.FilmScheduleDescription'>                                    
-                                           @item.FilmScheduleDescription                                    
-                                    </li>
+                                <a asp-controller="BookingTicket" asp-action="SelectSeats" asp-route-filmId="@item.FilmId" asp-route-Time="@item.FilmScheduleId" asp-route-descriptionId="@item.ScheduleDescription.ScheduleDescriptionId">
+                                <li class="time-select__item" data-time='@item.ScheduleDescription.Description '>
+                                        @item.ScheduleDescription.Description.ToString("hh\\:mm")
+                                </li>
                                 </a>
-                            }
+                            } 
                         }
                     </ul>
                 </div>

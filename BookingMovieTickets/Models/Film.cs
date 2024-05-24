@@ -25,7 +25,9 @@ namespace MoviesBooking.Models
         public string Language { get; set; }
         [Required]
         public string FilmRated { get; set; }
+
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Thời lượng phim phải là số dương")]
         public int FilmDuration { get; set; }
         [Required]
         public string Actors { get; set; }

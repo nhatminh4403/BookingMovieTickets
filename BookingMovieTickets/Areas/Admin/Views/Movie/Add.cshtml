@@ -6,6 +6,7 @@
     .page-header {
         margin: unset;
     }
+
 </style>
 @{
     ViewData["Title"] = "Add";
@@ -23,27 +24,28 @@
                             <h5>Thêm phim vào cơ sở dữ liệu</h5>
                         </div>
 
-                        <form class="theme-form theme-form-2 mega-form" method="post" enctype="multipart/form-data">
+                        <form asp-action="Add" class="theme-form theme-form-2 mega-form" method="post" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row">
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0" class="control-label">Tên phim</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="NameFilm" class="form-control" /><span asp-validation-for="NameFilm" class="text-danger"></span>
+                                        <input asp-for="NameFilm" class="form-control" style="width: 100%;height: 50px;color:black" />
+                                        <span asp-validation-for="NameFilm" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <div class="mb-4 row align-items-center">
                                     <label class="col-sm-2 col-form-label form-label-title" name="CategoryId">Thể loại phim</label>
                                     <div class="col-sm-10">
-                                        <select asp-for="FilmCategoryId" class="form-control" class="js-example-basic-single w-100" asp-items="ViewBag.FilmCategory" style="height:50px"></select>
+                                        <select asp-for="FilmCategoryId" class="form-control js-example-basic-single w-100 " style="height: 50px; color:black" asp-items="ViewBag.FilmCategory"></select>
                                     </div>
                                 </div>
 
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Liên kết Trailer</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="TrailerUrl" class="form-control" required />
+                                        <input asp-for="TrailerUrl" class="form-control" required style="width: 100%;height: 50px;color:black" />
                                         <span asp-validation-for="TrailerUrl" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -57,40 +59,47 @@
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Xem trước Poster</label>
                                     <div class="col-sm-10">
-                                        <img id="posterPreview" src="#" alt="Preview Poster" style="max-width: 100%; max-height: 500px; display: none;" />
+                                        <img id="posterPreview" src="#" alt="Preview Poster" style="max-width: 100%; max-height: 250px; display: none;" />
                                     </div>
                                 </div>
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Mô tả</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="Description" class="form-control" />
+                                        <input asp-for="Description" class="form-control" style="width: 100%;height: 50px;color:black" />
                                     </div>
                                 </div>
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Đạo diễn</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="DirectorName" class="form-control" />
+                                        <input asp-for="DirectorName" class="form-control " style="width: 100%;height: 50px;color:black" />
                                         <span asp-validation-for="DirectorName" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Dàn diễn viên</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="Actors" class="form-control" />
+                                        <input asp-for="Actors" class="form-control " style="width: 100%;height: 50px;color:black" />
                                         <span asp-validation-for="Actors" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-sm-2 mb-0">Thời lượng phim (phút)</label>
+                                    <div class="col-sm-10">
+                                        <input asp-for="FilmDuration" class="form-control" style="width: 100%; height: 50px; color: black;" />
+                                        <span asp-validation-for="FilmDuration" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Ngôn ngữ</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="Language  " class="form-control" />
+                                        <input asp-for="Language  " class="form-control " style="width: 100%;height: 50px;color:black" />
                                         <span asp-validation-for="Language" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-2 mb-0">Giới hạn độ tuổi</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="FilmRated" class="form-control" />
+                                        <input asp-for="FilmRated" class="form-control " style="width: 100%;height: 50px;color:black" />
                                         <span asp-validation-for="FilmRated" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -100,7 +109,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-group">
                                             <div class='input-group date' id='datepicker'>
-                                                <input asp-for="StartTime" type="text" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
+                                                <input asp-for="StartTime" type="text" class="form-control " style="width: 100%;height: 50px;color:black" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
@@ -148,7 +157,17 @@
 
     <script>
         $(function () {
-            $('#datepicker').datetimepicker();
+            $('#datepicker').datetimepicker({
+                format: 'DD-MM-YYYY'    
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('input[name="FilmDuration"]').on('input', function () {
+                // Remove any non-digit characters
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
         });
     </script>
 }
