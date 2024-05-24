@@ -102,7 +102,7 @@ namespace BookingMovieTickets.Controllers
                     SeatId = seatID,
                     SeatNumber = seat.SeatNumber,
                     FilmScheduleId = time,
-                   RoomName = room.RoomName,
+                    RoomName = room.RoomName,
                     Price = seat.SeatPrice,
                     FilmScheduleDes= scheduleDescription.Description.ToString("hh\\:mm")
                 };
@@ -124,7 +124,7 @@ namespace BookingMovieTickets.Controllers
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
 
-            if (cart == null || cart.Items.Count == 0)
+            if (!cart.Items.Any() || cart.Items.Count == 0)
             {
                 // Handle case where cart is empty
                 return RedirectToAction("Index", "CartTicket");

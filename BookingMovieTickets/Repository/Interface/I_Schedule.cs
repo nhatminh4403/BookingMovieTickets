@@ -9,5 +9,7 @@ namespace BookingMovieTickets.Repository.Interface
         Task AddAsync(FilmSchedule filmSchedule);
         Task UpdateAsync(FilmSchedule filmSchedule);
         Task DeleteAsync(int id);
+        Task<FilmSchedule> GetFilmByIdAsync(int id);
+        Task<FilmSchedule> GetScheduleByDetailsAsync(FilmSchedule filmSchedule);
     }
 }

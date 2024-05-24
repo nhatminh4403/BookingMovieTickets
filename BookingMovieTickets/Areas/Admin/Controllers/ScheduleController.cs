@@ -1,9 +1,10 @@
-﻿using BookingMovieTickets.Repository.Interface;
+﻿using BookingMovieTickets.Repository.EF;
+using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
 using MoviesBooking.Models;
@@ -20,8 +21,11 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         private readonly I_TheatreRoom _TheatreRoomRepository;
         private readonly I_Seat _SeatRepository;
         private readonly I_FilmRepository _FilmRepository;
-        private readonly I_Theater _TheaterRepository; 
-        public ScheduleController(BookingMovieTicketsDBContext context, I_Schedule scheduleRepository, I_TheatreRoom theatreRoomRepository, I_Seat seatRepository, I_Theater theaterRepository, I_FilmRepository filmRepository)
+        private readonly I_Theater _TheaterRepository;
+        private readonly I_ScheduleDescription _scheduleDescriptionRepo;
+        private readonly ILogger<ScheduleController> _logger;
+        public ScheduleController(BookingMovieTicketsDBContext context, I_Schedule scheduleRepository, I_TheatreRoom theatreRoomRepository, 
+            I_Seat seatRepository, I_Theater theaterRepository, I_FilmRepository filmRepository, I_ScheduleDescription scheduleDescriptionRepo, ILogger<ScheduleController> logger)
         {
             _context = context;
             _ScheduleRepository = scheduleRepository;
@@ -29,6 +33,8 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             _SeatRepository = seatRepository;
             _TheaterRepository = theaterRepository;
             _FilmRepository = filmRepository;
+            _scheduleDescriptionRepo = scheduleDescriptionRepo;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
@@ -56,12 +62,20 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Details(int id)
         {
-            var filmSchedule = await _FilmRepository.GetByIdAsync(id);
-            if (filmSchedule == null)
+            var film = await _context.Films
+                .Include(f => f.FilmSchedules)
+                    .ThenInclude(fs => fs.ScheduleDescription).
+                    Include(f => f.FilmSchedules)
+                    .ThenInclude(fs => fs.TheatreRoom)
+                .ThenInclude(tr => tr.Theatre)
+                .FirstOrDefaultAsync(f => f.FilmId == id);
+
+            if (film == null)
             {
                 return NotFound();
             }
-            return View(filmSchedule);
+
+            return View(film);
         }
 
         public IActionResult Create()
@@ -144,51 +158,124 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         {
             return _ScheduleRepository.GetByIdAsync(id) != null;
         }
-        public async Task<IActionResult> AddSchedule(FilmSchedule schedule, int movieId) // Use the Showtime model as the parameter
+        public async Task<IActionResult> AddSchedule() 
         {
-            //showtime.MovieId = movieId;
-            var movies = await _FilmRepository.GetAllShowAsync(movieId);
-            ViewBag.Movies = new SelectList(movies, "FilmId", "NameFilm");
-
-/*            var screentimes = await _screentimeRepo.GetAllAsync();
-            ViewBag.Screentimes = new SelectList(screentimes, "ScreenTimeId", "ScreenTime");*/
-
+            var scheduleDescriptions = await _scheduleDescriptionRepo.GetAllAsync();
             var rooms = await _TheatreRoomRepository.GetAllRoomAsync();
+            var locations = await _TheaterRepository.GetAllAsync();
+
+            var films = await _context.Films
+            .Include(f => f.FilmSchedules).Where(f => !f.FilmSchedules.Any()).Where(f => f.StartTime <= DateTime.UtcNow)
+            .ToListAsync();
+
+            ViewBag.Movies =  new SelectList(films, "FilmId", "NameFilm");
+
+
+            ViewBag.scheduleDescription = new SelectList(scheduleDescriptions, "ScheduleDescriptionId", "Description");
+
             ViewBag.Rooms = new SelectList(rooms, "TheatreRoomId", "RoomName");
 
-            var location = await _TheaterRepository.GetAllAsync();
-            ViewBag.Theaters = new SelectList(location, "TheatreId", "Name");
+            ViewBag.Theaters = new SelectList(locations, "TheatreId", "Name");
 
-            return View(schedule); // Re-render the view with populated showtime object (for validation errors)
+            return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddSchedule(FilmSchedule schedule, int movieId, string roomId)
+        public async Task<IActionResult> AddSchedule(FilmSchedule filmSchedule)
         {
-            //var movie = await _movieRepo.GetByIdAsync(movieId);
-            //var room = await _roomRepo.GetByIdAsync(roomId);
+
+            if (!ModelState.IsValid)
+            {
+                try
+                {
+                    await _ScheduleRepository.AddAsync(filmSchedule);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "An error occurred while adding the schedule. Please try again later.");
+                    _logger.LogError(ex, "Error occurred while adding schedule.");
+                }
+            }
+
+            var scheduleDescriptions = await _scheduleDescriptionRepo.GetAllAsync();
+            var rooms = await _TheatreRoomRepository.GetAllRoomAsync();
+            var locations = await _TheaterRepository.GetAllAsync();
+
+            var films = await _context.Films
+            .Include(f => f.FilmSchedules).Where(f => !f.FilmSchedules.Any()).Where(f=>f.StartTime<=DateTime.UtcNow)
+            .ToListAsync();
+
+            ViewBag.Movies = new SelectList(films, "FilmId", "NameFilm");
+
+            ViewBag.scheduleDescription = new SelectList(scheduleDescriptions, "ScheduleDescriptionId", "Description");
+
+            ViewBag.Rooms = new SelectList(rooms, "TheatreRoomId", "RoomName");
+
+            ViewBag.Theaters = new SelectList(locations, "TheatreId", "Name");
+            return View(filmSchedule);
+        }
+
+        public async Task<IActionResult> AddScheduleForSpecificFilm()
+        {
+
+
+            var scheduleDescriptions = await _scheduleDescriptionRepo.GetAllAsync();
+            var rooms = await _TheatreRoomRepository.GetAllRoomAsync();
+            var locations = await _TheaterRepository.GetAllAsync();
+
+            var films = await _context.Films
+            .Include(f => f.FilmSchedules).Where(f => f.FilmSchedules.Any()).Where(f => f.StartTime <= DateTime.UtcNow)
+            .ToListAsync();
+            ViewBag.Movies = new SelectList(films, "FilmId", "NameFilm");
+            ViewBag.ScheduleDescription = new SelectList(scheduleDescriptions, "ScheduleDescriptionId", "Description");
+            ViewBag.Rooms = new SelectList(rooms, "TheatreRoomId", "RoomName");
+            ViewBag.Theaters = new SelectList(locations, "TheatreId", "Name");
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddScheduleForSpecificFilm(FilmSchedule filmSchedule)
+        {
             if (ModelState.IsValid)
             {
-                await _ScheduleRepository.AddAsync(schedule);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    // Check for existing schedule (same logic as before)
+                    var existingSchedule = await _ScheduleRepository.GetScheduleByDetailsAsync(filmSchedule);
+                    if (existingSchedule != null)
+                    {
+                        ModelState.AddModelError("", "This schedule already exists.");
+                        return View(filmSchedule);
+                    }
+
+                    // Populate ViewBag with retrieved data (moved here)
+                    var scheduleDescriptions = await _scheduleDescriptionRepo.GetAllAsync();
+                    var rooms = await _TheatreRoomRepository.GetAllRoomAsync();
+                    var locations = await _TheaterRepository.GetAllAsync();
+
+                    var films = await _context.Films
+                    .Include(f => f.FilmSchedules).Where(f => f.FilmSchedules.Any()).Where(f => f.StartTime <= DateTime.UtcNow)
+                    .ToListAsync();
+                    ViewBag.Movies = new SelectList(films, "FilmId", "NameFilm");
+
+                    ViewBag.ScheduleDescription = new SelectList(scheduleDescriptions, "ScheduleDescriptionId", "Description");
+                    ViewBag.Rooms = new SelectList(rooms, "TheatreRoomId", "RoomName");
+                    ViewBag.Theaters = new SelectList(locations, "TheatreId", "Name");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error occurred while adding schedule.");
+                    ModelState.AddModelError("", "An error occurred while adding the schedule. Please try again later.");
+                }
+
+                // Return view with populated ViewBag on validation errors
+                return View(filmSchedule);
             }
-            else
-            {
-                // Nếu ModelState không hợp lệ, hiển thị form với dữ liệu đã nhập
-                var movies = await _FilmRepository.GetAllShowAsync(movieId);
-                ViewBag.Movies = new SelectList(movies, "FilmId", "NameFilm");
 
-                /*            var screentimes = await _screentimeRepo.GetAllAsync();
-                            ViewBag.Screentimes = new SelectList(screentimes, "ScreenTimeId", "ScreenTime");*/
-
-                var rooms = await _TheatreRoomRepository.GetAllRoomAsync();
-                ViewBag.Rooms = new SelectList(rooms, "TheatreRoomId", "RoomName");
-
-                var location = await _TheaterRepository.GetAllAsync();
-                ViewBag.Theaters = new SelectList(location, "TheatreId", "Name");
-
-                return View(schedule);
-            }
-
+            await _ScheduleRepository.AddAsync(filmSchedule);
+            return RedirectToAction("Index", "Schedule");
         }
+
     }
 }

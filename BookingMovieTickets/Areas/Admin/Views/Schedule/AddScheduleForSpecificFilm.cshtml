@@ -1,0 +1,37 @@
+﻿@model MoviesBooking.Models.FilmSchedule
+@using MoviesBooking.Models
+@{
+    ViewBag.Title = "Add Schedule for Specific Film";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="FilmId">Tên Phim</label>
+        <select asp-for="FilmId" asp-items="ViewBag.Movies" class="form-control"></select>
+        <span asp-validation-for="FilmId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ScheduleDescriptionId">Lịch chiếu</label>
+        <select asp-for="ScheduleDescriptionId" asp-items="ViewBag.ScheduleDescription" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TheatreRoomId">Phòng</label>
+        <select asp-for="TheatreRoomId" asp-items="ViewBag.Rooms" class="form-control"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Thêm</button>
+</form>
+
+<div>
+    <a asp-action="Index">Trở về</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

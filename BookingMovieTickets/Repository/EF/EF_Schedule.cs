@@ -39,5 +39,20 @@ namespace BookingMovieTickets.Repository.EF
                 await _dbContext.SaveChangesAsync();
             }
         }
+
+        public async Task<FilmSchedule> GetFilmByIdAsync(int id)
+        {
+            var film = await _dbContext.FilmSchedules.Include(p => p.Film).FirstOrDefaultAsync(p=>p.FilmId == id);
+            return film;
+        }
+        public async Task<FilmSchedule> GetScheduleByDetailsAsync(FilmSchedule filmSchedule)
+        {
+          
+            return await _dbContext.FilmSchedules
+                .FirstOrDefaultAsync(fs => fs.FilmId == filmSchedule.FilmId &&
+                                            fs.TheatreRoomId == filmSchedule.TheatreRoomId &&
+                                            fs.ScheduleDescriptionId == filmSchedule.ScheduleDescriptionId);
+        }
+
     }
 }

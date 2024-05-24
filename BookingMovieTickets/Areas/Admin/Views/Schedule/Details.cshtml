@@ -1,36 +1,51 @@
 ﻿@model MoviesBooking.Models.Film
+
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Film Details";
 }
 
-<h2>Details</h2>
+<h2>Chi tiết lịch chiếu phim</h2>
 
 <div>
-    <h4>FilmSchedule</h4>
     <hr />
-    <dl class="dl-horizontal">
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NameFilm)
+    <dl class="row">
+        <dt class="col-sm-2">
+            Tên phim:
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NameFilm)
+        <dd class="col-sm-10">
+            @Model.NameFilm
         </dd>
-        
+        <dt class="col-sm-2">
+            Lịch chiếu:
+        </dt>
+        <dd class="col-sm-10">
+        <dd class="col-sm-10">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Thời gian chiếu</th>
+                        <th>Phòng chiếu</th>
+                        <th>Rạp chiếu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        @foreach (var filmSchedule in Model.FilmSchedules)
+                        {
+                        <tr>
+                            <td>@filmSchedule.ScheduleDescription.Description.ToString("hh\\:mm")</td>
+                            <td>@filmSchedule.TheatreRoom.RoomName</td>
+                            <td>@filmSchedule.TheatreRoom.Theatre.Name</td>
+                        </tr>
+                        }
+                </tbody>
+            </table>
+        </dd>
+
+        </dd>
     </dl>
-    @* @foreach(var item in Model.FilmSchedules)
-    {
-        if(Model.FilmCategoryId == item.FilmId)
-        {
-            <ul>
-                <li>
-                    @item.FilmScheduleDescription
-                </li>
-            </ul>
-        }
-    } *@
 </div>
 <div>
-@*     <a asp-action="Edit" asp-route-id="@Model.FilmScheduleId">Edit</a> |
- *@    <a asp-action="Index" asp-area="Admin" asp-controller="Theater">Back to List</a>
+    <a asp-action="AddScheduleForSpecificFilm" asp-route-filmId="@Model.FilmId">Thêm lịch chiếu</a>|
+    <a asp-action="Edit" asp-route-id="@Model.FilmId" class="btn btn-primary">Chỉnh sửa</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

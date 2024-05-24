@@ -6,6 +6,7 @@
 <div class="container">
     <h2>Phim có lịch chiếu và phòng</h2>
     <div class="film-container">
+        <a asp-action="AddScheduleForSpecificFilm" asp-controller="Schedule">Thêm lịch chiếu</a>
         <table class="table">
             <thead>
                 <tr>
@@ -43,61 +44,65 @@
         </table>
     </div>
 </div>
-
 <div class="container">
     <h2>Phim không có lịch chiếu</h2>
-    <div class="no-schedule-container">
-        <div class="container">
-            <h3>Chưa tới ngày công chiếu</h3>
-            <div class="film-container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Phim</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.FilmsWithoutSchedulesStartDateBeforeNow.Distinct())
-                        {
+
+    <div class="row">
+        <div class="col-md-6 no-schedule-container">
+            <div class="container">
+                <h3>Chưa tới ngày công chiếu</h3>
+                <div class="film-container">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.NameFilm)</td>
-                                <td>
-                                    <a asp-action="Details" asp-route-id="@item.FilmId">Chi tiết</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.FilmId">Xóa</a>
-                                </td>
+                                <th>Phim</th>
+                                <th></th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.FilmsWithoutSchedulesStartDateBeforeNow.Distinct())
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.NameFilm)</td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@item.FilmId">Chi tiết</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.FilmId">Xóa</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="container">
-            <h3>Các phim đã công chiếu</h3>
-            <div class="film-container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Phim</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.FilmsWithoutSchedulesStartDateAfterNow.Distinct())
-                        {
+        <div class="col-md-6">
+            <div class="container">
+                <h3>Các phim đã công chiếu</h3>
+                <div class="film-container">
+                    <a asp-action="AddSchedule" asp-controller="Schedule">Thêm lịch chiếu</a>
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.NameFilm)</td>
-                                <td>
-                                    <a asp-action="Create" asp-route-id="@item.FilmId">Thêm lịch chiếu</a> |
-                                    <a asp-action="Edit" asp-route-id="@item.FilmId">Sửa lịch chiếu</a> |
-                                    <a asp-action="Details" asp-route-id="@item.FilmId">Chi tiết</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.FilmId">Xóa</a>
-                                </td>
+                                <th>Phim</th>
+                                <th></th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.FilmsWithoutSchedulesStartDateAfterNow.Distinct())
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.NameFilm)</td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.FilmId">Sửa lịch chiếu</a> |
+                                        <a asp-action="Details" asp-route-id="@item.FilmId">Chi tiết</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.FilmId">Xóa</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
