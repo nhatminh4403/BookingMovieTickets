@@ -1,10 +1,10 @@
 ﻿using BookingMovieTickets.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MoviesBooking.Models;
 
 
-namespace MoviesBooking.DataAccess
+
+namespace BookingMovieTickets.DataAccess
 {
     public class BookingMovieTicketsDBContext : IdentityDbContext<UserInfo>
     {

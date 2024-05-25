@@ -1,7 +1,7 @@
-﻿using BookingMovieTickets.Models;
+﻿using BookingMovieTickets.DataAccess;
+using BookingMovieTickets.Models;
 using BookingMovieTickets.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using MoviesBooking.DataAccess;
 
 namespace BookingMovieTickets.Repository.EF
 {

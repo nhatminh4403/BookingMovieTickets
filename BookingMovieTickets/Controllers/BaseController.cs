@@ -1,10 +1,11 @@
-﻿using BookingMovieTickets.Repository.EF;
+﻿using BookingMovieTickets.DataAccess;
+using BookingMovieTickets.Repository.EF;
 using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
-using MoviesBooking.DataAccess;
+
 using System.Web;
 namespace BookingMovieTickets.Controllers
 {

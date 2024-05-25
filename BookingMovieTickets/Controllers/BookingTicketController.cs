@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MoviesBooking.DataAccess;
-using MoviesBooking.Models;
-using Website_Selling_Computer.Session;
 
+
+using BookingMovieTickets.Session;
+using BookingMovieTickets.Helper;
+using BookingMovieTickets.DataAccess;
 namespace BookingMovieTickets.Controllers
 {
     [Authorize]
@@ -159,11 +160,14 @@ namespace BookingMovieTickets.Controllers
                     SeatPrice = cart.Items.Sum(x => x.Price),
                     CreatedDate = DateTime.Now,
                     Desc = $"{receipt.UserId}",
-                    FullName = receipt.User.FirstName,
+                    FullName = receipt.User.FullName,
                     ReceiptId = new Random().Next(1000, 10000)
                 };
-
-                using (var transaction = await _bookingMovieTicketsDBContext.Database.BeginTransactionAsync())
+                return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnPayModel));
+                
+                }
+            var customerid = HttpContext.User.Claims.SingleOrDefault(p => p.Type == MySettings.CLAIM_CUSTOMERID);
+            using (var transaction = await _bookingMovieTicketsDBContext.Database.BeginTransactionAsync())
                 {
                     
                     var ticket = new Ticket
@@ -200,9 +204,7 @@ namespace BookingMovieTickets.Controllers
                     HttpContext.Session.Remove("Cart");
                     // Redirect to a page where the user can choose payment method
 
-                }
-
-                return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnPayModel));
+                
             }
             return View(nameof(Index));
         }
@@ -241,6 +243,11 @@ namespace BookingMovieTickets.Controllers
             TempData["OrderId"] = response.ReceiptId;
 
             return View("SucessfulOrder");
+        }
+        [Authorize]
+        public IActionResult PaymentFail()
+        {
+            return View();
         }
     }
 }

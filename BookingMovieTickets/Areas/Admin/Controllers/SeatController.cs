@@ -1,9 +1,10 @@
 ﻿
+using BookingMovieTickets.DataAccess;
+using BookingMovieTickets.Models;
 using BookingMovieTickets.Repository.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MoviesBooking.DataAccess;
-using MoviesBooking.Models;
+
 
 namespace BookingMovieTickets.Areas.Admin.Controllers
 {

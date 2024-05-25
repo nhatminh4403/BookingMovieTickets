@@ -13,13 +13,13 @@
         public string VnPayResponseCode { get; set; }
 
     }
-
     public class VnPaymentRequestModel
     {
         public int ReceiptId { get; set; }
         public string FullName { get; set; }
-        public string Desc { get; set; }       
+        public string Desc { get; set; }
         public decimal SeatPrice { get; set; }
         public DateTime CreatedDate { get; set; }
     }
+
 }

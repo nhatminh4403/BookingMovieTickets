@@ -1,11 +1,10 @@
+using BookingMovieTickets.DataAccess;
 using BookingMovieTickets.Models;
 using BookingMovieTickets.Repository.EF;
 using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MoviesBooking.DataAccess;
-using MoviesBooking.Models;
 using System.Globalization;
 using System.Security.Cryptography.Xml;
 using System.Text.Json.Serialization;

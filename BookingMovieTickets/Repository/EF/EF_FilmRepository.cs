@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using BookingMovieTickets.Controllers;
 using BookingMovieTickets.Models;
-using MoviesBooking.Models;
 using BookingMovieTickets.Repository.Interface;
-using MoviesBooking.DataAccess;
+using BookingMovieTickets.DataAccess;
 
 namespace BookingMovieTickets.Repository.EF
 {

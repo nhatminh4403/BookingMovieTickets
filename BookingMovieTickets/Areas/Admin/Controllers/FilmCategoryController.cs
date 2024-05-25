@@ -1,8 +1,8 @@
-﻿using BookingMovieTickets.Repository.EF;
+﻿using BookingMovieTickets.Models;
+using BookingMovieTickets.Repository.EF;
 using BookingMovieTickets.Repository.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MoviesBooking.Models;
 
 namespace BookingMovieTickets.Areas.Admin.Controllers
 {

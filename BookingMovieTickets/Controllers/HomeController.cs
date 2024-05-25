@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TextTemplating;
-using MoviesBooking.DataAccess;
-using MoviesBooking.Models;
+
 using System.Collections.Generic;
 using System.Diagnostics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using BookingMovieTickets.Helper;
+using BookingMovieTickets.DataAccess;
 namespace BookingMovieTickets.Controllers
 {
     public class HomeController : BaseController

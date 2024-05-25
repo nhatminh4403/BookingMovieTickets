@@ -1,5 +1,5 @@
-﻿using Humanizer.Localisation;
-using MoviesBooking.Models;
+﻿using BookingMovieTickets.Models;
+using Humanizer.Localisation;
 
 namespace BookingMovieTickets.Repository.Interface
 {

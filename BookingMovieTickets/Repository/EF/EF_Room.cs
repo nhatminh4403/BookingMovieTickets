@@ -1,8 +1,7 @@
-﻿using BookingMovieTickets.Repository.Interface;
+﻿using BookingMovieTickets.DataAccess;
+using BookingMovieTickets.Models;
+using BookingMovieTickets.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using MoviesBooking.DataAccess;
-using MoviesBooking.Models;
-
 namespace BookingMovieTickets.Repository.EF
 {
     public class EF_Room : I_TheatreRoom

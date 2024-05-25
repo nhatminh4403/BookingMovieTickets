@@ -1,7 +1,7 @@
 ﻿using BookingMovieTickets.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MoviesBooking.DataAccess;
+using BookingMovieTickets.DataAccess;
 
 namespace BookingMovieTickets.ViewComponents
 {

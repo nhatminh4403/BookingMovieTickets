@@ -1,4 +1,4 @@
-﻿using MoviesBooking.Models;
+﻿using BookingMovieTickets.Models;
 
 
 namespace BookingMovieTickets.Repository.Interface

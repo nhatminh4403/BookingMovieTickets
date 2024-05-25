@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using MoviesBooking.Models;
+﻿using BookingMovieTickets.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace BookingMovieTickets.VIewModel
 {

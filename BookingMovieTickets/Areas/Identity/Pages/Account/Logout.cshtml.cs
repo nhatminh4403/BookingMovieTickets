@@ -4,12 +4,12 @@
 
 using System;
 using System.Threading.Tasks;
+using BookingMovieTickets.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using MoviesBooking.Models;
 
 namespace BookingMovieTickets.Areas.Identity.Pages.Account
 {

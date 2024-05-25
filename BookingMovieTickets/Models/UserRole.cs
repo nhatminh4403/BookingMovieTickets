@@ -1,4 +1,4 @@
-﻿namespace MoviesBooking.Models
+﻿namespace BookingMovieTickets.Models
 {
     public class UserRole
     {

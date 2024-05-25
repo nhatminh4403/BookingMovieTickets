@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Cors;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MoviesBooking.Models
+namespace BookingMovieTickets.Models
 {
     public class FilmCategory
     {

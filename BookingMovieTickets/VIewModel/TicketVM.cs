@@ -1,5 +1,5 @@
 ﻿using BookingMovieTickets.Models;
-using MoviesBooking.Models;
+
 
 namespace BookingMovieTickets.VIewModel
 {

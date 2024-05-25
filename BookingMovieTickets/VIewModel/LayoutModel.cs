@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using MoviesBooking.Models;
+﻿using BookingMovieTickets.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BookingMovieTickets.VIewModel
 {

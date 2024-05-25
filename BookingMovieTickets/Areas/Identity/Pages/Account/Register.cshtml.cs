@@ -11,6 +11,8 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using BookingMovieTickets.DataAccess;
+using BookingMovieTickets.Models;
 using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authentication;
@@ -23,8 +25,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using MoviesBooking.DataAccess;
-using MoviesBooking.Models;
+
 
 namespace BookingMovieTickets.Areas.Identity.Pages.Account
 {
@@ -109,20 +110,13 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [StringLength(50)]
-            [DisplayName("Tên")]
-            public string FirstName { get; set; }
-
-            [Required]
-            [StringLength(50)]
-            [DisplayName("Họ")]
-            public string LastName { get; set; }
+            [DisplayName("Họ và tên")]
+            public string FullName { get; set; }
 
             [DataType(DataType.PhoneNumber)]
             [DisplayName("Số điện thoại")]
             public string PhoneNumber { get; set; }
-            [Required]
-            [DisplayName("Địa chỉ")]
-            public string Address { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -196,10 +190,8 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                user.LastName = Input.LastName;
-                user.FirstName = Input.FirstName;
+                user.FullName = Input.FullName;
                 user.PhoneNumber = Input.PhoneNumber;
-                user.Address = Input.Address;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);

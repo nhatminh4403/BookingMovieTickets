@@ -14,10 +14,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using MoviesBooking.Models;
 using BookingMovieTickets.Repository.Interface;
-using MoviesBooking.DataAccess;
 using BookingMovieTickets.VIewModel;
+using BookingMovieTickets.Models;
+using BookingMovieTickets.DataAccess;
 
 namespace BookingMovieTickets.Areas.Identity.Pages.Account
 {

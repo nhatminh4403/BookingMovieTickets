@@ -1,11 +1,11 @@
 ﻿using BookingMovieTickets.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using MoviesBooking.DataAccess;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authorization;
-using MoviesBooking.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using BookingMovieTickets.Models;
+using BookingMovieTickets.DataAccess;
 namespace BookingMovieTickets.Areas.Admin.Controllers
 {
     [Area("Admin")]
