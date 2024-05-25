@@ -20,7 +20,6 @@ namespace MoviesBooking.Models
         [DataType(DataType.PhoneNumber)]
         [DisplayName("Số điện thoại")]
         public string PhoneNumber { get; set; }
-        [Required]
         [DisplayName("Địa chỉ")]
         public string Address { get; set; }
         public virtual ICollection<Receipt> Receipts { get; set; }

@@ -20,5 +20,11 @@ namespace BookingMovieTickets.Models
         [ForeignKey("UserId")]
         public virtual UserInfo User { get; set; }
         public virtual ICollection<ReceiptDetail> ReceiptDetails { get; set; }
+
+        public decimal CalculateTotalPrice()
+        {
+            TotalPrice = ReceiptDetails.Sum(detail => detail.Ticket.TicketDetails.Sum(f=>f.Price));
+            return TotalPrice;
+        }
     }
 }

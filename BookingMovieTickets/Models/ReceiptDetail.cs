@@ -15,6 +15,7 @@ namespace BookingMovieTickets.Models
         public virtual Receipt Receipt { get; set; }   
         [ForeignKey("TicketId")]
         public virtual Ticket? Ticket { get; set; }
+
     }
 
 }

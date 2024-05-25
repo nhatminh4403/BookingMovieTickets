@@ -4,6 +4,7 @@ using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.Services;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesBooking.DataAccess;
@@ -26,8 +27,11 @@ namespace BookingMovieTickets.Controllers
         private readonly I_FilmCategoryRepository _FilmCategoryRepository;
         private readonly I_ScheduleDescription _ScheduleDescriptionRepo;
         private readonly BookingMovieTicketsDBContext _bookingMovieTicketsDBContext;
+        private readonly UserManager<UserInfo> _userManager;
+
         public BookingTicketController(I_Cart cartRepo, I_Ticket ticketRepo, I_FilmRepository FilmRepository, I_Schedule scheduleRepo, I_Receipt receiptRepo,
-            BookingMovieTicketsDBContext bookingMovieTicketsDBContext,I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository,I_TicketDetail ticketDetail, IVnPayService vnPayService,I_ScheduleDescription scheduleDescription)
+            BookingMovieTicketsDBContext bookingMovieTicketsDBContext,I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository,I_TicketDetail ticketDetail, 
+            IVnPayService vnPayService,I_ScheduleDescription scheduleDescription, UserManager<UserInfo> userManager)
             : base(bookingMovieTicketsDBContext)
         {
             _cartRepo = cartRepo;
@@ -39,6 +43,7 @@ namespace BookingMovieTickets.Controllers
             _TheatreRoomRepo = theatreRoomRepo;
             _FilmCategoryRepository = filmCategoryRepository;
             _TicketDetailRepo = ticketDetail;
+            _userManager = userManager;
             _vnPayService = vnPayService;
             _ScheduleDescriptionRepo = scheduleDescription;
         }
@@ -122,27 +127,33 @@ namespace BookingMovieTickets.Controllers
         [Authorize]
         public async Task<IActionResult> BookTickets()
         {
-            var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
+            var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
 
-            if (!cart.Items.Any() || cart.Items.Count == 0)
+            if (!cart.Items.Any())
             {
                 // Handle case where cart is empty
                 return RedirectToAction("Index", "CartTicket");
             }
-            return View(new Receipt());
+            var ticketVM = new TicketVM
+            {
+                TicketCart = cart,
+                Receipt = new Receipt()
+            };
+            return View(ticketVM);
 
         }
 
         [HttpPost]
         public async Task<IActionResult> BookTickets(Receipt receipt, string payment)
         {
-            var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
-
-
+            var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
+            if(cart == null)
+            {
+                return RedirectToAction("Index");
+            }
+            var user = await _userManager.GetUserAsync(User);
             if (payment == "thanh toán")
             {
-
-
                 var vnPayModel = new VnPaymentRequestModel
                 {
                     SeatPrice = cart.Items.Sum(x => x.Price),
@@ -154,16 +165,16 @@ namespace BookingMovieTickets.Controllers
 
                 using (var transaction = await _bookingMovieTicketsDBContext.Database.BeginTransactionAsync())
                 {
+                    
                     var ticket = new Ticket
                     {
                         PurchaseDate = DateTime.UtcNow,
                         IsPaid = false
+                        
                     };
                     await _ticketRepo.AddAsync(ticket);
-                    // Iterate over items in the cart and transform them into tickets
                     foreach (var cartDetail in cart.Items)
                     {
-                        // Create a new ticket based on cart detail information
                         var ticketDetail = new TicketDetail
                         {
                             TicketId = ticket.TicketId,
@@ -173,10 +184,18 @@ namespace BookingMovieTickets.Controllers
                             SeatId = cartDetail.SeatId
                         };
                         await _TicketDetailRepo.AddAsync(ticketDetail);
-                        // Add the ticket to your database (or any other persistence mechanism)
 
                     }
+                    receipt.UserId = user.Id;
+                    receipt.PurchaseDate = DateTime.UtcNow;
+                    receipt.TotalPrice = receipt.CalculateTotalPrice();
+                    receipt.ReceiptDetails = cart.Items.Select(i => new ReceiptDetail
+                    {
+                        TicketId = i.TicketId
+                    }).ToList();
 
+                    await _bookingMovieTicketsDBContext.Receipts.AddAsync(receipt);
+                    await _bookingMovieTicketsDBContext.SaveChangesAsync();
                     // Clear the cart after booking tickets
                     HttpContext.Session.Remove("Cart");
                     // Redirect to a page where the user can choose payment method
@@ -205,7 +224,6 @@ namespace BookingMovieTickets.Controllers
         }
 
         [Authorize]
-
         public IActionResult PaymentCallBack()
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
