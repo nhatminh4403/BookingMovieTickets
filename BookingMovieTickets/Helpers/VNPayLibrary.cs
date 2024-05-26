@@ -4,7 +4,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BookingMovieTickets.Helper
+namespace BookingMovieTickets.Helpers
 {
     public class VnPayLibrary
     {

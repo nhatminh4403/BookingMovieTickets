@@ -20,9 +20,10 @@ namespace BookingMovieTickets.Models
         public decimal Price { get; set; }
         [Required]
         public int FilmScheduleId { get; set; }
-
+        [Required]
         public string FilmScheduleDes { get; set; }
-
+        [Required]
+        public int FilmScheduleDescriptionID { get; set; }
         [Required]
         public int SeatId { get; set; }
 

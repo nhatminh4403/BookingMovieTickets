@@ -19,7 +19,8 @@ namespace BookingMovieTickets.Models
         {
             var existingItem = Items.FirstOrDefault(i => i.FilmId == item.FilmId &&
                                                   i.SeatId == item.SeatId &&
-                                                  i.FilmScheduleId == item.FilmScheduleId);
+                                                  i.FilmScheduleId == item.FilmScheduleId &&
+                                                    i.FilmScheduleDescriptionID == item.FilmScheduleDescriptionID);
 
             if (existingItem != null)
             {

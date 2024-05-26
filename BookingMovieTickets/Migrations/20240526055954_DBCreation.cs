@@ -338,6 +338,7 @@ namespace BookingMovieTickets.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FilmScheduleId = table.Column<int>(type: "int", nullable: false),
                     FilmScheduleDes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FilmScheduleDescriptionID = table.Column<int>(type: "int", nullable: false),
                     SeatId = table.Column<int>(type: "int", nullable: false),
                     SeatNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoomName = table.Column<string>(type: "nvarchar(max)", nullable: false),

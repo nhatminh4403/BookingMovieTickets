@@ -1,8 +1,8 @@
 ﻿@using BookingMovieTickets.VIewModel
-@model TicketVM 
+@model TicketVM
 @{
     ViewData["Title"] = "BookTickets";
-    decimal Total = 0;
+    decimal Total = Model.TicketCart.Items.Sum(item => item.Price);
 }
 
 
@@ -12,78 +12,67 @@
     width: 50%;">
     XÁC NHẬN THANH TOÁN
 </h1>
-<div class="col-sm-12 table-responsive mt-4">
-    @if (Model != null && Model.TicketCart != null && Model.TicketCart.Items != null && Model.TicketCart.Items.Any())
-    {
+<form asp-action="BookTickets" method="post">
+    <div class="col-sm-12 table-responsive mt-4">
+        @if (Model != null && Model.TicketCart != null && Model.TicketCart.Items != null && Model.TicketCart.Items.Any())
+        {
 
-        <table class="table cart-table">
-            <thead>
-                <tr>
-                    <th scope ="col">Tên phim</th>
-                    <th scope ="col">Ghế</th>
-                    <th scope="col">Giờ</th>
-                    <th scope="col">Phòng</th>
-                    <th scope="col">Rạp</th>
-                    <th scope="col"></th>
-
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.TicketCart.Items)
-                {
-                    Total += item.Price;
-                    <h2>Tổng hóa đơn: @Total</h2>
+            <table class="table cart-table">
+                <thead>
                     <tr>
-                    <tr>
-                        <td @* class="col-md-3 col-lg-3 col-xl-3" *@>
-                            <h6 style="vertical-align:central" class="mb-0">@item.FilmName</h6>
-                        </td>
-
-                        <td @* class="col-md-3 col-lg-3 col-xl-3" *@>
-                            <h6 style="vertical-align:central" class="mb-0">@item.SeatNumber</h6>
-                        </td>
-                        <td @* class="col-md-3 col-lg-2 col-xl-2 offset-lg-1" *@>
-                            <h6 style="vertical-align:central" class="mb-0">@item.FilmScheduleDes</h6>
-                        </td>
-                        <td>
-                            <h6 style="vertical-align:central" class="mb-0">@item.RoomName</h6>
-                        </td>
-
-                        <td>
-                            <h6 style="vertical-align:central" class="mb-0">@item.Price</h6>
-                        </td>
-                        <td style="vertical-align:central" @* class="col-md-3 col-lg-3 col-xl-5" *@>
-                            <div style="font-size:20px; ">
-                                <form asp-action="RemoveFromCart" asp-route-filmId="@item.FilmId" asp-route-time="@item.FilmScheduleId" asp-route-seatID="@item.SeatId"
-                                      method="post">
-                                    <button type="submit" class="btn btn-sm btn-secondary"><i class="fa-solid fa-trash-can"></i></button>
-                                </form>
-                            </div>
-                        </td>
+                        <th scope="col">Tên phim</th>
+                        <th scope="col">Ghế</th>
+                        <th scope="col">Giờ</th>
+                        <th scope="col">Phòng</th>
+                        <th scope="col">Rạp</th>
+                        <th scope="col"></th>
 
                     </tr>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    @* <form asp-action="BookTickets" method="post">
-        <div class="form-group">
-            <label asp-for="Receipt.">Địa chỉ giao hàng</label>
-            <input asp-for="Order.ShippingAddress" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label for="paymentMethod">Phương thức thanh toán</label>
-            <select asp-for="Order.PaymentMethodId" class="form-control" id="paymentMethodId">
-                @foreach (var paymentMethod in (List<PaymentMethod>)ViewData["PaymentMethods"])
-                {
-                    <option value="@paymentMethod.PaymentMethodId">@paymentMethod.Description</option>
-                }
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Thanh toán</button>
-    </form> *@
-</div>
+                </thead>
+                <tbody>
+                    <p>@Total</p>
+                    @foreach (var item in Model.TicketCart.Items)
+                    {
+
+                        <h2>Tổng hóa đơn: @Total</h2>
+                        <tr>
+                        <tr>
+                            <td @* class="col-md-3 col-lg-3 col-xl-3" *@>
+                                <h6 style="vertical-align:central" class="mb-0">@item.FilmName</h6>
+                            </td>
+
+                            <td @* class="col-md-3 col-lg-3 col-xl-3" *@>
+                                <h6 style="vertical-align:central" class="mb-0">@item.SeatNumber</h6>
+                            </td>
+                            <td @* class="col-md-3 col-lg-2 col-xl-2 offset-lg-1" *@>
+                                <h6 style="vertical-align:central" class="mb-0">@item.FilmScheduleDes</h6>
+                            </td>
+                            <td>
+                                <h6 style="vertical-align:central" class="mb-0">@item.RoomName</h6>
+                            </td>
+
+                            <td>
+                                <h6 style="vertical-align:central" class="mb-0">@item.Price</h6>
+                            </td>
+                            <td style="vertical-align:central" @* class="col-md-3 col-lg-3 col-xl-5" *@>
+                                <div style="font-size:20px; ">
+                                    <form asp-action="RemoveFromCart" asp-route-filmId="@item.FilmId" asp-route-time="@item.FilmScheduleId" asp-route-seatID="@item.SeatId"
+                                          method="post">
+                                        <button type="submit" class="btn btn-sm btn-secondary"><i class="fa-solid fa-trash-can"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+
+                        </tr>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        <input type="submit" name="payment" class="primary-btn order-submit" value="Thanh toán bằng VnPay" />
+
+    </div>
+</form>
 <div>
     <a asp-action="Index" asp-controller="Home" asp-area="" class="btn btn-md btn--warning">Trở về</a>
 </div>

@@ -25,6 +25,7 @@ namespace BookingMovieTickets.Controllers
         private readonly I_TheatreRoom _TheatreRoomRepo;
         private readonly I_TicketDetail _TicketDetailRepo;
         private readonly IVnPayService _vnPayService;
+        private readonly I_Seat _seatRepo;
         private readonly I_FilmCategoryRepository _FilmCategoryRepository;
         private readonly I_ScheduleDescription _ScheduleDescriptionRepo;
         private readonly BookingMovieTicketsDBContext _bookingMovieTicketsDBContext;
@@ -32,7 +33,8 @@ namespace BookingMovieTickets.Controllers
 
         public BookingTicketController(I_Cart cartRepo, I_Ticket ticketRepo, I_FilmRepository FilmRepository, I_Schedule scheduleRepo, I_Receipt receiptRepo,
             BookingMovieTicketsDBContext bookingMovieTicketsDBContext,I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository,I_TicketDetail ticketDetail, 
-            IVnPayService vnPayService,I_ScheduleDescription scheduleDescription, UserManager<UserInfo> userManager)
+            IVnPayService vnPayService,I_ScheduleDescription scheduleDescription, UserManager<UserInfo> userManager,
+            I_Seat seatRepo)
             : base(bookingMovieTicketsDBContext)
         {
             _cartRepo = cartRepo;
@@ -47,6 +49,7 @@ namespace BookingMovieTickets.Controllers
             _userManager = userManager;
             _vnPayService = vnPayService;
             _ScheduleDescriptionRepo = scheduleDescription;
+            _seatRepo = seatRepo;
         }
 
         // GET: BookingTicketController
@@ -63,16 +66,15 @@ namespace BookingMovieTickets.Controllers
                              .Include(fs => fs.ScheduleDescription)
                             .Where(fs => fs.FilmId == filmId && fs.FilmScheduleId == Time)
                             .ToListAsync();
-            var scheduleDescription = await _bookingMovieTicketsDBContext.ScheduleDescriptions
-                        .Where(fs =>  fs.ScheduleDescriptionId == descriptionId).ToListAsync();
+         
 
-            var categories = await _FilmCategoryRepository.GetAllAsync();
             if (schedule.Any())
             {
                 var firstSchedule = schedule.First();
                 var room = await _bookingMovieTicketsDBContext.TheatreRooms
                                  .FirstOrDefaultAsync(room => room.TheatreRoomId == firstSchedule.TheatreRoomId);
-
+                var scheduleDescription = await _bookingMovieTicketsDBContext.ScheduleDescriptions
+                     .FirstAsync(fs => fs.ScheduleDescriptionId == descriptionId);
                 var availableSeats = await _bookingMovieTicketsDBContext.Seats.Where(s => s.TheatreRoomId == room.TheatreRoomId).ToListAsync();
 
                 var viewModel = new SeatVM
@@ -82,8 +84,8 @@ namespace BookingMovieTickets.Controllers
                     TheatreRoom = room,
                     Seats = availableSeats,
                     ScheduleId = Time,
-                    ScheduleDescriptions = scheduleDescription,
-                    ScheduleDescriptionId = descriptionId
+                    ScheduleDescriptionId = descriptionId,
+                    ScheduleDescriptions = schedule.Select(s=>s.ScheduleDescription),
                 };
                 ViewData["SeatVM"] = viewModel;
                 return View(viewModel);
@@ -98,7 +100,7 @@ namespace BookingMovieTickets.Controllers
             var room = await _TheatreRoomRepo.GetByIdAsync(schedule.TheatreRoomId);
             var seat = await _bookingMovieTicketsDBContext.Seats.FindAsync(seatID);
             var scheduleDescription = await _ScheduleDescriptionRepo.GetByIdAsync(descriptionId);
-            if (film != null && schedule != null && room !=null && seat != null)
+            if (film != null && schedule != null && room !=null && seat != null && scheduleDescription !=null)
             {
                 var cartDetail = new TicketCartDetail
                 {
@@ -110,13 +112,14 @@ namespace BookingMovieTickets.Controllers
                     FilmScheduleId = time,
                     RoomName = room.RoomName,
                     Price = seat.SeatPrice,
+                    FilmScheduleDescriptionID = descriptionId,
                     FilmScheduleDes= scheduleDescription.Description.ToString("hh\\:mm")
                 };
                 var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
 
                 cart.AddOrRemoveItem(cartDetail);
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
-                return Json(new { success = true, message = "Seat added to cart successfully!" });
+                return RedirectToAction("Index");
             }
             else
             {
@@ -126,14 +129,14 @@ namespace BookingMovieTickets.Controllers
 
 
         [Authorize]
-        public async Task<IActionResult> BookTickets()
+        public IActionResult BookTickets()
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
 
-            if (!cart.Items.Any())
+            if (!cart.Items.Any() || cart == null)
             {
                 // Handle case where cart is empty
-                return RedirectToAction("Index", "CartTicket");
+                return RedirectToAction("Index");
             }
             var ticketVM = new TicketVM
             {
@@ -145,68 +148,96 @@ namespace BookingMovieTickets.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> BookTickets(Receipt receipt, string payment)
+        public async Task<IActionResult> BookTickets(Receipt receipt,string payment = "COD")
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
-            if(cart == null)
+            if (cart == null || !cart.Items.Any())
             {
                 return RedirectToAction("Index");
             }
+
             var user = await _userManager.GetUserAsync(User);
-            if (payment == "thanh toán")
+            if (payment == "Thanh toán bằng VnPay")
             {
                 var vnPayModel = new VnPaymentRequestModel
                 {
-                    SeatPrice = cart.Items.Sum(x => x.Price),
+                    Price = (double)cart.Items.Sum(x => x.Price),
                     CreatedDate = DateTime.Now,
-                    Desc = $"{receipt.UserId}",
-                    FullName = receipt.User.FullName,
-                    ReceiptId = new Random().Next(1000, 10000)
+                    Description = $"{receipt.UserId}",
+                    FullName = user.FullName,
+                    OrderId = new Random().Next(1000, 10000)
                 };
-                return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnPayModel));
-                
-                }
-            var customerid = HttpContext.User.Claims.SingleOrDefault(p => p.Type == MySettings.CLAIM_CUSTOMERID);
-            using (var transaction = await _bookingMovieTicketsDBContext.Database.BeginTransactionAsync())
+                using (var transaction = await _bookingMovieTicketsDBContext.Database.BeginTransactionAsync())
                 {
-                    
-                    var ticket = new Ticket
+                    try
                     {
-                        PurchaseDate = DateTime.UtcNow,
-                        IsPaid = false
-                        
-                    };
-                    await _ticketRepo.AddAsync(ticket);
-                    foreach (var cartDetail in cart.Items)
-                    {
-                        var ticketDetail = new TicketDetail
+                        // Create and add the Ticket entity
+                        var ticket = new Ticket
                         {
-                            TicketId = ticket.TicketId,
-                            FilmId = cartDetail.FilmId,
-                            FilmScheduleId = cartDetail.FilmScheduleId,
-                            Price = cartDetail.Price,
-                            SeatId = cartDetail.SeatId
+                            PurchaseDate = DateTime.UtcNow,
+                            IsPaid = false
                         };
-                        await _TicketDetailRepo.AddAsync(ticketDetail);
+                        await _ticketRepo.AddAsync(ticket);
+                        await _bookingMovieTicketsDBContext.SaveChangesAsync(); // Save to get the TicketId
 
+                        // Create and add the TicketDetail entities
+                        foreach (var cartDetail in cart.Items)
+                        {
+                            var ticketDetail = new TicketDetail
+                            {
+                                TicketId = ticket.TicketId,
+                                FilmId = cartDetail.FilmId,
+                                FilmScheduleId = cartDetail.FilmScheduleId,
+                                Price = cartDetail.Price,
+                                SeatId = cartDetail.SeatId
+                            };
+                            await _TicketDetailRepo.AddAsync(ticketDetail);
+
+                            var seat = await _seatRepo.GetByIdAsync(cartDetail.SeatId);
+                            if (seat != null)
+                            {
+                                seat.IsBooked = true;
+                                await _seatRepo.UpdateAsync(seat);
+                            }
+                        }
+
+                        // Calculate the total price for the receipt
+                        decimal totalPrice = cart.Items.Sum(item => item.Price);
+
+                        // Create and add the Receipt entity
+                        receipt.UserId = user.Id;
+                        receipt.PurchaseDate = DateTime.UtcNow;
+                        receipt.TotalPrice = totalPrice; // Set the calculated total price
+                        receipt.ReceiptDetails = cart.Items.Select(i => new ReceiptDetail
+                        {
+                            ReceiptId = receipt.ReceiptId,
+                            TicketId = ticket.TicketId
+                        }).ToList();
+
+                        await _bookingMovieTicketsDBContext.Receipts.AddAsync(receipt);
+
+                        // Save all changes within the transaction
+                        await _bookingMovieTicketsDBContext.SaveChangesAsync();
+                        await transaction.CommitAsync();
+
+                        // Clear the cart after booking tickets
+                        HttpContext.Session.Remove("Cart");
+                        await HttpContext.Session.CommitAsync();
+                        return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnPayModel));
+/*
+                        return View("PaymentSuccess", receipt.ReceiptId);*/
                     }
-                    receipt.UserId = user.Id;
-                    receipt.PurchaseDate = DateTime.UtcNow;
-                    receipt.TotalPrice = receipt.CalculateTotalPrice();
-                    receipt.ReceiptDetails = cart.Items.Select(i => new ReceiptDetail
+                    catch (Exception ex)
                     {
-                        TicketId = i.TicketId
-                    }).ToList();
-
-                    await _bookingMovieTicketsDBContext.Receipts.AddAsync(receipt);
-                    await _bookingMovieTicketsDBContext.SaveChangesAsync();
-                    // Clear the cart after booking tickets
-                    HttpContext.Session.Remove("Cart");
-                    // Redirect to a page where the user can choose payment method
-
-                
+                        // Rollback transaction if any error occurs
+                        await transaction.RollbackAsync();
+                        // Log the exception (logging code is not shown here)
+                        return View(nameof(Index));
+                    }
+                }
             }
-            return View(nameof(Index));
+            return View("PaymentFail");
+
         }
 
         public IActionResult RemoveFromCart(int filmID, int time, int seatID)
@@ -228,8 +259,6 @@ namespace BookingMovieTickets.Controllers
         [Authorize]
         public IActionResult PaymentCallBack()
         {
-            var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
-
             var response = _vnPayService.PaymentExecute(Request.Query);
             if (response == null || response.VnPayResponseCode != "00")
 
@@ -240,12 +269,17 @@ namespace BookingMovieTickets.Controllers
             TempData["MessageSucess"] = $"Thanh toán VNPAY thành công: {response.VnPayResponseCode}";
             //  TempData["Message"] = $"Thanh toán VNPAY thành công: {response.VnPayResponseCode}";
 
-            TempData["OrderId"] = response.ReceiptId;
+            TempData["OrderId"] = response.OrderId;
 
-            return View("SucessfulOrder");
+            return View("PaymentSuccess");
         }
         [Authorize]
         public IActionResult PaymentFail()
+        {
+            return View();
+        }
+        [Authorize]
+        public IActionResult PaymentSuccess()
         {
             return View();
         }

@@ -2,6 +2,7 @@
     decimal Total = 0;
 
 }
+@model int
 <style>
     .sucess-section {
         min-height: 800px;
@@ -81,11 +82,11 @@
             <div class="cart--container">
                 <h2 style="color:white">@TempData["MessageSucess"]</h2>
 
-                <pre style="max-width: 900px" class="title-gradient"> Mã đơn hàng: @TempData["OrderId"]  đã thanh toán thành công  </pre>
+                <pre style="max-width: 900px" class="title-gradient"> Mã đơn hàng: @TempData["OrderId"] @Model  đã thanh toán thành công  </pre>
                 <p class="title-gradient"><strong>Vui lòng enjoy ngày mới của bạn và chờ đơn hàng được giao tới nhé ^^</strong></p>
                 <img src="https://png.pngtree.com/png-clipart/20230926/original/pngtree-online-payment-using-smartphone-app-successful-transfer-technology-transfer-purchase-vector-png-image_12880289.png" width="auto" height="300px" />
                 <div class="item--cart">
-                    <a asp-action="Index" asp-controller="product">
+                    <a asp-action="Index" asp-controller="Home">
                         <button class="btn-action" style="margin: 50px 0 50px -90px">
                             <i class="fa-solid fa-arrow-left"></i>
                             Tiếp tục mua hàng
