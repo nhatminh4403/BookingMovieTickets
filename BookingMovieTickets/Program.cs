@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Security.Cryptography.Xml;
 using System.Text.Json.Serialization;
-
+using Microsoft.AspNetCore.Authentication.Google;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

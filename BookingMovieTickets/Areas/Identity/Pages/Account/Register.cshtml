@@ -2,10 +2,11 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_LayoutSign.cshtml";
 }
-<div style="width: 1200px; margin: 0 auto; padding-top: 50px;">  
-    <div class="row">
-        <div class="col-md-4">
+<div class="login-section">
+    <div class="materialContainer">
+        <div class="box">
             <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                 <h2>Đăng kí</h2>
                 <hr />
@@ -42,8 +43,12 @@
                         <option disabled selected> Chọn Role</option>
                     </select>
                 </div>
-                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-            
+                <div class="button login">
+                    <button id="registerSubmit" type="submit">
+                        <span>Đăng Ký</span>
+                        <i class="fa fa-check"></i>
+                    </button>
+                </div>
             </form>
         </div>
         <div class="col-md-6 col-md-offset-2" style="padding-top:33px;">

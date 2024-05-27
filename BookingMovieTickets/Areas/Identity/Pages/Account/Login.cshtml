@@ -4,12 +4,14 @@
 
 @{
     ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_LayoutSign.cshtml";
+
 }
 
 
-<div style="width: 1200px; margin: 0 auto; padding-top: 50px;">
-    <div class="row">
-        <div class="col-md-4">
+<div class="login-section">
+    <div class="materialContainer">
+        <div class="box">
             <section>
                 <form id="account" method="post">
                     <h2>Đăng nhập</h2>
@@ -31,10 +33,14 @@
                             @Html.DisplayNameFor(m => m.Input.RememberMe)
                         </label>
                     </div> *@
-                    <div>
-                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Quên mật khẩu?</a>
+                    <div class="button login">
+                        <button id="login-submit" type="submit">
+                            <span>Đăng Nhập</span>
+                            <i class="fa fa-check"></i>
+                        </button>
                     </div>
-                    <div>
+                    @* <div>
                         <p>
                             <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                         </p>
@@ -44,7 +50,7 @@
                         <p>
                             <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
                         </p>
-                    </div>
+                    </div> *@
                 </form>
             </section>
         </div>
@@ -57,8 +63,8 @@
                     {
                         <div>
                             <p>
-                                There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                                about setting up this ASP.NET application to support logging in via external services</a>.
+                                @* There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+                                // about setting up this ASP.NET application to support logging in via external services</a>.*@
                             </p>
                         </div>
                     }
