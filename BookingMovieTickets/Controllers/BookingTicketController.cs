@@ -129,7 +129,7 @@ namespace BookingMovieTickets.Controllers
 
 
         [Authorize]
-        public IActionResult BookTickets()
+        public async Task<IActionResult> BookTickets()
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
 
@@ -143,7 +143,7 @@ namespace BookingMovieTickets.Controllers
                 TicketCart = cart,
                 Receipt = new Receipt()
             };
-            return View(ticketVM);
+            return View(cart);
 
         }
 

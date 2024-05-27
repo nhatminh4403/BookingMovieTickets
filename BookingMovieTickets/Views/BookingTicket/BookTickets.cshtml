@@ -1,78 +1,238 @@
-﻿@using BookingMovieTickets.VIewModel
-@model TicketVM
+﻿@model TicketCart
 @{
-    ViewData["Title"] = "BookTickets";
-    decimal Total = Model.TicketCart.Items.Sum(item => item.Price);
+    ViewData["Title"] = "Index";
+    decimal Total = 0;
+    decimal subtotal = 0;
 }
 
 
-<h1 style="text-align:center; margin-left: auto;
-    margin-right: auto;
-    display: block;
-    width: 50%;">
-    XÁC NHẬN THANH TOÁN
-</h1>
-<form asp-action="BookTickets" method="post">
-    <div class="col-sm-12 table-responsive mt-4">
-        @if (Model != null && Model.TicketCart != null && Model.TicketCart.Items != null && Model.TicketCart.Items.Any())
-        {
+<style>
+    .section-container {
+        color: #fff !important;
+    }
 
-            <table class="table cart-table">
-                <thead>
-                    <tr>
-                        <th scope="col">Tên phim</th>
-                        <th scope="col">Ghế</th>
-                        <th scope="col">Giờ</th>
-                        <th scope="col">Phòng</th>
-                        <th scope="col">Rạp</th>
-                        <th scope="col"></th>
+    .row.mb-4.d-flex {
+        color: #fff !important;
+    }
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <p>@Total</p>
-                    @foreach (var item in Model.TicketCart.Items)
-                    {
+    .section.cart-section.section-b-space {
+        padding: 50px 0 100px;
+    }
 
-                        <h2>Tổng hóa đơn: @Total</h2>
-                        <tr>
-                        <tr>
-                            <td @* class="col-md-3 col-lg-3 col-xl-3" *@>
-                                <h6 style="vertical-align:central" class="mb-0">@item.FilmName</h6>
-                            </td>
+    .cart--container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-                            <td @* class="col-md-3 col-lg-3 col-xl-3" *@>
-                                <h6 style="vertical-align:central" class="mb-0">@item.SeatNumber</h6>
-                            </td>
-                            <td @* class="col-md-3 col-lg-2 col-xl-2 offset-lg-1" *@>
-                                <h6 style="vertical-align:central" class="mb-0">@item.FilmScheduleDes</h6>
-                            </td>
-                            <td>
-                                <h6 style="vertical-align:central" class="mb-0">@item.RoomName</h6>
-                            </td>
-
-                            <td>
-                                <h6 style="vertical-align:central" class="mb-0">@item.Price</h6>
-                            </td>
-                            <td style="vertical-align:central" @* class="col-md-3 col-lg-3 col-xl-5" *@>
-                                <div style="font-size:20px; ">
-                                    <form asp-action="RemoveFromCart" asp-route-filmId="@item.FilmId" asp-route-time="@item.FilmScheduleId" asp-route-seatID="@item.SeatId"
-                                          method="post">
-                                        <button type="submit" class="btn btn-sm btn-secondary"><i class="fa-solid fa-trash-can"></i></button>
-                                    </form>
-                                </div>
-                            </td>
-
-                        </tr>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        .cart--container .item--cart {
+            /* align-self: flex-end */
+            margin: 0px 0 50px 90px;
         }
-        <input type="submit" name="payment" class="primary-btn order-submit" value="Thanh toán bằng VnPay" />
 
-    </div>
+    .cart-checkout-section {
+    }
+
+    .total-box-checkout {
+        margin: 10px 5px 100px;
+        width: 330px;
+        height: 170px;
+        padding: 30px;
+        background-color: #1e1f29;
+        opacity: 0.9;
+        border-radius: 27px;
+        box-shadow: 10px 10px 5px 0px rgba(255, 213, 100,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(255, 213, 100,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(255, 213, 100,0.75);
+        box-sizing: border-box;
+    }
+
+        .total-box-checkout .title-details, .total-box-checkout .action-total {
+            margin: 5px auto;
+        }
+
+    .table > tbody > tr > td {
+        vertical-align: middle;
+        line-height: 1.2;
+        padding: 8px;
+        border-top: 2px solid #ddd
+    }
+
+    .title-gradient {
+        font-size: 26px;
+        background-color: #00DBDE;
+        background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+
+    .title-gradient-h {
+        font-size: 26px;
+        text-transform: uppercase;
+        background-color: #de0004;
+        background-image: linear-gradient(90deg, #f00 0%, #122125 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        .title-gradient
+    }
+
+    .box-updown {
+        display: flex;
+    }
+
+    h4 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    h5 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .btn-action {
+        min-width: 100px;
+        text-align: center;
+        display: inline-block;
+        background: #fff;
+        text-transform: uppercase;
+        color: #000;
+        border: 3px solid #ffc936;
+        padding: 8px 30px;
+        margin: 5px 0;
+        border-radius: 30px;
+        transition: background 0.5s;
+        font-weight: 700;
+    }
+
+        .btn-action:hover {
+            color: white;
+            border: 3px solid #ffc936;
+            background-image: linear-gradient(160deg, #ffc936 0%, #d08080 100%);
+            transition: ease 0.7s;
+        }
+
+</style>
+
+<form asp-action="BookTickets" method="post">
+    <section class="cart-section section-b-space">
+        <div class="container">
+            <div class="row">
+                @if (Model == null || !Model.Items.Any())
+                {
+                    <div class="cart--container">
+                        <div>
+                            <h3 class="title-gradient">OOPS! CHƯA THÊM SẢN PHẨM NÀO!!!</h3>
+                            <img src="~/images/empty_cart.jpg" style="margin-left:20px" width="auto" height="300px" />
+                            <div class="item--cart" style="margin-left:125px;">
+                                <a asp-action="Index" asp-controller="Home" style="margin: 20px; display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; border-color:007bff; text-decoration: none; border-radius: 5px;">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                    Tiếp tục đặt vé
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="section-title text-center">
+                        <h2 style="margin: 20px 0 30px" class="title-gradient-h">Thông tin các ghế đã chọn</h2>
+                    </div>
+
+                    <div class="col-sm-12 table-responsive mt-4">
+
+                        <table class="table cart-table">
+                            <thead>
+                                <tr class="table-head">
+                                    <th scope="col">Tên phim</th>
+                                    <th scope="col">Khung giờ</th>
+                                    <th scope="col">Số ghế</th>
+                                    <th scope="col">Số phòng</th>
+                                    <th scope="col">Giá tiền</th>
+                                    <th scope="col">Xóa vé?</th>
+
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.Items)
+                            {
+                                Total += item.Price;
+
+                                <tbody>
+                                    <tr>
+
+                                        <td @* class="col-md-3 col-lg-3 col-xl-3" *@>
+                                            <h6 style="vertical-align:central" class="mb-0">@item.FilmName</h6>
+                                        </td>
+
+                                        <td @* class="col-md-3 col-lg-3 col-xl-3" *@>
+                                            <h6 style="vertical-align:central" class="mb-0">@item.FilmScheduleDes</h6>
+                                        </td>
+                                        <td @* class="col-md-3 col-lg-2 col-xl-2 offset-lg-1" *@>
+                                            <h6 style="vertical-align:central" class="mb-0">@item.SeatNumber</h6>
+                                        </td>
+                                        <td>
+                                            <h6 style="vertical-align:central" class="mb-0">@item.RoomName</h6>
+                                        </td>
+
+                                        <td>
+                                            <h6 style="vertical-align:central" class="mb-0">@item.Price</h6>
+                                        </td>
+                                        <td style="vertical-align:central" @* class="col-md-3 col-lg-3 col-xl-5" *@>
+                                            <div style="font-size:20px; ">
+                                                <form asp-action="RemoveFromCart" asp-route-filmId="@item.FilmId" asp-route-time="@item.FilmScheduleId" asp-route-seatID="@item.SeatId"
+                                                      method="post">
+                                                    <button type="submit" class="btn btn-sm btn-secondary"><i class="fa-solid fa-trash-can"></i></button>
+                                                </form>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+
+
+                    <div class="cart-checkout-section">
+                        <div class="row g-4">
+                            <div class="col-lg-4 col-sm-6">
+                            </div>
+
+                            <div class="col-lg-4 col-sm-6 ">
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="total-box-checkout">
+                                    <div class="total-details">
+                                        <div class="title--total">
+                                            <h4 style="color: #fff; text-transform:uppercase; font-weight:bold; display:flex;"><span style="flex:1;">Thành tiền</span> <span>@Model.Items.Count vé</span> </h4>
+                                            <h5 style="color: #fff; margin-top:10px;">Tổng tiền: <span style="margin-left:5px" id="cart_subtotal">@Total đ</span></h5>
+                                        </div>
+                                        <div class="action-total">
+                                            @{
+                                                string checkout = "javascript:void();";
+                                                if (Total > 0)
+                                                {
+                                                    checkout = "/BookTickets";
+                                                }
+                                            }
+                                            <a asp-action="BookTickets" asp-controller="BookingTicket">
+                                                <input type="submit" name="payment" class="btn-action" value="Thanh toán bằng VnPay" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
 </form>
-<div>
-    <a asp-action="Index" asp-controller="Home" asp-area="" class="btn btn-md btn--warning">Trở về</a>
-</div>
+
+<!-- Cart Section End -->
