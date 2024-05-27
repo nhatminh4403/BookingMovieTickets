@@ -317,9 +317,8 @@ namespace BookingMovieTickets.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FilmScheduleDescriptionID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FilmScheduleDescriptionID")
+                        .HasColumnType("int");
 
                     b.Property<int>("FilmScheduleId")
                         .HasColumnType("int");

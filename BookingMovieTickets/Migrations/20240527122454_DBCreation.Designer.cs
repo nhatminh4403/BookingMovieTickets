@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(BookingMovieTicketsDBContext))]
-    [Migration("20240526060041_DBInsertion")]
-    partial class DBInsertion
+    [Migration("20240527122454_DBCreation")]
+    partial class DBCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -320,9 +320,8 @@ namespace BookingMovieTickets.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FilmScheduleDescriptionID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FilmScheduleDescriptionID")
+                        .HasColumnType("int");
 
                     b.Property<int>("FilmScheduleId")
                         .HasColumnType("int");
