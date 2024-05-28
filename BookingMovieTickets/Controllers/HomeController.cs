@@ -93,6 +93,7 @@ namespace BookingMovieTickets.Controllers
                                              .ThenInclude(tr => tr.Theatre).Include(f => f.FilmSchedules)
                                             .ThenInclude(fs => fs.ScheduleDescription)
                                              .FirstOrDefaultAsync(f => f.FilmId == id);
+
             if (film == null)
             {
                 return NotFound();

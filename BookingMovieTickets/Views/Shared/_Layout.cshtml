@@ -9,8 +9,6 @@
 
 }
 
-
-
 <!DOCTYPE html>
 <html>
 
@@ -249,16 +247,15 @@
                             {
                                 <a href="/Identity/Account/Login" class="text-decoration-none text-light">
                                     <span class="fs-3">
-                                        <i class="fa-solid fa-user"></i>
                                     </span>
                                 </a>
                             }
                             else
                             {
-                                <a asp-area="Identity" asp-page="/Account/Manage/Index"
+                                <a href="~/ViewTicket/showTickets"
                                    class="text-decoration-none text-light" style="text-align:left;">
                                     <span class="fs-3">
-                                        <i class="fa-solid fa-user"></i>
+                                        <i class="fa-solid fa-ticket"></i>
                                     </span>
                                 </a>
                             }

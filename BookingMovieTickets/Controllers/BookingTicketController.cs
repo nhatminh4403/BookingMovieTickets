@@ -66,7 +66,10 @@ namespace BookingMovieTickets.Controllers
                              .Include(fs => fs.ScheduleDescription)
                             .Where(fs => fs.FilmId == filmId && fs.FilmScheduleId == Time)
                             .ToListAsync();
-         
+
+            HttpContext.Session.Remove("Cart");
+            await HttpContext.Session.CommitAsync();
+
 
             if (schedule.Any())
             {
@@ -129,7 +132,7 @@ namespace BookingMovieTickets.Controllers
 
 
         [Authorize]
-        public IActionResult BookTickets()
+        public async Task<IActionResult> BookTickets()
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
 
@@ -174,8 +177,7 @@ namespace BookingMovieTickets.Controllers
                         // Create and add the Ticket entity
                         var ticket = new Ticket
                         {
-                            PurchaseDate = DateTime.UtcNow,
-                            IsPaid = false
+                            PurchaseDate = DateTime.UtcNow
                         };
                         await _ticketRepo.AddAsync(ticket);
                         await _bookingMovieTicketsDBContext.SaveChangesAsync(); // Save to get the TicketId
@@ -208,6 +210,7 @@ namespace BookingMovieTickets.Controllers
                         receipt.UserId = user.Id;
                         receipt.PurchaseDate = DateTime.UtcNow;
                         receipt.TotalPrice = totalPrice; // Set the calculated total price
+                        receipt.IsPaid = true;
                         receipt.ReceiptDetails = cart.Items.Select(i => new ReceiptDetail
                         {
                             ReceiptId = receipt.ReceiptId,
@@ -224,8 +227,7 @@ namespace BookingMovieTickets.Controllers
                         HttpContext.Session.Remove("Cart");
                         await HttpContext.Session.CommitAsync();
                         return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnPayModel));
-/*
-                        return View("PaymentSuccess", receipt.ReceiptId);*/
+
                     }
                     catch (Exception ex)
                     {
@@ -283,5 +285,7 @@ namespace BookingMovieTickets.Controllers
         {
             return View();
         }
+        
+        
     }
 }

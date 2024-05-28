@@ -1,4 +1,4 @@
-using BookingMovieTickets.DataAccess;
+﻿using BookingMovieTickets.DataAccess;
 using BookingMovieTickets.Models;
 using BookingMovieTickets.Repository.EF;
 using BookingMovieTickets.Repository.Interface;
@@ -10,6 +10,7 @@ using System.Security.Cryptography.Xml;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Hangfire;
 var builder = WebApplication.CreateBuilder(args);
 var configuration= builder.Configuration;
 // Add services to the container.
@@ -33,6 +34,11 @@ builder.Services.AddDbContext<BookingMovieTicketsDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+// Thêm dịch vụ Hangfire
+builder.Services.AddHangfire(config =>
+    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddHangfireServer();
+
 builder.Services.AddIdentity<UserInfo, IdentityRole>()
        .AddDefaultTokenProviders()
        .AddDefaultUI()
@@ -52,7 +58,9 @@ builder.Services.AddScoped<I_TicketDetail, EF_TicketDetail>();
 builder.Services.AddScoped<I_ReceiptDetail, EF_ReceiptDetail>();
 builder.Services.AddScoped<I_Cart, EF_Cart>();
 builder.Services.AddScoped<I_ScheduleDescription, EF_ScheduleDescription>();
+builder.Services.AddScoped<ISeatService, SeatService>();
 builder.Services.AddHttpContextAccessor();
+
 
 
 builder.Services.AddControllersWithViews();
@@ -105,5 +113,15 @@ app.UseEndpoints(endpoints =>
     
 );
 
+
+// Cấu hình Hangfire Dashboard và Server
+app.UseHangfireDashboard();
+app.UseHangfireServer();
+
+// Đặt lịch cho task reset ghế mỗi nửa đêm
+RecurringJob.AddOrUpdate<ISeatService>(
+    "reset-seats",
+    service => service.ResetSeats(),
+    "0 0 * * *");
 
 app.Run();

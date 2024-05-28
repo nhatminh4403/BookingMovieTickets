@@ -97,8 +97,7 @@ namespace BookingMovieTickets.Migrations
                 {
                     TicketId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsPaid = table.Column<bool>(type: "bit", nullable: false)
+                    PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -219,7 +218,8 @@ namespace BookingMovieTickets.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -439,6 +439,12 @@ namespace BookingMovieTickets.Migrations
                         principalColumn: "FilmScheduleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_TicketDetails_Films_FilmId",
+                        column: x => x.FilmId,
+                        principalTable: "Films",
+                        principalColumn: "FilmId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_TicketDetails_Seats_SeatId",
                         column: x => x.SeatId,
                         principalTable: "Seats",
@@ -551,6 +557,11 @@ namespace BookingMovieTickets.Migrations
                 table: "TicketCarts",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketDetails_FilmId",
+                table: "TicketDetails",
+                column: "FilmId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TicketDetails_FilmScheduleId",

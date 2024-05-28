@@ -13,9 +13,8 @@ namespace BookingMovieTickets.Models
         public int TicketId { get; set; }
         [Required]
         public DateTime PurchaseDate { get; set; }
-        [Required]
-        public bool IsPaid { get; set; }
 
+        public virtual ICollection<ReceiptDetail> ReceiptDetails { get; set; }
         public virtual ICollection<TicketDetail> TicketDetails { get; set; }
         public virtual ICollection<TicketCartDetail> TicketCartDetails { get; set; }
     }
