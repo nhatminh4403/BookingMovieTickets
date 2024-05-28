@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(BookingMovieTicketsDBContext))]
-    [Migration("20240527122454_DBCreation")]
-    partial class DBCreation
+    [Migration("20240528122209_DBInsertion")]
+    partial class DBInsertion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

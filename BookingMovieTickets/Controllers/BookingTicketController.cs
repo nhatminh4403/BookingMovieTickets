@@ -66,7 +66,10 @@ namespace BookingMovieTickets.Controllers
                              .Include(fs => fs.ScheduleDescription)
                             .Where(fs => fs.FilmId == filmId && fs.FilmScheduleId == Time)
                             .ToListAsync();
-         
+
+            HttpContext.Session.Remove("Cart");
+            await HttpContext.Session.CommitAsync();
+
 
             if (schedule.Any())
             {
@@ -133,11 +136,11 @@ namespace BookingMovieTickets.Controllers
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
 
-            if (!cart.Items.Any() || cart == null)
+            /*if (!cart.Items.Any() || cart == null)
             {
                 // Handle case where cart is empty
                 return RedirectToAction("Index");
-            }
+            }*/
             var ticketVM = new TicketVM
             {
                 TicketCart = cart,
@@ -224,8 +227,7 @@ namespace BookingMovieTickets.Controllers
                         HttpContext.Session.Remove("Cart");
                         await HttpContext.Session.CommitAsync();
                         return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnPayModel));
-/*
-                        return View("PaymentSuccess", receipt.ReceiptId);*/
+
                     }
                     catch (Exception ex)
                     {
@@ -283,5 +285,14 @@ namespace BookingMovieTickets.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> showTickets()
+        {
+            var tickets = await _ticketRepo.GetAllAsync();
+
+
+            return View(tickets);
+        }
+
     }
 }

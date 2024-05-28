@@ -10,7 +10,6 @@ namespace BookingMovieTickets.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            
             migrationBuilder.InsertData(
 table: "FilmCategory",
 columns: new[] { "FilmCategoryId", "Name" },
