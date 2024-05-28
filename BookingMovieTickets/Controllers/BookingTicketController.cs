@@ -133,17 +133,17 @@ namespace BookingMovieTickets.Controllers
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
 
-            if (!cart.Items.Any() || cart == null)
+            /*if (!cart.Items.Any() || cart == null)
             {
                 // Handle case where cart is empty
                 return RedirectToAction("Index");
-            }
-            var ticketVM = new TicketVM
+            }*/
+            /*var ticketVM = new TicketVM
             {
                 TicketCart = cart,
                 Receipt = new Receipt()
-            };
-            return View(ticketVM);
+            };*/
+            return View(cart);
 
         }
 
