@@ -1,7 +1,7 @@
 ﻿@model BookingMovieTickets.VIewModel.FilmVM
 @using BookingMovieTickets.Extensions
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Trang chủ";
     var listMovies = ViewBag.Movies;
     var listMoviesCategories = ViewBag.MoviesCategories;
     var shuffledHotFilm = Model.Films.Shuffle().Where(film=>film.StartTime<= DateTime.UtcNow).Distinct().Take(6).ToList();

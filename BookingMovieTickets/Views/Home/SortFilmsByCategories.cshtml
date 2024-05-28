@@ -1,8 +1,8 @@
 ﻿@model BookingMovieTickets.VIewModel.FilmVM
 
 @{
-    ViewData["Title"] = "SortFilmsByCategories";
-    var selectedCategoryName = ViewBag.Categoryid as string;
+
+    var selectedCategoryName = ViewBag.Categoryid as string; ViewData["Title"] = $"Phim theo thể loại: {selectedCategoryName}";
 }
 
 

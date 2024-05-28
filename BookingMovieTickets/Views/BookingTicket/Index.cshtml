@@ -1,6 +1,6 @@
 ﻿@model TicketCart
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Giỏ vé";
     decimal Total = 0;
     decimal subtotal = 0;
 }
@@ -115,7 +115,7 @@
 
 </style>
 
-
+<form asp-action="BookTickets" method="post"> 
 <section class="cart-section section-b-space">
     <div class="container">
         <div class="row">
@@ -221,9 +221,9 @@
                                                 checkout = "/BookTickets";
                                             }
                                         }
-                                        <a asp-action="BookTickets" asp-controller="BookingTicket">
-                                            <input type="submit" name="payment" class="primary-btn order-submit" value="Thanh toán" />
-                                        </a>
+                                        @* <a asp-action="BookTickets" asp-controller="BookingTicket"> *@
+                                            <input type="submit" name="payment" class="primary-btn order-submit" value="Thanh toán bằng VnPay" />
+                                        @* </a> *@
                                     </div>
                                 </div>
                             </div>
@@ -235,5 +235,6 @@
         </div>
     </div>
 </section>
+</form>
 <!-- Cart Section End -->
 

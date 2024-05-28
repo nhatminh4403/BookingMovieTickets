@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BookingMovieTickets.DataAccess;
 using BookingMovieTickets.Models;
+using BookingMovieTickets.Query;
 using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authentication;
@@ -146,7 +147,7 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
         }
 
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null, string access_token = null)
         {
             if (!_roleManager.RoleExistsAsync(UserRole.Role_Customer).GetAwaiter().GetResult())
             {
@@ -162,6 +163,8 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
                     Value = i
                 })
             };
+            returnUrl ??= Url.Content("~/");
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -181,6 +184,29 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
                 Theatres = theaters
             };
             ViewData["LayoutViewModel"] = FilmVM;
+            if (!string.IsNullOrEmpty(access_token))
+            {
+                TokenGoogle data = await DataQuery.VerifyTokenGoogle(access_token);
+                if (data.error_description == null)
+                {
+                    var user = await _userManager.FindByEmailAsync(data.email);
+                    if (user == null)
+                    {
+                        // Tạo tài khoản mới
+                        var result = await _userManager.CreateAsync(new UserInfo { Email = data.email, FullName = data.email,PhoneNumber = data.email });
+                        if (result.Succeeded)
+                            user = await _userManager.FindByEmailAsync(data.email);
+                    }
+
+                    // Đăng nhập người dùng
+                    if (user != null)
+                    {
+                        await _signInManager.SignInAsync(user, false);
+                        return LocalRedirect(returnUrl);
+                    }
+                }
+            }
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
