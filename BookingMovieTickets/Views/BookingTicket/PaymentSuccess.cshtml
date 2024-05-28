@@ -1,36 +1,63 @@
-﻿@{
-    decimal Total = 0;
+﻿<style>
+    .section-container {
+        color: #fff !important;
+    }
 
-}
-@model int
-<style>
-    .sucess-section {
-        min-height: 800px;
-        margin: auto;
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        overflow: auto;
-        background-image: url(https://images.unsplash.com/photo-1562581870-5b61efe35190?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
-        animation: gradient 15s ease infinite;
-        background-size: 150% 150%;
-        /*   background-attachment: fixed; */
+    .row.mb-4.d-flex {
+        color: #fff !important;
+    }
+
+    .section.cart-section.section-b-space {
+        padding: 50px 0 100px;
     }
 
     .cart--container {
         display: flex;
-        justify-content: space-evenly;
-        margin-top: 50px;
-        flex-flow: column;
+        justify-content: center;
         align-items: center;
     }
-
-        .cart--container:first-child {
-            width: 300px;
-        }
 
         .cart--container .item--cart {
             /* align-self: flex-end */
             margin: 0px 0 50px 90px;
         }
+
+    .cart-checkout-section {
+    }
+
+    .total-box-checkout {
+        margin: 10px 5px 100px;
+        width: 330px;
+        height: 170px;
+        padding: 30px;
+        background-color: #1e1f29;
+        opacity: 0.9;
+        border-radius: 27px;
+        box-shadow: 10px 10px 5px 0px rgba(255, 213, 100,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(255, 213, 100,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(255, 213, 100,0.75);
+        box-sizing: border-box;
+    }
+
+        .total-box-checkout .title-details, .total-box-checkout .action-total {
+            margin: 5px auto;
+        }
+
+    .table > tbody > tr > td {
+        vertical-align: middle;
+        line-height: 1.2;
+        padding: 8px;
+        border-top: 2px solid #ddd
+    }
+
+    .title-gradient {
+        font-size: 26px;
+        background-color: #00DBDE;
+        background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
 
     .title-gradient-h {
         font-size: 26px;
@@ -42,92 +69,54 @@
         .title-gradient
     }
 
-    .title-gradient {
-        font-size: 26px;
-        background-color: #00DBDE;
-        background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+    .box-updown {
+        display: flex;
     }
 
-    @@keyframes gradient {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        50% {
-            background-position: 100% 50%;
-        }
-
-        100% {
-            background-position: 0% 50%;
-        }
+    h4 {
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
-    img {
-        border-radius: 50%;
+    h5 {
+        margin-top: 0;
+        margin-bottom: 0;
     }
+
+    .btn-action {
+        min-width: 100px;
+        text-align: center;
+        display: inline-block;
+        background: #fff;
+        text-transform: uppercase;
+        color: #000;
+        border: 3px solid #ffc936;
+        padding: 8px 30px;
+        margin: 5px 0;
+        border-radius: 30px;
+        transition: background 0.5s;
+        font-weight: 700;
+    }
+
+        .btn-action:hover {
+            color: white;
+            border: 3px solid #ffc936;
+            background-image: linear-gradient(160deg, #ffc936 0%, #d08080 100%);
+            transition: ease 0.7s;
+        }
+
 </style>
 
+<div class="cart--container">
+    <div>
+        <h3 class="title-gradient">BẠN ĐÃ THANH TOÁN THÀNH CÔNG!!!</h3>
+        <img src="~/images/empty_cart.jpg" style="margin-left:20px" width="auto" height="300px" />
+        <div class="item--cart" style="margin-left:125px;">
+            <a asp-action="Index" asp-controller="Home" style="margin: 20px; display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; border-color:007bff; text-decoration: none; border-radius: 5px;">
+                <i class="fa-solid fa-arrow-left"></i>
+                XEM VÉ ĐÃ ĐẶT
+            </a>
+        </div>
 
-<section class="sucess-section section-b-space">
-    <div class="container">
-        <div class="row">
-            <div class="section-title text-center">
-                <h2 style="margin: 20px 0 30px; color:white">Sucessful Order</h2>
-
-            </div>
-
-
-            <div class="cart--container">
-                <h2 style="color:white">@TempData["MessageSucess"]</h2>
-
-                <pre style="max-width: 900px" class="title-gradient"> Mã đơn hàng: @TempData["OrderId"] @Model  đã thanh toán thành công  </pre>
-                <p class="title-gradient"><strong>Vui lòng enjoy ngày mới của bạn và chờ đơn hàng được giao tới nhé ^^</strong></p>
-                <img src="https://png.pngtree.com/png-clipart/20230926/original/pngtree-online-payment-using-smartphone-app-successful-transfer-technology-transfer-purchase-vector-png-image_12880289.png" width="auto" height="300px" />
-                <div class="item--cart">
-                    <a asp-action="Index" asp-controller="Home">
-                        <button class="btn-action" style="margin: 50px 0 50px -90px">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            Tiếp tục mua hàng
-                        </button>
-                    </a>
-                </div>
-
-            </div>
-
-            @* <div class="col-md-5 order-details" style="margin-top: 86px;">
-            <div class="section-title text-center">
-            <h3 class="title-gradient">Your Order</h3>
-            </div>
-            <div class="order-summary">
-            <div class="order-col">
-            <div><strong>PRODUCT</strong></div>
-            <div><strong>SUB TOTAL</strong></div>
-            </div>
-            @foreach (var item in ViewBag.CartOrder)
-            {
-            decimal subtotal = (int)item.Quantity * item.Price;
-            Total += subtotal;
-            <div class="order-products">
-
-
-            <div class="order-col">
-            <div>x1 @item.Name</div>
-            <div>$@subtotal</div>
-            </div>
-
-
-            </div>
-            }
-            <div class="order-col">
-            <div>Shiping</div>
-            <div><strong>FREE</strong></div>
-            </div>
-            <div class="order-col">
-            <div><strong>TOTAL</strong></div>
-            <div><strong class="order-total">$@Total</strong></div>
-            </div>
-            </div>
-            </div> *@
-</section>
+    </div>
+</div>

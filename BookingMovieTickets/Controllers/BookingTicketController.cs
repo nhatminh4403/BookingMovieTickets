@@ -290,7 +290,6 @@ namespace BookingMovieTickets.Controllers
         {
             var tickets = await _ticketRepo.GetAllAsync();
 
-
             return View(tickets);
         }
 
