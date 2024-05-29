@@ -12,7 +12,6 @@ namespace BookingMovieTickets.DataAccess
         { 
         }
 
-
         public DbSet<UserInfo> Users { get; set; }
         public DbSet<ScheduleDescription> ScheduleDescriptions { get; set; }
         public DbSet<TicketCart> TicketCarts { get; set; }

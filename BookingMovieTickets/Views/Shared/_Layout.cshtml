@@ -178,7 +178,7 @@
                         <li>
                             <form action="/Home/SearchByName" method="get" class="">
                                 <div class="input-group mb-3">
-                                    <input type="text" name="film" class="form-control translucent-input " placeholder="Từ khóa tìm kiếm" aria-label="Từ khóa tìm kiếm" aria-describedby="basic-addon2" style="width: 300px;height:35px;flex-shrink:inherit" >
+                                    <input type="text" name="film" class="form-control translucent-input " placeholder="Từ khóa tìm kiếm" aria-label="Từ khóa tìm kiếm" aria-describedby="basic-addon2" style="width: 300px;height:35px;flex-shrink:inherit; outline: none; border: none;" >
                                     <button type="submit" class="input-group-text" id="basic-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
                                 </div>
                             </form>
@@ -189,22 +189,7 @@
                 </nav>
 
                 <!-- Additional header buttons / Auth and direct link to booking-->
-                <div class="control-panel">
-                    @* <div class="auth auth--home">
-                    <div class="auth__show">
-                    <span class="auth__image">
-                    <img alt="" src="images/client-photo/auth.png" />
-                    </span>
-                    </div>
-                    <a href="#" class="btn btn--sign btn--singin"> me </a>
-                    <ul class="auth__function">
-                    <li><a href="#" class="auth__function-item">Watchlist</a></li>
-                    <li><a href="#" class="auth__function-item">Booked tickets</a></li>
-                    <li><a href="#" class="auth__function-item">Discussion</a></li>
-                    <li><a href="#" class="auth__function-item">Settings</a></li>
-                    </ul>
-                    </div> *@ @*
-                    <partial name="_LoginPartial" /> *@
+                <div class="control-panel">                   
                     <div class="row">
 @*                         <partial name="_LoginPartial" /> *@
                         @if (!SignInManager.IsSignedIn(User) && user != null)
@@ -241,26 +226,8 @@
                                     </a>
                                 </div>
                             </div>
-                        }
-                        <div class="col-1 py-1">
-                            @if (!SignInManager.IsSignedIn(User) && user != null)
-                            {
-                                <a href="/Identity/Account/Login" class="text-decoration-none text-light">
-                                    <span class="fs-3">
-                                    </span>
-                                </a>
-                            }
-                            else
-                            {
-                                <a href="~/BookingTicket/Index"
-                                   class="text-decoration-none text-light" style="text-align:left;">
-                                    <span class="fs-3">
-                                        <i class="fa-solid fa-cart-shopping"></i>
-                                    </span>
-                                </a>
-                            }
-                        </div>
-                        <a href="/ViewTicket/showTickets"
+                        }                      
+                        <a asp-controller="ViewTicket" asp-action="showTickets"
                            class="btn btn-md btn--warning btn--book btn-control--home login-window">
                             Vé
                             của tôi

@@ -80,6 +80,8 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         animation: gradientAnimation 3s ease infinite;
+        display: inline-block;
+        margin-left: 53px;
     }
 
     @@keyframes gradientAnimation {
@@ -97,13 +99,12 @@
 
 
 <div class="container__film">
-    <div class="lis-film">
+    <div class="lis-film" style="margin-top: 50px;">
 
             @if (Model.Films.Count()==0)
             {
-            <br class="br" />
-                <span class="gradient-text">Không tìm thấy phim thuộc thể loại @selectedCategoryName</span>
-                
+                <br class="br" />
+                <span class="gradient-text">Không tìm thấy phim thuộc thể loại @selectedCategoryName</span>              
             }
             else
             {

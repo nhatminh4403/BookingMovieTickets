@@ -6,22 +6,28 @@ using BookingMovieTickets.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using System.Security.Cryptography.Xml;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Hangfire;
+using Hangfire.SqlServer;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+
 var builder = WebApplication.CreateBuilder(args);
-var configuration= builder.Configuration;
+
 // Add services to the container.
 builder.Services.AddDistributedMemoryCache();
 
-builder.Services.AddAuthentication()
-    .AddGoogle(googleOptions =>
-    {
-        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-    });
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+})
+.AddCookie()
+.AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+});
 
 builder.Services.AddSession(options =>
 {
@@ -40,17 +46,17 @@ builder.Services.AddHangfire(config =>
 builder.Services.AddHangfireServer();
 
 builder.Services.AddIdentity<UserInfo, IdentityRole>()
+       .AddEntityFrameworkStores<BookingMovieTicketsDBContext>()
        .AddDefaultTokenProviders()
-       .AddDefaultUI()
-       .AddEntityFrameworkStores<BookingMovieTicketsDBContext>();
-builder.Services.AddRazorPages();
+       .AddDefaultUI();
 
+builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<I_FilmRepository, EF_FilmRepository>();
 builder.Services.AddScoped<I_FilmCategoryRepository, EF_FilmCategoryRepository>();
 builder.Services.AddScoped<I_Seat, EF_Seat>();
-builder.Services.AddScoped<I_Receipt, EF_Receipt>(); 
-builder.Services.AddScoped<I_Schedule, EF_Schedule>(); 
+builder.Services.AddScoped<I_Receipt, EF_Receipt>();
+builder.Services.AddScoped<I_Schedule, EF_Schedule>();
 builder.Services.AddScoped<I_Theater, EF_Theater>();
 builder.Services.AddScoped<I_TheatreRoom, EF_Room>();
 builder.Services.AddScoped<I_Ticket, EF_Ticket>();
@@ -68,8 +74,7 @@ builder.Services.ConfigureApplicationCookie(option =>
 {
     option.LoginPath = $"/Identity/Account/Login";
     option.LogoutPath = $"/Identity/Account/Logout";
-    option.LogoutPath = $"/Identity/Account/AccessDenied";
-
+    option.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
 
 var defaultCulture = new CultureInfo("vi-VN");
@@ -79,7 +84,7 @@ var supportedCulture = new[] { defaultCulture };
 
 builder.Services.Configure<RequestLocalizationOptions>(option =>
 {
-    option.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("vn");
+    option.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("vi-VN");
     option.SupportedCultures = supportedCulture;
     option.SupportedUICultures = supportedCulture;
 });
@@ -92,7 +97,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -103,25 +107,24 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 
-app.MapRazorPages();
-app.UseEndpoints(endpoints =>
-{    
-    endpoints.MapControllerRoute(name: "Admin", pattern: "{area:exists}/{controller=Management}/{action=Index}/{id?}");
-    endpoints.MapControllerRoute(    name: "default",    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-}
-    
-);
-
-
 // Cấu hình Hangfire Dashboard và Server
 app.UseHangfireDashboard();
 app.UseHangfireServer();
-
-// Đặt lịch cho task reset ghế mỗi nửa đêm
 RecurringJob.AddOrUpdate<ISeatService>(
     "reset-seats",
     service => service.ResetSeats(),
     "0 0 * * *");
+app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "Admin",
+        pattern: "{area:exists}/{controller=Management}/{action=Index}/{id?}"
+    );
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+});
 
 app.Run();

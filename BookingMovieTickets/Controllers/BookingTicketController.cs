@@ -151,7 +151,7 @@ namespace BookingMovieTickets.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> BookTickets(Receipt receipt,string payment = "COD")
+        public async Task<IActionResult> BookTickets(Receipt receipt, string payment = "COD")
         {
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
             if (cart == null || !cart.Items.Any())
@@ -170,6 +170,7 @@ namespace BookingMovieTickets.Controllers
                     FullName = user.FullName,
                     OrderId = new Random().Next(1000, 10000)
                 };
+
                 using (var transaction = await _bookingMovieTicketsDBContext.Database.BeginTransactionAsync())
                 {
                     try
@@ -242,6 +243,7 @@ namespace BookingMovieTickets.Controllers
 
         }
 
+
         public IActionResult RemoveFromCart(int filmID, int time, int seatID)
         {
             var cart =
@@ -275,6 +277,8 @@ namespace BookingMovieTickets.Controllers
 
             return View("PaymentSuccess");
         }
+
+
         [Authorize]
         public IActionResult PaymentFail()
         {
