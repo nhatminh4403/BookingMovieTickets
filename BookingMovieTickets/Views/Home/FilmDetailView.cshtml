@@ -355,9 +355,11 @@
             <div class="category category--cooming category--count marginb-sm mobile-category rs-cat">
                 <h3 class="category__title">các phim hiện chiếu<br><span class="title-edition"></span></h3>
                 <ol>
-                    @foreach(var item in Model.Films)
+                    @foreach(var item in Model.Films.Take(8))
                     {
-                        <li><a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="category__item">@item.NameFilm</a></li>
+                        if(item.FilmId != Model.Film.FilmId){
+                            <li><a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="category__item">@item.NameFilm</a></li>
+                        }
                         
                     }
 
