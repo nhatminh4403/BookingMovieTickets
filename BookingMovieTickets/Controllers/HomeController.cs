@@ -93,12 +93,17 @@ namespace BookingMovieTickets.Controllers
                                              .ThenInclude(tr => tr.Theatre).Include(f => f.FilmSchedules)
                                             .ThenInclude(fs => fs.ScheduleDescription)
                                              .FirstOrDefaultAsync(f => f.FilmId == id);
-
+            var films = await _filmRepository.GetAllAsync();
             if (film == null)
             {
                 return NotFound();
             }
-            return View(film);
+            var filmsDetailVM = new DetailVM
+            {
+                Film = film,
+                Films= films
+            };
+            return View(filmsDetailVM);
         }
 
         public async Task<IActionResult> AllFilm(string namefilm)

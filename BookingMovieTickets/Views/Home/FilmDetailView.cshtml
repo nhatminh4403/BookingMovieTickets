@@ -1,4 +1,4 @@
-﻿@model BookingMovieTickets.Models.Film
+﻿@model BookingMovieTickets.VIewModel.DetailVM
 
 @{
     ViewData["Title"] = "Chi tiết phim";
@@ -22,12 +22,12 @@
 <section class="container">
     <div class="col-sm-8 col-md-9">
         <div class="movie">
-            <h2 class="page-heading">@Model.NameFilm</h2>
+            <h2 class="page-heading">@Model.Film.NameFilm</h2>
 
             <div class="movie__info">
                 <div class="col-sm-6 col-md-4 movie-mobile">
                     <div class="movie__images">
-                        <img alt="" src="@Model.PosterUrl">
+                        <img alt="" src="@Model.Film.PosterUrl">
                     </div>
                 </div>
 
@@ -35,43 +35,43 @@
                     <p class="movie__time">
                         @{
 
-                            int durationInMinutes = Model.FilmDuration;
+                            int durationInMinutes = Model.Film.FilmDuration;
                             int hours = durationInMinutes / 60;
                             int minutes = durationInMinutes % 60;
-                            string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút ({Model.FilmDuration} phút)";
+                            string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút ({Model.Film.FilmDuration} phút)";
                         }
                         
                         @durationText
                     </p>
 
-                    <p class="movie__option"><strong>Thể loại: </strong><a asp-action="SortFilmsByCategories" asp-controller="Home" asp-route-id="@Model.FilmCategoryId">@Model.FilmCategory.Name</a>
+                    <p class="movie__option"><strong>Thể loại: </strong><a asp-action="SortFilmsByCategories" asp-controller="Home" asp-route-id="@Model.Film.FilmCategoryId">@Model.Film.FilmCategory.Name</a>
                     <p class="movie__option">
                         <strong>Ngày ra mắt: </strong>
-                            @Model.StartTime.ToString("dd/MM/yyyy hh:mm:ss tt", new System.Globalization.CultureInfo("vi-VN"));
+                        @Model.Film.StartTime.ToString("dd/MM/yyyy hh:mm:ss tt", new System.Globalization.CultureInfo("vi-VN"));
                     </p>
-                    <p class="movie__option"><strong>Đạo diễn: </strong><a href="#">@Model.DirectorName</a></p>
-                    <p class="movie__option"><strong>Diễn viên: </strong><span>@Model.Actors</span>
-                    <p class="movie__option"><strong>Giới hạn tuổi: </strong><a href="#">@Model.FilmRated</a></p>
+                    <p class="movie__option"><strong>Đạo diễn: </strong><a href="#">@Model.Film.DirectorName</a></p>
+                    <p class="movie__option"><strong>Diễn viên: </strong><span>@Model.Film.Actors</span>
+                    <p class="movie__option"><strong>Giới hạn tuổi: </strong><a href="#">@Model.Film.FilmRated</a></p>
 
                     <a href="#" class="comment-link">Bình luận:  10</a>
-
+@* 
                             <div class="movie__btns">
                                 <a asp-action="SelectSeats" asp-controller="BookingTicket" asp-route-filmId="@Model.FilmId" class="btn btn-md btn--warning">Đặt vé</a>
                             </div>
-
+ *@
                     <div class="share">
                         <span class="share__marker">Chia sẻ: </span>
                         <div class="addthis_toolbox addthis_default_style ">
-                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                            <button type="button" class="btn btn--warning btn-floating mx-1">
                                 <i class="fa fa-facebook"></i>
                             </button>
-                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                            <button type="button" class="btn btn--warning btn-floating mx-1">
                                 <i class="fa-brands fa-x-twitter"></i>
                             </button>
-                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                            <button type="button" class="btn btn--warning btn-floating mx-1">
                                 <i class="fa-brands fa-instagram"></i>
 
-                                <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <button type="button" class="btn btn--warning btn-floating mx-1">
                                     <i class="fa-brands fa-tiktok"></i>
                                 </button>
 
@@ -84,7 +84,7 @@
 
             <h2 class="page-heading">Mô tả phim</h2>
 
-            <p class="movie__describe">@Html.DisplayFor(model => model.Description)</p>
+            <p class="movie__describe">@Html.DisplayFor(model => model.Film.Description)</p>
 
             <h2 class="page-heading">Trailer</h2>
             <div class="row mt-4 justify-content-center align-items-center">
@@ -92,14 +92,14 @@
                     <!-- Embed YouTube trailer using iframe -->
                     @{
                         // Extract video ID from youtu.be link
-                        string videoId = Model.TrailerUrl.Substring(Model.TrailerUrl.LastIndexOf("/") + 1);
+                        string videoId = Model.Film.TrailerUrl.Substring(Model.Film.TrailerUrl.LastIndexOf("/") + 1);
                         // Construct standard YouTube embed URL
                         string embedUrl = $"https://www.youtube.com/embed/{videoId}";
                     }
-                    @if (Model.TrailerUrl.Contains("youtube.com"))
+                    @if (Model.Film.TrailerUrl.Contains("youtube.com"))
                     {
                         <div class=" embed-responsive embed-responsive-16by9 ">
-                            <iframe class="embed-responsive-item" src="@Model.TrailerUrl" allowfullscreen style="width:500px; height: 250px;"></iframe>
+                            <iframe class="embed-responsive-item" src="@Model.Film.TrailerUrl" allowfullscreen style="width:500px; height: 250px;"></iframe>
                         </div>
                     }
                     else
@@ -129,8 +129,8 @@
                 <input type="text" id="datepicker" value='@datetime' class="datepicker__input">
             </div>
 
-            <a href="#" id="map-switch" class="watchlist watchlist--map"><span class="show-map">Show cinemas on map</span><span class="show-time">Show cinema time table</span></a>
-
+@*             <a href="#" id="map-switch" class="watchlist watchlist--map"><span class="show-map">Show cinemas on map</span><span class="show-time">Show cinema time table</span></a>
+ *@
             <div class="clearfix"></div>
 
             <div class="time-select">
@@ -138,9 +138,9 @@
                     
                     <div class="col-sm-4">
 
-                        @if (Model.FilmSchedules != null)
+                        @if (Model.Film.FilmSchedules != null)
                         {
-                            @foreach (var item in Model.FilmSchedules.Where(fs => fs.TheatreRoom?.Theatre != null).Select(fs => fs.TheatreRoom.Theatre.Name).Distinct())
+                            @foreach (var item in Model.Film.FilmSchedules.Where(fs => fs.TheatreRoom?.Theatre != null).Select(fs => fs.TheatreRoom.Theatre.Name).Distinct())
                             {
                                 <p class="time-select__place">
                                     @item
@@ -151,9 +151,9 @@
                     </div>
                     <ul class="col-sm-8 items-wrap">
                                                
-                        @foreach (var item in Model.FilmSchedules)
+                        @foreach (var item in Model.Film.FilmSchedules)
                         {
-                            if (item.FilmId == Model.FilmId)
+                            if (item.FilmId == Model.Film.FilmId)
                             {
                                 <a asp-controller="BookingTicket" asp-action="SelectSeats" asp-route-filmId="@item.FilmId" asp-route-Time="@item.FilmScheduleId" asp-route-descriptionId="@item.ScheduleDescription.ScheduleDescriptionId">
                                 <li class="time-select__item" data-time='@item.ScheduleDescription.Description '>
@@ -324,7 +324,7 @@
             <img alt='banner' src="http://placehold.it/500x500">
             </div> *@
 
-            <div class="promo marginb-sm">
+            @* <div class="promo marginb-sm">
                 <div class="promo__head">A.Movie app</div>
                 <div class="promo__describe">for all smartphones<br> and tablets</div>
                 <div class="promo__content">
@@ -334,7 +334,7 @@
                         <li class="store-variant"><a href="#"><img alt='' src="images/windows-store.svg"></a></li>
                     </ul>
                 </div>
-            </div>
+            </div> *@
 
             <div class="category category--discuss category--count marginb-sm mobile-category ls-cat">
                 <h3 class="category__title">the Most <br><span class="title-edition">discussed posts</span></h3>
@@ -353,23 +353,16 @@
             </div>
 
             <div class="category category--cooming category--count marginb-sm mobile-category rs-cat">
-                <h3 class="category__title">coming soon<br><span class="title-edition">movies</span></h3>
+                <h3 class="category__title">các phim hiện chiếu<br><span class="title-edition"></span></h3>
                 <ol>
-                    <li><a href="#" class="category__item">Ender's Game</a></li>
-                    <li><a href="#" class="category__item">About Time</a></li>
-                    <li><a href="#" class="category__item">Last Vegas</a></li>
-                    <li><a href="#" class="category__item">Free Birds</a></li>
-                    <li><a href="#" class="category__item">The Wolf of Wall Street</a></li>
-                    <li><a href="#" class="category__item">The Best Man Holiday</a></li>
-                    <li><a href="#" class="category__item">The Book Thief</a></li>
-                    <li><a href="#" class="category__item">The Hunger Games: Catching Fire</a></li>
-                    <li><a href="#" class="category__item">Delivery Man</a></li>
-                    <li><a href="#" class="category__item">Nebraska</a></li>
+                    @foreach(var item in Model.Films)
+                    {
+                        <li><a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="category__item">@item.NameFilm</a></li>
+                        
+                    }
+
                 </ol>
             </div>
-
-
-
         </div>
     </aside>
 

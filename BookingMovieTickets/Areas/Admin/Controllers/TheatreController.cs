@@ -40,7 +40,12 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         // GET: TheatreController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            return View();
+            var details = await _TheaterRepository.GetByIdAsync(id);
+            if(details == null)
+            {
+                return NotFound();
+            }
+            return View(details);
         }
 
         // GET: TheatreController/Create
