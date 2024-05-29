@@ -15,6 +15,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: 0 auto;
     }
 
         .cart--container .item--cart {
@@ -106,16 +107,25 @@
 
 </style>
 
-<div class="cart--container">
-    <div>
-        <h3 class="title-gradient">QUÁ TRÌNH THANH TOÁN CỦA BẠN ĐÃ BỊ HỦY!!!</h3>
-        <img src="~/images/empty_cart.jpg" style="margin-left:20px" width="auto" height="300px" />
-        <div class="item--cart" style="margin-left:125px;">
-            <a asp-action="Index" asp-controller="Home" style="margin: 20px; display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; border-color:007bff; text-decoration: none; border-radius: 5px;">
-                <i class="fa-solid fa-arrow-left"></i>
-                QUAY VỀ TRANG CHỦ
-            </a>
-        </div>
+<section class="cart-section section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="cart--container">
+                <div>
+                    <h3 class="title-gradient">QUÁ TRÌNH THANH TOÁN CỦA BẠN ĐÃ BỊ HỦY!!!</h3>
+                    <img src="~/images/empty_cart.jpg" style="margin-left:20px" width="auto" height="300px" />
+                    <div class="item--cart" style="margin-left:125px;">
+                        <a asp-action="Index" asp-controller="Home" style="margin: 20px; display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; border-color:007bff; text-decoration: none; border-radius: 5px;">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            QUAY VỀ TRANG CHỦ
+                        </a>
+                    </div>
 
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+   
+</section>
+    
+

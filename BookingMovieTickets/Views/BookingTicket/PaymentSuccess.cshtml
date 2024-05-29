@@ -98,25 +98,31 @@
         font-weight: 700;
     }
 
-        .btn-action:hover {
+    .btn-action:hover {
             color: white;
             border: 3px solid #ffc936;
             background-image: linear-gradient(160deg, #ffc936 0%, #d08080 100%);
             transition: ease 0.7s;
-        }
+     }
 
 </style>
 
-<div class="cart--container">
-    <div>
-        <h3 class="title-gradient">BẠN ĐÃ THANH TOÁN THÀNH CÔNG!!!</h3>
-        <img src="~/images/empty_cart.jpg" style="margin-left:20px" width="auto" height="300px" />
-        <div class="item--cart" style="margin-left:125px;">
-            <a asp-action="showTickets" asp-controller="BookingTicket" style="margin: 20px; display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; border-color:007bff; text-decoration: none; border-radius: 5px;">
-                <i class="fa-solid fa-arrow-left"></i>
-                XEM VÉ ĐÃ ĐẶT
-            </a>
+<section class="cart-section section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="cart--container">
+                <div>
+                    <h3 class="title-gradient">BẠN ĐÃ THANH TOÁN THÀNH CÔNG!!!</h3>
+                    <img src="https://png.pngtree.com/png-clipart/20230926/original/pngtree-online-payment-using-smartphone-app-successful-transfer-technology-transfer-purchase-vector-png-image_12880289.png" width="auto" height="300px" />
+                    <div class="item--cart" style="margin-left:125px;">
+                        <a asp-action="Index" asp-controller="Home" style="margin: 20px; display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; border-color:007bff; text-decoration: none; border-radius: 5px;">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            QUAY VỀ TRANG CHỦ
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
-</div>
+
+</section>

@@ -90,6 +90,40 @@
     .wrapper{
         background: #f0f3f8;
     }
+
+    .container__seat{
+        position: relative;
+    }
+
+    .instruct__seat{
+        position: absolute;
+        top: 50%;
+        right: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .instruct__seat  a {
+        display: inline-block;   
+        display: flex;
+        gap: 5px;
+        border-radius: 5px;
+        
+    }
+
+            .instruct__seat a div {
+                display: flex;
+                align-items: center;
+                justify-content:center;
+            }
+
+    .instruct__seat a span{ 
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+     }
 </style>
 
 <br />
@@ -115,11 +149,34 @@
     </div>
 </div>
 
-<form asp-action="AddToCart" asp-controller="BookingTicket" method="post">
+<form asp-action="AddToCart" asp-controller="BookingTicket" method="post" class="container__seat">
     <input type="hidden" name="FilmId" value="@Model.Film.FilmId" />
 @*     <input type="hidden" name="FilmScheduleId" value="@Model.FilmScheduleId" />
     <input type="hidden" name="TheatreRoomId" value="@Model.TheatreRoomId" /> *@
   
+
+    <div class="instruct__seat">
+        <a>
+            <div class="seat booked">
+                <img src="~/images/images-removebg-preview.png" alt="Seat Icon" />      
+            </div>
+            <span>Ghế đã đặt</span>
+        </a>
+
+         <a>
+            <div class="seat active">
+                <img src="~/images/images-removebg-preview.png" alt="Seat Icon" />      
+            </div>
+             <span>Ghế đang chọn</span>
+        </a>
+
+        <a>
+            <div class="seat">
+                <img src="~/images/images-removebg-preview.png" alt="Seat Icon" />
+            </div>
+            <span>Ghế trống</span>
+        </a>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -298,6 +355,7 @@
         border: 1px solid #ccc; /* Add a border for better visibility */
         margin-right: 10px; /* Add margin between seats */
         cursor:pointer;
+        border-radius: 5px;
     }
 
     .seat-container {
@@ -308,7 +366,7 @@
     }
 
     .booked {
-        background-color: red; /* Color for booked seats */
+        background-color: #660000; /* Color for booked seats */
     }
 
     .seat-row {
@@ -328,7 +386,7 @@
     }
 
     .seat.active{
-        background-color: deepskyblue;
+        background-color: #428bca;
     }
 
 </style>

@@ -170,6 +170,7 @@ namespace BookingMovieTickets.Controllers
                     FullName = user.FullName,
                     OrderId = new Random().Next(1000, 10000)
                 };
+
                 using (var transaction = await _bookingMovieTicketsDBContext.Database.BeginTransactionAsync())
                 {
                     try

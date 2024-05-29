@@ -46,6 +46,15 @@
         .title-gradient
     }
 
+     .heading {
+        border-left: 5px solid #ffc936;
+        padding: 3px 20px;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 90px;
+        margin-left: 244px;
+    }
+
 </style>
 
 @if(Model.Count() == 0)
@@ -54,7 +63,7 @@
 }
 else
 {
-    <h2>Các vé đã đặt</h2>
+    <h2 class="heading">VÉ CỦA BẠN</h2>
     foreach (var item in Model.Distinct())
     {
                 @foreach (var ticket in item.TicketDetails)
@@ -67,9 +76,12 @@ else
                                 var monthNumber = item.PurchaseDate.Month;
                                 var monthName = GetMonthName(monthNumber);
                             }
-                            <time datetime="@item.PurchaseDate"> <span>@item.PurchaseDate.Day</span><span>@monthName</span> </time>
+                            <time datetime="@item.PurchaseDate">
+                                <span style=" display: inline-block;margin-bottom: 5px;">@item.PurchaseDate.Day</span>
+                                <span>@monthName</span> 
+                            </time>
                         </section>
-                        <section class="card-cont">
+                        <section class="card-cont" style="width: 75%;">
                             <h4>@ticket.Seat?.SeatNumber</h4>
 
                             <h3>@ticket.Film?.NameFilm</h3>
