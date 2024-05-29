@@ -49,7 +49,7 @@
                 data-slotamount="7"
                 class="slide"
                 data-slide="Rush.">
-                    <img alt="" src="images/slides/first-slide.jpg" />
+                    <img alt="" src="images/slides/bad-boys-4-930x620.jpg" height="100px"/>
                     <div class="caption slide__name margin-slider"
                     data-x="right"
                     data-y="80"
@@ -80,7 +80,7 @@
                     data-endspeed="500"
                     data-end="8400"
                     data-endeasing="Back.easeIn">
-                        RUSH
+                        BAD BOY 4
                     </div>
 
                     <div class="caption slide__time margin-slider sfr str"
@@ -93,7 +93,7 @@
                     data-endspeed="300"
                     data-end="8700"
                     data-endeasing="Back.easeIn">
-                        From
+                        Công chiếu:
                     </div>
                     <div class="caption slide__date margin-slider lfb ltb"
                     data-x="right"
@@ -105,7 +105,7 @@
                     data-endspeed="400"
                     data-end="8200"
                     data-endeasing="Back.easeIn">
-                        October 18
+                        7 tháng 
                     </div>
                     <div class="caption slide__time margin-slider sfr str"
                     data-x="right"
@@ -117,7 +117,7 @@
                     data-endspeed="300"
                     data-end="8700"
                     data-endeasing="Back.easeIn">
-                        - till
+                        6
                     </div>
                     <div class="caption slide__date margin-slider lfb ltb"
                     data-x="right"
@@ -128,10 +128,10 @@
                     data-endspeed="400"
                     data-end="8200"
                     data-endeasing="Back.easeIn">
-                        November 01
+                        năm 2024
                     </div>
                     <div class="caption slide__text margin-slider customin customout"
-                    data-x="right"
+                    data-x="left"
                     data-y="250"
                     data-customin="x:0;y:100;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:3;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
                     data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
@@ -139,12 +139,8 @@
                     data-start="3000"
                     data-endspeed="400"
                     data-end="8000"
-                    data-endeasing="Back.easeIn">
-                        Two-time Academy Award winner Ron Howard, teams once again with
-                        fellow two-time Academy<br />
-                        Award nominee, writer Peter Morgan , on Rush, a spectacular
-                        big-screen re-creation of the merciless<br />
-                        1970s rivalry between James Hunt and Niki Lauda.
+                         data-endeasing="Back.easeIn" >
+                        Cặp đôi Will Smith và Martin Lawrence chính thức quay trở lại màn ảnh!
                     </div>
                     <div class="caption margin-slider skewfromright customout"
                     data-x="right"
@@ -270,8 +266,8 @@
                 <li data-transition="fade"
                 data-slotamount="7"
                 class="slide"
-                data-slide="Stop wishing.
-                Start doing.">
+                data-slide="Tìm kiếm
+                Thứ yêu thích.">
                     <img alt="" src="images/slides/next-slide.jpg" />
                     <div class="caption slide__name slide__name--smaller slide__name--specific customin customout"
                     data-x="left"
@@ -284,8 +280,8 @@
                     data-endspeed="500"
                     data-end="8600"
                     data-endeasing="Back.easeIn">
-                        Stop <span class="highlight">wishing.</span> Start
-                        <span class="highlight">doing.</span>
+                        <span class="highlight"></span> Bắt đầu
+                        <span class="highlight"></span>
                     </div>
 
                     <div class="caption slide__descript customin customout"
@@ -298,7 +294,7 @@
                     data-endspeed="500"
                     data-end="8400"
                     data-endeasing="Back.easeIn">
-                        find your best match movie with A.MOVIE
+                        tìm phim phù hợp với bản thân tại INFINITYCINEMA
                     </div>
 
                     <div class="caption lfb customout slider-wrap-btn"
@@ -311,7 +307,7 @@
                     data-endspeed="400"
                     data-end="8000"
                     data-endeasing="Power4.easeOut">
-                        <a href="#" class="btn btn-md btn--danger slider--btn">check out movies</a>
+                        <a href="/Home/AllFilm" class="btn btn-md btn--danger slider--btn">Hãy khám phá</a>
                     </div>
                 </li>
             </ul>
@@ -337,12 +333,12 @@
                         <span class="best-rate">5.0</span>
 
                         <ul class="movie-beta__info" style="width:100%;">
-                            <li><span class="best-voted">idk</span></li>
+                            <li></li>
                             <li>
                                 <p class="movie__time">
                                     @durationText
                                 </p>
-                                <p>@item.FilmCategory.Name</p>
+                                <p>Thể loại: @item.FilmCategory.Name</p>
                             </li>
                             <li class="last-block">
                                 <a asp-controller="Home" asp-action="FilmDetailView" asp-route-id="@item.FilmId" class="slide__link">Xem chi tiết</a>

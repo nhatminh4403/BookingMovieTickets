@@ -348,8 +348,14 @@ values: new object[,]
  "Chuyện phim mới kể về những diễn biến đầy hành động của thám tử Miami-Dade Mike Lowrey (Will Smith) và Marcus Burnett (Martin Lawrence). Giờ đây, Lowrey và Burnett phải hợp tác để tiêu diệt tên Đại úy Conrad Howard, người đang bị buộc tội hoạt động cùng băng đảng ma túy.",
  "https://cdn.galaxycine.vn/media/2024/4/12/bad-boy-500_1712891792541.jpg",
  "https://youtu.be/RGnBFA_g0rg?si=WianLCSq3iavyafs",
-"Adil El Arbi, Bilall Fallah","Tiếng Anh với phụ đề tiếng Việt","R  - Người từ 16 tuổi trở xuống cần có cha mẹ hoặc người giám hộ đi cùng do có thể gây hoảng loạn hoặc ảnh hưởng xấu đến tư duy, đạo đức của trẻ em.",124,
-                        "Will Smith, Martin Lawrence, Vanessa Hudgens,Alexander Ludwig,Tasha Smith,,Paola Núñez,Jacob Scipio...",1,new DateTime(2024,6  ,7,10, 15,0)}
+"Adil El Arbi, Bilall Fallah","Tiếng Anh với phụ đề tiếng Việt","R  - Người dưới 17 tuổi trở xuống cần có cha mẹ hoặc người giám hộ đi cùng do có thể gây hoảng loạn hoặc ảnh hưởng xấu đến tư duy, đạo đức của trẻ em.",124,
+                        "Will Smith, Martin Lawrence, Vanessa Hudgens,Alexander Ludwig,Tasha Smith,,Paola Núñez,Jacob Scipio...",1,new DateTime(2024,6  ,7,10, 15,0)},
+  {14,"Deadpool 3: DEADPOOL & WOLVERINE",
+ "Deadpool & Wolverine lấy bối cảnh sau các sự việc trong phần hai, Wade Wilson/Deadpool (Ryan Reynolds đóng) chọn sống cuộc đời bình thường với những người yêu quý. Thế nhưng, đội đặc vụ thuộc Cơ quan Phương sai Thời gian (TVA) xuất hiện, bắt cóc Deadpool và đưa nhân vật chính vào MCU.",
+ "https://cdn.marvel.com/content/1x/dp3_1sht_digital_srgb_ka_swords_v5_resized.jpg",
+ "https://youtu.be/73_1biulkYk?si=x-_OomknrtTOXTwA",
+"Shawn Levy","Tiếng Anh với phụ đề tiếng Việt","R  - Người dưới 17 tuổi trở xuống cần có cha mẹ hoặc người giám hộ đi cùng do có thể gây hoảng loạn hoặc ảnh hưởng xấu đến tư duy, đạo đức của trẻ em.",127,
+                        "Ryan Reynolds, Hugh Jackman, Emma Corrin, Morena Baccarin, Rob Delaney, Leslie Uggams, Karan Soni,...",1,new DateTime(2024,7  ,26,10, 15,0)},
                 });
 
             migrationBuilder.InsertData(

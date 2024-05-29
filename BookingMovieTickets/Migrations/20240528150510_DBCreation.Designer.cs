@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(BookingMovieTicketsDBContext))]
-    [Migration("20240528130808_DBCreation")]
+    [Migration("20240528150510_DBCreation")]
     partial class DBCreation
     {
         /// <inheritdoc />
@@ -131,6 +131,9 @@ namespace BookingMovieTickets.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReceiptId"));
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
@@ -266,9 +269,6 @@ namespace BookingMovieTickets.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketId"));
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
@@ -654,7 +654,7 @@ namespace BookingMovieTickets.Migrations
                         .IsRequired();
 
                     b.HasOne("BookingMovieTickets.Models.Ticket", "Ticket")
-                        .WithMany()
+                        .WithMany("ReceiptDetails")
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -846,6 +846,8 @@ namespace BookingMovieTickets.Migrations
 
             modelBuilder.Entity("BookingMovieTickets.Models.Ticket", b =>
                 {
+                    b.Navigation("ReceiptDetails");
+
                     b.Navigation("TicketCartDetails");
 
                     b.Navigation("TicketDetails");
