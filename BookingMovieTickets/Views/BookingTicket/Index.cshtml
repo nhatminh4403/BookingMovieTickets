@@ -1,6 +1,6 @@
 ﻿@model TicketCart
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Giỏ vé";
     decimal Total = 0;
     decimal subtotal = 0;
 }
@@ -115,22 +115,22 @@
 
 </style>
 
-<form asp-action="BookTickets" method="post">
-    <section class="cart-section section-b-space">
-        <div class="container">
-            <div class="row">
-                @if (Model == null || !Model.Items.Any())
-                {
-                    <div class="cart--container">
-                        <div>
-                            <h3 class="title-gradient">OOPS! CHƯA THÊM SẢN PHẨM NÀO!!!</h3>
-                            <img src="~/images/empty_cart.jpg" style="margin-left:20px" width="auto" height="300px" />
-                            <div class="item--cart" style="margin-left:125px;">
-                                <a asp-action="Index" asp-controller="Home" style="margin: 20px; display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; border-color:007bff; text-decoration: none; border-radius: 5px;">
-                                    <i class="fa-solid fa-arrow-left"></i>
-                                    Tiếp tục đặt vé
-                                </a>
-                            </div>
+<form asp-action="BookTickets" method="post"> 
+<section class="cart-section section-b-space">
+    <div class="container">
+        <div class="row">
+            @if (Model == null || !Model.Items.Any())
+            {
+                <div class="cart--container">
+                    <div>
+                        <h3 class="title-gradient">OOPS! CHƯA THÊM SẢN PHẨM NÀO!!!</h3>
+                        <img src="~/images/empty_cart.jpg" style="margin-left:20px" width="auto" height="300px" />
+                        <div class="item--cart" style="margin-left:125px;">
+                            <a asp-action="Index" asp-controller="Home" style="margin: 20px; display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; border-color:007bff; text-decoration: none; border-radius: 5px;">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Tiếp tục đặt vé
+                            </a>
+                        </div>
 
                         </div>
                     </div>
@@ -204,36 +204,35 @@
                             <div class="col-lg-4 col-sm-6 ">
                             </div>
 
-                            <div class="col-lg-4">
-                                <div class="total-box-checkout">
-                                    <div class="total-details">
-                                        <div class="title--total">
-                                            <h4 style="color: #fff; text-transform:uppercase; font-weight:bold; display:flex;"><span style="flex:1;">Thành tiền</span> <span>@Model.Items.Count vé</span> </h4>
-                                            <h5 style="color: #fff; margin-top:10px;">Tổng tiền: <span style="margin-left:5px" id="cart_subtotal">@Total đ</span></h5>
-                                        </div>
-                                        <div class="action-total">
-                                            @{
-                                                string checkout = "javascript:void();";
-                                                if (Total > 0)
-                                                {
-                                                    checkout = "/BookTickets";
-                                                }
+                        <div class="col-lg-4">
+                            <div class="total-box-checkout">
+                                <div class="total-details">
+                                    <div class="title--total">
+                                        <h4 style="color: #fff; text-transform:uppercase; font-weight:bold; display:flex;"><span style="flex:1;">Thành tiền</span> <span>@Model.Items.Count vé</span> </h4>
+                                        <h5 style="color: #fff; margin-top:10px;">Tổng tiền: <span style="margin-left:5px" id="cart_subtotal">@Total đ</span></h5>
+                                    </div>
+                                    <div class="action-total">
+                                        @{
+                                            string checkout = "javascript:void();";
+                                            if (Total > 0)
+                                            {
+                                                checkout = "/BookTickets";
                                             }
-                                            <a asp-action="BookTickets" asp-controller="BookingTicket">
-                                                <input type="submit" name="payment" class="btn-action" value="Thanh toán bằng VnPay" />
-                                            </a>
-                                        </div>
+                                        }
+                                        @* <a asp-action="BookTickets" asp-controller="BookingTicket"> *@
+                                            <input type="submit" name="payment" class="primary-btn order-submit" value="Thanh toán bằng VnPay" />
+                                        @* </a> *@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </section>
-</form>
 
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+</form>
 <!-- Cart Section End -->
 

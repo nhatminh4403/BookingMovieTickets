@@ -1,0 +1,95 @@
+﻿@model IEnumerable<BookingMovieTickets.Models.Ticket>
+@functions {
+    public string GetMonthName(int monthNumber)
+    {
+        switch (monthNumber)
+        {
+            case 1: return "Tháng Một";
+            case 2: return "Tháng Hai";
+            case 3: return "Tháng Ba";
+            case 4: return "Tháng Tư";
+            case 5: return "Tháng Năm";
+            case 6: return "Tháng Sáu";
+            case 7: return "Tháng Bảy";
+            case 8: return "Tháng Tám";
+            case 9: return "Tháng Chín";
+            case 10: return "Tháng Mười";
+            case 11: return "Tháng Mười Một";
+            case 12: return "Tháng Mười Hai";
+            default: return "";
+        }
+    }
+}
+@{
+    ViewData["Title"] = "Lịch sử đặt vé";
+
+}
+
+<link href="~/tickets/styles.css" rel="stylesheet" />
+<style>
+    .title-gradient {
+        font-size: 26px;
+        background-color: #00DBDE;
+        background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+
+    .title-gradient-h {
+        font-size: 26px;
+        text-transform: uppercase;
+        background-color: #de0004;
+        background-image: linear-gradient(90deg, #f00 0%, #122125 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        .title-gradient
+    }
+
+</style>
+
+@if(Model.Count() == 0)
+{
+    <h3 class="title-gradient">Chưa có vé nào!</h3>
+}
+else
+{
+    <h2>Các vé đã đặt</h2>
+    foreach (var item in Model.Distinct())
+    {
+                @foreach (var ticket in item.TicketDetails)
+                {
+                    <section class="container">
+                    <div class="row">
+                    <article class="card fl-left">
+                        <section class="date">
+                            @{
+                                var monthNumber = item.PurchaseDate.Month;
+                                var monthName = GetMonthName(monthNumber);
+                            }
+                            <time datetime="@item.PurchaseDate"> <span>@item.PurchaseDate.Day</span><span>@monthName</span> </time>
+                        </section>
+                        <section class="card-cont">
+                            <h4>@ticket.Seat?.SeatNumber</h4>
+
+                            <h3>@ticket.Film?.NameFilm</h3>
+                            <div class="even-date">
+                                <i class="fa fa-calendar"></i>
+                                <time>
+                                    <span>&ensp; @DateTime.UtcNow.Date.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("vi-VN"))</span>
+                                    <span>Suất chiếu: @ticket.FilmSchedule?.ScheduleDescription?.Description</span>
+                                </time>
+                            </div>
+                            <div class="even-info">
+                                <i class="fa fa-map-marker"></i>
+                                <p>@ticket.FilmSchedule.TheatreRoom.Theatre.Name <br />@ticket.FilmSchedule.TheatreRoom.Theatre.Location</p>
+                            </div>
+
+                        </section>
+                    </article>
+                </div>
+            </section>
+                }
+    }
+
+}

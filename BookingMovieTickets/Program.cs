@@ -9,11 +9,20 @@ using System.Globalization;
 using System.Security.Cryptography.Xml;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Hangfire;
 var builder = WebApplication.CreateBuilder(args);
-
+var configuration= builder.Configuration;
 // Add services to the container.
 builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddAuthentication()
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    });
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(20);
@@ -21,12 +30,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-
-
 builder.Services.AddDbContext<BookingMovieTicketsDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-
 
 // Thêm dịch vụ Hangfire
 builder.Services.AddHangfire(config =>
@@ -53,6 +59,9 @@ builder.Services.AddScoped<I_ReceiptDetail, EF_ReceiptDetail>();
 builder.Services.AddScoped<I_Cart, EF_Cart>();
 builder.Services.AddScoped<I_ScheduleDescription, EF_ScheduleDescription>();
 builder.Services.AddScoped<ISeatService, SeatService>();
+builder.Services.AddHttpContextAccessor();
+
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.ConfigureApplicationCookie(option =>

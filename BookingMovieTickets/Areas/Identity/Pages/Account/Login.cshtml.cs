@@ -18,6 +18,9 @@ using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using BookingMovieTickets.Models;
 using BookingMovieTickets.DataAccess;
+using Azure.Core;
+using BookingMovieTickets.Query;
+using System.Diagnostics;
 
 namespace BookingMovieTickets.Areas.Identity.Pages.Account
 {
@@ -109,7 +112,7 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null, string access_token = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -140,6 +143,32 @@ namespace BookingMovieTickets.Areas.Identity.Pages.Account
                 TheatreRooms = rooms,
                 Theatres = theaters
             }; ViewData["LayoutViewModel"] = FilmVM;
+
+            if (!string.IsNullOrEmpty(access_token))
+            {
+                TokenGoogle data = await DataQuery.VerifyTokenGoogle(access_token);
+                if (data.error_description == null)
+                {
+                    var user = await _userManager.FindByEmailAsync(data.email);
+                    if (user == null)
+                    {
+                        // tạo tài khoản.
+                        var result = await _userManager.CreateAsync(new UserInfo { UserName = data.email, Email = data.email, FullName = data.email, PhoneNumber = data.email });
+                        Debug.WriteLine("create user: " + result.Succeeded);
+                        Debug.WriteLine("create user log: " + result.Errors.FirstOrDefault()?.Description);
+                        if (result.Succeeded)
+                            user = await _userManager.FindByEmailAsync(data.email);
+                    }
+
+                    // tạo sesion cho user.
+                    if (user != null)
+                    {
+                        await _signInManager.SignInAsync(user, false);
+                        return LocalRedirect(returnUrl);
+                    }
+                }
+            }
+            return Page();
 
         }
 

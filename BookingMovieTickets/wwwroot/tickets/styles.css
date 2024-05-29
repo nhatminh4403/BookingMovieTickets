@@ -33,7 +33,6 @@ h1 {
 
 .card {
   display: table-row;
-  width: 49%;
   background-color: #fff;
   color: #989898;
   margin-bottom: 10px;
@@ -102,7 +101,7 @@ h1 {
 
 .card-cont {
   display: table-cell;
-  width: 75%;
+  width: 300px;
   font-size: 85%;
   padding: 10px 10px 30px 50px;
 }
@@ -113,7 +112,7 @@ h1 {
 }
 
 .row:last-child .card:last-of-type .card-cont h3 {
-  text-decoration: line-through;
+  text-decoration:none;
 }
 
 .card-cont > div {

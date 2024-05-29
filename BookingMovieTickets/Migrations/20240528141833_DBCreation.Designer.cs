@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(BookingMovieTicketsDBContext))]
-    [Migration("20240528122209_DBInsertion")]
-    partial class DBInsertion
+    [Migration("20240528141833_DBCreation")]
+    partial class DBCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,6 +131,9 @@ namespace BookingMovieTickets.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReceiptId"));
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
@@ -267,9 +270,6 @@ namespace BookingMovieTickets.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketId"));
 
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
 
@@ -380,6 +380,8 @@ namespace BookingMovieTickets.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TicketDetailId");
+
+                    b.HasIndex("FilmId");
 
                     b.HasIndex("FilmScheduleId");
 
@@ -652,7 +654,7 @@ namespace BookingMovieTickets.Migrations
                         .IsRequired();
 
                     b.HasOne("BookingMovieTickets.Models.Ticket", "Ticket")
-                        .WithMany()
+                        .WithMany("ReceiptDetails")
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -716,6 +718,12 @@ namespace BookingMovieTickets.Migrations
 
             modelBuilder.Entity("BookingMovieTickets.Models.TicketDetail", b =>
                 {
+                    b.HasOne("BookingMovieTickets.Models.Film", "Film")
+                        .WithMany()
+                        .HasForeignKey("FilmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BookingMovieTickets.Models.FilmSchedule", "FilmSchedule")
                         .WithMany("TicketDetails")
                         .HasForeignKey("FilmScheduleId")
@@ -733,6 +741,8 @@ namespace BookingMovieTickets.Migrations
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Film");
 
                     b.Navigation("FilmSchedule");
 
@@ -836,6 +846,8 @@ namespace BookingMovieTickets.Migrations
 
             modelBuilder.Entity("BookingMovieTickets.Models.Ticket", b =>
                 {
+                    b.Navigation("ReceiptDetails");
+
                     b.Navigation("TicketCartDetails");
 
                     b.Navigation("TicketDetails");

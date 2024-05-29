@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingMovieTickets.Migrations
 {
     [DbContext(typeof(BookingMovieTicketsDBContext))]
-    [Migration("20240528122015_DBCreation")]
+    [Migration("20240528130808_DBCreation")]
     partial class DBCreation
     {
         /// <inheritdoc />
@@ -381,6 +381,8 @@ namespace BookingMovieTickets.Migrations
 
                     b.HasKey("TicketDetailId");
 
+                    b.HasIndex("FilmId");
+
                     b.HasIndex("FilmScheduleId");
 
                     b.HasIndex("SeatId");
@@ -716,6 +718,12 @@ namespace BookingMovieTickets.Migrations
 
             modelBuilder.Entity("BookingMovieTickets.Models.TicketDetail", b =>
                 {
+                    b.HasOne("BookingMovieTickets.Models.Film", "Film")
+                        .WithMany()
+                        .HasForeignKey("FilmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BookingMovieTickets.Models.FilmSchedule", "FilmSchedule")
                         .WithMany("TicketDetails")
                         .HasForeignKey("FilmScheduleId")
@@ -733,6 +741,8 @@ namespace BookingMovieTickets.Migrations
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Film");
 
                     b.Navigation("FilmSchedule");
 

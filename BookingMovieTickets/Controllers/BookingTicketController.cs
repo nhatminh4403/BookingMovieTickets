@@ -141,11 +141,11 @@ namespace BookingMovieTickets.Controllers
                 // Handle case where cart is empty
                 return RedirectToAction("Index");
             }*/
-            var ticketVM = new TicketVM
+            /*var ticketVM = new TicketVM
             {
                 TicketCart = cart,
                 Receipt = new Receipt()
-            };
+            };*/
             return View(cart);
 
         }
@@ -177,8 +177,7 @@ namespace BookingMovieTickets.Controllers
                         // Create and add the Ticket entity
                         var ticket = new Ticket
                         {
-                            PurchaseDate = DateTime.UtcNow,
-                            IsPaid = false
+                            PurchaseDate = DateTime.UtcNow
                         };
                         await _ticketRepo.AddAsync(ticket);
                         await _bookingMovieTicketsDBContext.SaveChangesAsync(); // Save to get the TicketId
@@ -211,6 +210,7 @@ namespace BookingMovieTickets.Controllers
                         receipt.UserId = user.Id;
                         receipt.PurchaseDate = DateTime.UtcNow;
                         receipt.TotalPrice = totalPrice; // Set the calculated total price
+                        receipt.IsPaid = true;
                         receipt.ReceiptDetails = cart.Items.Select(i => new ReceiptDetail
                         {
                             ReceiptId = receipt.ReceiptId,
@@ -287,7 +287,8 @@ namespace BookingMovieTickets.Controllers
         public IActionResult PaymentSuccess()
         {
             return View();
-        }     
-
+        }
+        
+        
     }
 }

@@ -16,6 +16,8 @@ namespace BookingMovieTickets.Models
         public DateTime PurchaseDate { get; set; }
         [Required]
         public decimal TotalPrice { get; set; }
+        [Required]
+        public bool IsPaid { get; set; }
         // Other properties as needed
         [ForeignKey("UserId")]
         public virtual UserInfo User { get; set; }
