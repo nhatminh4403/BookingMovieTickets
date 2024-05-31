@@ -119,12 +119,13 @@
             }
 
     .instruct__seat a span{ 
-        text-align: center;
+        text-align: center; 
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 700;
      }
+
 </style>
 
 <br />
@@ -192,10 +193,10 @@
                             <div class="seat-row">
                                 @foreach (var seat in Model.Seats.Skip(i).Take(9))
                                 {                                    
-                                        <a href="javascript:void(0);" onclick="addToCart(@Model.Film.FilmId, @scheduleId, @seat.SeatId,@scheduleDescriptionId)">
-                                            <div class="seat @(seat.IsBooked ? "booked" : "")">
-                                                <img src="~/images/images-removebg-preview.png" alt="Seat Icon" />
-                                                <span class="seat-number">@seat.SeatNumber</span>
+                                        <a href="javascript:void(0);" >
+                                        <div class="seat @(seat.IsBooked ? "booked" : "")" onclick="addToCart(@Model.Film.FilmId, @scheduleId, @seat.SeatId,@scheduleDescriptionId)">
+                                                    <img src="~/images/images-removebg-preview.png" alt="Seat Icon" />
+                                                    <span class="seat-number">@seat.SeatNumber</span>
                                             </div>
                                         </a>                                                                  
                                 }
@@ -368,6 +369,7 @@
 
     .booked {
         background-color: #660000; /* Color for booked seats */
+        pointer-events: none; /* Ngăn chặn tất cả các sự kiện chuột */
     }
 
     .seat-row {
