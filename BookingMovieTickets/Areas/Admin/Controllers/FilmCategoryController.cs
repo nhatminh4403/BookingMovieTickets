@@ -37,7 +37,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _FilmCategoryRepository.AddAsync(filmCategory);
-                return RedirectToAction("Index", "Manager", new { area = "Admin" });
+                return RedirectToAction("Index");
             }
 
             return View(filmCategory);
@@ -80,7 +80,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
                 existingCategory.Name = FilmCategory.Name;
 
                 await _FilmCategoryRepository.UpdateAsync(existingCategory);
-                return RedirectToAction("Index", "Manager", new { area = "Admin" });
+                return RedirectToAction("Index");
             }
 
             return View(FilmCategory);
@@ -102,7 +102,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _FilmCategoryRepository.DeleteAsync(id);
-            return RedirectToAction("Index","Manager", new {area = "Admin"});
+            return RedirectToAction("Index");
         }
     }
 }

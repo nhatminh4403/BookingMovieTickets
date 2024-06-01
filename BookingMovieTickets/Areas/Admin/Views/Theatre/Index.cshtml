@@ -7,7 +7,8 @@
 
 
 <div class="container-fluid">
-    <a asp-action="Create" asp-area="Admin" asp-controller="Theatre">Tạo mới</a>
+    <a asp-action="Create" asp-area="Admin" asp-controller="Theatre" class="btn btn-success d-inline">Tạo mới</a>
+
     <ul class="nav nav-tabs justify-content-center" id="mainTab" role="tablist">
         @foreach (var item in Model.Theatres)
         {
@@ -15,15 +16,7 @@
                 
                 <div class="d-flex align-items-center ms-2">
                     <a class="nav-link" id="tab-@item.TheatreId-tab" data-toggle="tab" href="#tab-@item.TheatreId" role="tab" aria-controls="tab-@item.TheatreId" aria-selected="true">@item.Name</a>
-                    <form asp-action="Edit" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline">
-                        <button type="submit" class="btn btn-primary btn-sm">Edit</button>
-                    </form>
-                    <form asp-action="Details" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline ms-2">
-                        <button type="submit" class="btn btn-primary btn-sm">Details</button>
-                    </form>
-                    <form asp-action="Delete" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline ms-2">
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
+                    
                 </div>
             </li>
         }
@@ -35,6 +28,15 @@
         @foreach (var item in Model.Theatres)
         {
             <div class="tab-pane show active" id="tab-@item.TheatreId" role="tabpanel" aria-labelledby="tab-@item.TheatreId-tab">
+                <form asp-action="Edit" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline">
+                    <button type="submit" class="btn btn-primary btn-sm">Chỉnh sửa</button>
+                </form>
+                <form asp-action="Details" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline ms-2">
+                    <button type="submit" class="btn btn-primary btn-sm">Thông tin chi tiết</button>
+                </form>
+                <form asp-action="Delete" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline ms-2">
+                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                </form>
                 <partial name="~/Areas/Admin/Views/TheatreRoom/_RoomPartialView.cshtml" model="@item.TheatreRooms" />
             </div>
         }

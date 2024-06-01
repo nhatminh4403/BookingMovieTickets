@@ -5,6 +5,6 @@ namespace BookingMovieTickets.VIewModel
     public class DetailVM
     {
         public Film? Film { get; set; }
-        public IEnumerable<Film> Films { get; set; }
+        public IEnumerable<Film>? Films { get; set; }
     }
 }

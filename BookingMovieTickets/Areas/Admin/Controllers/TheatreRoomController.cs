@@ -151,7 +151,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             {
                 await _TheatreRoomRepository.AddAsync(theatreRoom);
                 ViewBag.Theaters = new SelectList(theater, "TheatreId", "Name");
-                return RedirectToAction("Index", "Manager", new { area = "Admin" });
+                return RedirectToAction("Index");
             }
             return View(theatreRoom);
         }
@@ -179,7 +179,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _TheatreRoomRepository.UpdateAsync(theatreRoom);
-                return RedirectToAction("Index", "Manager", new { area = "Admin" });
+                return RedirectToAction("Index");
             }
             return View();
         }
@@ -206,7 +206,7 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
                 await _TheatreRoomRepository.DeleteAsync(id);
 
             }
-            return RedirectToAction("Index", "Manager", new { area = "Admin" });
+            return RedirectToAction("Index");
         }
     }
 }

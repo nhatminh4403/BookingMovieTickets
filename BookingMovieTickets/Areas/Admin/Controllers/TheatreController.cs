@@ -4,6 +4,7 @@ using BookingMovieTickets.Repository.Interface;
 using BookingMovieTickets.VIewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace BookingMovieTickets.Areas.Admin.Controllers
@@ -28,8 +29,10 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             var theaters=  await _TheaterRepository.GetAllAsync();
             var rooms = await _TheaterRoomRepository.GetAllRoomAsync();
             var seat = await _seatRepo.GetAllSeatAsync();
+            var firstTheatreId = theaters.FirstOrDefault()?.TheatreId ?? theaters.FirstOrDefault().TheatreId;
             var location = new RoomVM
             {
+                IDTheatres = firstTheatreId,
                 Theatres = theaters,
                 TheatreRoom = rooms,
                 Seats = seat
@@ -56,59 +59,68 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
 
         // POST: TheatreController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IFormCollection collection)
+        public async Task<IActionResult> Create(Theatre theatre)
         {
-            try
+
+            if (!ModelState.IsValid)
             {
+                await _TheaterRepository.AddAsync(theatre);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(theatre);
         }
 
         // GET: TheatreController/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var theater= await _TheaterRepository.GetByIdAsync(id);
+            if(theater == null)
+            {
+                return NotFound();
+
+            }
+            return View(theater);
         }
 
         // POST: TheatreController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, Theatre theatre)
         {
-            try
+            if (id != theatre.TheatreId)
             {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var existingLocation = await _TheaterRepository.GetByIdAsync(id);
+                existingLocation.Location = theatre.Location;
+                existingLocation.Name = theatre.Name;
+                await _TheaterRepository.UpdateAsync(theatre);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(theatre);
         }
 
         // GET: TheatreController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            var theatre = await _TheaterRepository.GetByIdAsync(id);
+            if(theatre == null)
+            {
+                return NotFound();
+            }
+            return View(theatre);
         }
 
         // POST: TheatreController/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            await _TheaterRepository.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

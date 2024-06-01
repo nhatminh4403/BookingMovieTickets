@@ -1,0 +1,30 @@
+﻿@model BookingMovieTickets.Models.Theatre
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Thông tin chi nhánh</h1>
+
+<div>
+    <h4>Theatre</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Tên
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            Địa chỉ
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.TheatreId">Chỉnh sửa</a> |
+    <a asp-action="Index">Trở về</a>
+</div>

@@ -48,10 +48,10 @@
                 <li data-transition="fade"
                 data-slotamount="7"
                 class="slide"
-                data-slide="Rush.">
+                data-slide="Phim mới.">
                     <img alt="" src="images/slides/bad-boys-4-930x620.jpg" height="100px"/>
                     <div class="caption slide__name margin-slider"
-                    data-x="right"
+                    data-x="left"
                     data-y="80"
                     data-splitin="chars"
                     data-elementdelay="0.1"
@@ -84,7 +84,7 @@
                     </div>
 
                     <div class="caption slide__time margin-slider sfr str"
-                    data-x="right"
+                    data-x="center"
                     data-hoffset="-243"
                     data-y="186"
                     data-speed="300"
@@ -93,10 +93,10 @@
                     data-endspeed="300"
                     data-end="8700"
                     data-endeasing="Back.easeIn">
-                        Công chiếu:
+                        Công chiếu:  7 tháng 6 năm 2024
                     </div>
                     <div class="caption slide__date margin-slider lfb ltb"
-                    data-x="right"
+                    data-x="left"
                     data-hoffset="-149"
                     data-y="186"
                     data-speed="500"
@@ -105,7 +105,8 @@
                     data-endspeed="400"
                     data-end="8200"
                     data-endeasing="Back.easeIn">
-                        7 tháng 
+                        
+
                     </div>
                     <div class="caption slide__time margin-slider sfr str"
                     data-x="right"
@@ -117,10 +118,10 @@
                     data-endspeed="300"
                     data-end="8700"
                     data-endeasing="Back.easeIn">
-                        6
+                        
                     </div>
                     <div class="caption slide__date margin-slider lfb ltb"
-                    data-x="right"
+                    data-x="left"
                     data-y="186"
                     data-speed="500"
                     data-start="2800"
@@ -128,7 +129,6 @@
                     data-endspeed="400"
                     data-end="8200"
                     data-endeasing="Back.easeIn">
-                        năm 2024
                     </div>
                     <div class="caption slide__text margin-slider customin customout"
                     data-x="left"
@@ -143,7 +143,7 @@
                         Cặp đôi Will Smith và Martin Lawrence chính thức quay trở lại màn ảnh!
                     </div>
                     <div class="caption margin-slider skewfromright customout"
-                    data-x="right"
+                    data-x="left"
                     data-y="324"
                     data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
                     data-speed="400"
@@ -152,15 +152,15 @@
                     data-endspeed="300"
                     data-end="7700"
                     data-endeasing="Power4.easeOut">
-                        <a href="#" class="slide__link">check out cinemas &amp; time</a>
-                    </div>
+@*                         <a href="#" class="slide__link">check out cinemas &amp; time</a>
+ *@                    </div>
                 </li>
 
                 <li data-transition="fade"
                 data-slotamount="7"
                 class="slide fading-slide"
-                data-slide="Travel worldwide.
-                Create trip film.">
+                data-slide="Các phim mới
+                sắp công chiếu">
                     <img alt="" src="images/bg-video.jpg" />
                     <div class="caption slide__video"
                     data-x="0"
@@ -207,9 +207,9 @@
                     data-customout="x:-230;y:0;z:0;rotationX:0;rotationY:0;rotationZ:90;scaleX:0.2;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%"
                     data-endspeed="500"
                     data-endeasing="Back.easeIn">
-                        Travel, Admire, Remember.
+                        Các phim mới sắp công chiếu<br />Tại InfinityCinema
                     </div>
-
+                    <br />
                     <div class="caption slide__time position-center postion-place--one sfr stl"
                     data-x="left"
                     data-y="242"
@@ -218,7 +218,7 @@
                     data-easing="easeOutBack"
                     data-endspeed="300"
                     data-endeasing="Back.easeIn">
-                        From
+                        
                     </div>
                     <div class="caption slide__date position-center postion-place--two lfb ltb"
                     data-x="left"
@@ -228,7 +228,6 @@
                     data-easing="Power4.easeOut"
                     data-endspeed="400"
                     data-endeasing="Back.easeIn">
-                        April 18
                     </div>
                     <div class="caption slide__time position-center postion-place--three sfr stl"
                     data-x="left"
@@ -238,7 +237,6 @@
                     data-easing="easeOutBack"
                     data-endspeed="300"
                     data-endeasing="Back.easeIn">
-                        - till
                     </div>
                     <div class="caption slide__date position-center postion-place--four lfb ltb"
                     data-x="left"
@@ -248,7 +246,6 @@
                     data-easing="Power4.easeOut"
                     data-endspeed="400"
                     data-endeasing="Back.easeIn">
-                        May 01
                     </div>
 
                     <div class="caption lfb slider-wrap-btn ltb"
@@ -259,7 +256,7 @@
                     data-easing="Power4.easeOut"
                     data-endspeed="500"
                     data-endeasing="Power4.easeOut">
-                        <a href="#" class="btn btn-md btn--danger btn--wide slider--btn">learn more</a>
+                        <a href="/Home/UpcomingFilm" class="btn btn-md btn--danger btn--wide slider--btn">Tìm hiểu thêm</a>
                     </div>
                 </li>
 
@@ -325,6 +322,7 @@
 
                 @foreach(var item in Model.Films.Shuffle().Distinct().Take(6))
                 {
+
                     int durationInMinutes = item.FilmDuration;
                     string durationText = durationInMinutes == 0 ? "--" : $"{durationInMinutes / 60} giờ {durationInMinutes % 60} phút";
 
