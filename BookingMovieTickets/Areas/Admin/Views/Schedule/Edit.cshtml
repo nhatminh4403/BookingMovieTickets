@@ -1,0 +1,35 @@
+﻿@model BookingMovieTickets.Models.FilmSchedule
+
+@{
+    ViewData["Title"] = "Chỉnh sửa lịch chiếu";
+}
+
+<h2>Chỉnh sửa lịch chiếu</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-route-scheduleId="@Model.FilmScheduleId" asp-route-filmId="@Model.FilmId" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FilmScheduleId" />
+            <div class="form-group">
+                <label asp-for="ScheduleDescriptionId" class="control-label">Chọn suất chiếu</label>
+                <select asp-for="ScheduleDescriptionId" class="form-control" asp-items="ViewBag.scheduleDescription"></select>
+                <span asp-validation-for="ScheduleDescriptionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="DisplaySchedule" asp-route-id="@Model.FilmId">Trở về danh sách</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

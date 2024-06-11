@@ -96,44 +96,62 @@ namespace BookingMovieTickets.Areas.Admin.Controllers
             return View(filmSchedule);
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> DisplaySchedule(int id)
         {
-            var filmSchedule = await _ScheduleRepository.GetByIdAsync(id);
-            if (filmSchedule == null)
+            var film= await _FilmRepository.GetByIdAsync(id);
+            if (film == null)
             {
                 return NotFound();
             }
-            return View(filmSchedule);
+            var schedule = await _context.FilmSchedules.Include(fs => fs.Film)
+            .Include(fs => fs.TheatreRoom)
+            .Include(fs => fs.ScheduleDescription)
+            .Where(fs => fs.FilmId == id)
+            .ToListAsync();
+            var vm = new EditScheduleVM
+            {
+                Film = film,
+                FilmSchedules = schedule
+            };
+            return View(vm);
+        }
+        public async Task<IActionResult> Edit(int scheduleId,int filmId)
+        {
+            var scheduleDescriptions = await _scheduleDescriptionRepo.GetAllAsync();
+            var schedule = await _ScheduleRepository.GetByIdAsync(scheduleId);
+            if (schedule == null)
+            {
+                return NotFound();
+            }
+            ViewBag.scheduleDescription = new SelectList(scheduleDescriptions, "ScheduleDescriptionId", "Description");
+
+            return View(schedule);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, FilmSchedule filmSchedule)
+        public async Task<IActionResult> Edit(int scheduleId,int filmId, FilmSchedule filmSchedule)
         {
-            if (id != filmSchedule.FilmScheduleId)
+            var scheduleDescriptions = await _scheduleDescriptionRepo.GetAllAsync();
+            if (scheduleId != filmSchedule.FilmScheduleId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
+                var existingSchedule = await _ScheduleRepository.GetByIdAsync(scheduleId);
+                if (existingSchedule == null)
                 {
-                    await _ScheduleRepository.UpdateAsync(filmSchedule);
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FilmScheduleExists(filmSchedule.FilmScheduleId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+                existingSchedule.ScheduleDescriptionId = filmSchedule.ScheduleDescriptionId;
+
+                await _ScheduleRepository.UpdateAsync(existingSchedule);
+                return RedirectToAction("DisplaySchedule", "Schedule", new { id = filmId });
             }
+            ViewBag.scheduleDescription = new SelectList(scheduleDescriptions, "ScheduleDescriptionId", "Description");
             return View(filmSchedule);
         }
 

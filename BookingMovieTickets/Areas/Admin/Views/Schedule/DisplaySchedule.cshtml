@@ -1,0 +1,37 @@
+﻿@model BookingMovieTickets.VIewModel.EditScheduleVM
+@{
+    ViewData["Title"] = "Chỉnh sửa lịch chiếu";
+}
+
+
+<h2>Lịch chiếu của phim: @Model.Film.NameFilm</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Phòng chiếu</th>
+            <th>Suất chiếu</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var schedule in Model.FilmSchedules)
+        {
+            <tr>
+                <td>@schedule.TheatreRoom.RoomName</td>
+                <td>@schedule.ScheduleDescription.Description</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Schedule" asp-area="Admin"
+                       asp-route-scheduleId="@schedule.FilmScheduleId" asp-route-filmId="@Model.Film.FilmId">Chỉnh sửa</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<div class="container-fluid text-center">
+    <a asp-action="Index" class="btn btn-success">Quay lại</a>
+</div>
+<br />
+
+
