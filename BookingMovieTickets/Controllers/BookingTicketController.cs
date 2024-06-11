@@ -32,8 +32,8 @@ namespace BookingMovieTickets.Controllers
         private readonly UserManager<UserInfo> _userManager;
 
         public BookingTicketController(I_Cart cartRepo, I_Ticket ticketRepo, I_FilmRepository FilmRepository, I_Schedule scheduleRepo, I_Receipt receiptRepo,
-            BookingMovieTicketsDBContext bookingMovieTicketsDBContext,I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository,I_TicketDetail ticketDetail, 
-            IVnPayService vnPayService,I_ScheduleDescription scheduleDescription, UserManager<UserInfo> userManager,
+            BookingMovieTicketsDBContext bookingMovieTicketsDBContext, I_TheatreRoom theatreRoomRepo, I_FilmCategoryRepository filmCategoryRepository, I_TicketDetail ticketDetail,
+            IVnPayService vnPayService, I_ScheduleDescription scheduleDescription, UserManager<UserInfo> userManager,
             I_Seat seatRepo)
             : base(bookingMovieTicketsDBContext)
         {
@@ -88,14 +88,14 @@ namespace BookingMovieTickets.Controllers
                     Seats = availableSeats,
                     ScheduleId = Time,
                     ScheduleDescriptionId = descriptionId,
-                    ScheduleDescriptions = schedule.Select(s=>s.ScheduleDescription),
+                    ScheduleDescriptions = schedule.Select(s => s.ScheduleDescription),
                 };
                 ViewData["SeatVM"] = viewModel;
                 return View(viewModel);
             }
             return NotFound();
         }
-        
+
         public async Task<IActionResult> AddToCart(int filmID, int time, int seatID, int descriptionId)
         {
             var film = await _FilmRepository.GetByIdAsync(filmID);
@@ -103,7 +103,7 @@ namespace BookingMovieTickets.Controllers
             var room = await _TheatreRoomRepo.GetByIdAsync(schedule.TheatreRoomId);
             var seat = await _bookingMovieTicketsDBContext.Seats.FindAsync(seatID);
             var scheduleDescription = await _ScheduleDescriptionRepo.GetByIdAsync(descriptionId);
-            if (film != null && schedule != null && room !=null && seat != null && scheduleDescription !=null)
+            if (film != null && schedule != null && room != null && seat != null && scheduleDescription != null)
             {
                 var cartDetail = new TicketCartDetail
                 {
@@ -116,7 +116,7 @@ namespace BookingMovieTickets.Controllers
                     RoomName = room.RoomName,
                     Price = seat.SeatPrice,
                     FilmScheduleDescriptionID = descriptionId,
-                    FilmScheduleDes= scheduleDescription.Description.ToString("hh\\:mm")
+                    FilmScheduleDes = scheduleDescription.Description.ToString("hh\\:mm")
                 };
                 var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart") ?? new TicketCart();
 
@@ -149,7 +149,6 @@ namespace BookingMovieTickets.Controllers
             return View(cart);
 
         }
-
         [HttpPost]
         public async Task<IActionResult> BookTickets(Receipt receipt, string payment = "COD")
         {
@@ -171,79 +170,126 @@ namespace BookingMovieTickets.Controllers
                     OrderId = new Random().Next(1000, 10000)
                 };
 
-                using (var transaction = await _bookingMovieTicketsDBContext.Database.BeginTransactionAsync())
+                // Tạo và thêm Ticket entity
+                var ticket = new Ticket
                 {
-                    try
+                    PurchaseDate = DateTime.UtcNow
+                };
+
+                // Tạo TicketDetail entities
+                var ticketDetails = new List<TicketDetail>();
+                foreach (var cartDetail in cart.Items)
+                {
+                    var ticketDetail = new TicketDetail
                     {
-                        // Create and add the Ticket entity
-                        var ticket = new Ticket
-                        {
-                            PurchaseDate = DateTime.UtcNow
-                        };
-                        await _ticketRepo.AddAsync(ticket);
-                        await _bookingMovieTicketsDBContext.SaveChangesAsync(); // Save to get the TicketId
-
-                        // Create and add the TicketDetail entities
-                        foreach (var cartDetail in cart.Items)
-                        {
-                            var ticketDetail = new TicketDetail
-                            {
-                                TicketId = ticket.TicketId,
-                                FilmId = cartDetail.FilmId,
-                                FilmScheduleId = cartDetail.FilmScheduleId,
-                                Price = cartDetail.Price,
-                                SeatId = cartDetail.SeatId
-                            };
-                            await _TicketDetailRepo.AddAsync(ticketDetail);
-
-                            var seat = await _seatRepo.GetByIdAsync(cartDetail.SeatId);
-                            if (seat != null)
-                            {
-                                seat.IsBooked = true;
-                                await _seatRepo.UpdateAsync(seat);
-                            }
-                        }
-
-                        // Calculate the total price for the receipt
-                        decimal totalPrice = cart.Items.Sum(item => item.Price);
-
-                        // Create and add the Receipt entity
-                        receipt.UserId = user.Id;
-                        receipt.PurchaseDate = DateTime.UtcNow;
-                        receipt.TotalPrice = totalPrice; // Set the calculated total price
-                        receipt.IsPaid = true;
-                        receipt.ReceiptDetails = cart.Items.Select(i => new ReceiptDetail
-                        {
-                            ReceiptId = receipt.ReceiptId,
-                            TicketId = ticket.TicketId
-                        }).ToList();
-
-                        await _bookingMovieTicketsDBContext.Receipts.AddAsync(receipt);
-
-                        // Save all changes within the transaction
-                        await _bookingMovieTicketsDBContext.SaveChangesAsync();
-                        await transaction.CommitAsync();
-
-                        // Clear the cart after booking tickets
-                        HttpContext.Session.Remove("Cart");
-                        await HttpContext.Session.CommitAsync();
-                        return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnPayModel));
-
-                    }
-                    catch (Exception ex)
-                    {
-                        // Rollback transaction if any error occurs
-                        await transaction.RollbackAsync();
-                        // Log the exception (logging code is not shown here)
-                        return View(nameof(Index));
-                    }
+                        FilmId = cartDetail.FilmId,
+                        FilmScheduleId = cartDetail.FilmScheduleId,
+                        Price = cartDetail.Price,
+                        SeatId = cartDetail.SeatId
+                    };
+                    ticketDetails.Add(ticketDetail);
                 }
+
+                // Tính tổng giá cho receipt
+                decimal totalPrice = cart.Items.Sum(item => item.Price);
+
+                // Tạo Receipt entity
+                receipt.UserId = user.Id;
+                receipt.PurchaseDate = DateTime.UtcNow;
+                receipt.TotalPrice = totalPrice;
+                receipt.IsPaid = false; // Đặt ban đầu là chưa thanh toán
+                receipt.ReceiptDetails = new List<ReceiptDetail>();
+
+                // Tạo URL thanh toán
+                var paymentUrl = _vnPayService.CreatePaymentUrl(HttpContext, vnPayModel);
+
+                // Lưu trữ thông tin tạm thời vào Session hoặc một nơi nào đó bạn có thể lấy lại sau
+                HttpContext.Session.SetObjectAsJson("PendingTicket", ticket);
+                HttpContext.Session.SetObjectAsJson("PendingTicketDetails", ticketDetails);
+                HttpContext.Session.SetObjectAsJson("PendingReceipt", receipt);
+
+                return Redirect(paymentUrl);
             }
             return View("PaymentFail");
-
         }
 
+        [Authorize]
+        public async Task<IActionResult> PaymentCallBack()
+        {
+            var response = _vnPayService.PaymentExecute(Request.Query);
+            if (response == null || response.VnPayResponseCode != "00")
+            {
+                TempData["Message"] = $"Lỗi thanh toán VNPay: {response.VnPayResponseCode}";
+                return RedirectToAction("PaymentFail");
+            }
 
+            // Lấy lại thông tin từ Session
+            var ticket = HttpContext.Session.GetObjectFromJson<Ticket>("PendingTicket");
+            var ticketDetails = HttpContext.Session.GetObjectFromJson<List<TicketDetail>>("PendingTicketDetails");
+            var receipt = HttpContext.Session.GetObjectFromJson<Receipt>("PendingReceipt");
+
+            if (ticket == null || ticketDetails == null || receipt == null)
+            {
+                TempData["Message"] = "Không thể xác thực thông tin thanh toán.";
+                return RedirectToAction("PaymentFail");
+            }
+
+            using (var transaction = await _bookingMovieTicketsDBContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    // Thêm Ticket entity vào cơ sở dữ liệu
+                    await _ticketRepo.AddAsync(ticket);
+                    await _bookingMovieTicketsDBContext.SaveChangesAsync(); // Lưu để lấy TicketId
+
+                    // Thêm TicketDetail entities vào cơ sở dữ liệu
+                    foreach (var ticketDetail in ticketDetails)
+                    {
+                        ticketDetail.TicketId = ticket.TicketId;
+                        await _TicketDetailRepo.AddAsync(ticketDetail);
+
+                        var seat = await _seatRepo.GetByIdAsync(ticketDetail.SeatId);
+                        if (seat != null)
+                        {
+                            seat.IsBooked = true;
+                            await _seatRepo.UpdateAsync(seat);
+                        }
+                    }
+
+                    // Cập nhật Receipt entity
+                    receipt.IsPaid = true;
+                    receipt.ReceiptDetails = ticketDetails.Select(td => new ReceiptDetail
+                    {
+                        TicketId = td.TicketId
+                    }).ToList();
+
+                    await _bookingMovieTicketsDBContext.Receipts.AddAsync(receipt);
+                    await _bookingMovieTicketsDBContext.SaveChangesAsync();
+
+                    // Commit transaction
+                    await transaction.CommitAsync();
+
+                    // Xóa thông tin tạm thời khỏi Session
+                    HttpContext.Session.Remove("PendingTicket");
+                    HttpContext.Session.Remove("PendingTicketDetails");
+                    HttpContext.Session.Remove("PendingReceipt");
+
+                    // Thông báo thanh toán thành công
+                    TempData["MessageSuccess"] = $"Thanh toán VNPAY thành công: {response.VnPayResponseCode}";
+                    TempData["OrderId"] = response.OrderId;
+
+                    return View("PaymentSuccess");
+                }
+                catch (Exception ex)
+                {
+                    // Rollback transaction nếu có lỗi
+                    await transaction.RollbackAsync();
+                    // Log the exception (logging code is not shown here)
+                    TempData["Message"] = "Có lỗi xảy ra trong quá trình xử lý giao dịch.";
+                    return RedirectToAction("PaymentFail");
+                }
+            }
+        }
         public IActionResult RemoveFromCart(int filmID, int time, int seatID)
         {
             var cart =
@@ -252,32 +298,13 @@ namespace BookingMovieTickets.Controllers
             if (cart is not null)
             {
 
-                cart.RemoveItem(filmID,time,seatID);
+                cart.RemoveItem(filmID, time, seatID);
 
                 // Lưu lại giỏ hàng vào Session sau khi đã xóa mục
                 HttpContext.Session.SetObjectAsJson("Cart", cart);
             }
             return RedirectToAction("Index");
         }
-
-        [Authorize]
-        public IActionResult PaymentCallBack()
-        {
-            var response = _vnPayService.PaymentExecute(Request.Query);
-            if (response == null || response.VnPayResponseCode != "00")
-
-            {
-                TempData["Message"] = $"Lỗi thanh toán VNPay: {response.VnPayResponseCode}";
-                return RedirectToAction("PaymentFail");
-            }
-            TempData["MessageSucess"] = $"Thanh toán VNPAY thành công: {response.VnPayResponseCode}";
-            //  TempData["Message"] = $"Thanh toán VNPAY thành công: {response.VnPayResponseCode}";
-
-            TempData["OrderId"] = response.OrderId;
-
-            return View("PaymentSuccess");
-        }
-
 
         [Authorize]
         public IActionResult PaymentFail()
@@ -289,7 +316,7 @@ namespace BookingMovieTickets.Controllers
         {
             return View();
         }
-        
-        
+
+
     }
 }

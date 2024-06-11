@@ -349,7 +349,7 @@ values: new object[,]
  "https://cdn.galaxycine.vn/media/2024/4/12/bad-boy-500_1712891792541.jpg",
  "https://youtu.be/RGnBFA_g0rg?si=WianLCSq3iavyafs",
 "Adil El Arbi, Bilall Fallah","Tiếng Anh với phụ đề tiếng Việt","R  - Người dưới 17 tuổi trở xuống cần có cha mẹ hoặc người giám hộ đi cùng do có thể gây hoảng loạn hoặc ảnh hưởng xấu đến tư duy, đạo đức của trẻ em.",124,
-                        "Will Smith, Martin Lawrence, Vanessa Hudgens,Alexander Ludwig,Tasha Smith,,Paola Núñez,Jacob Scipio...",1,new DateTime(2024,6  ,7,10, 15,0)},
+                        "Will Smith, Martin Lawrence, Vanessa Hudgens,Alexander Ludwig,Tasha Smith,,Paola Núñez,Jacob Scipio...",1,new DateTime(2024,6  ,27,10, 15,0)},
   {14,"Deadpool 3: DEADPOOL & WOLVERINE",
  "Deadpool & Wolverine lấy bối cảnh sau các sự việc trong phần hai, Wade Wilson/Deadpool (Ryan Reynolds đóng) chọn sống cuộc đời bình thường với những người yêu quý. Thế nhưng, đội đặc vụ thuộc Cơ quan Phương sai Thời gian (TVA) xuất hiện, bắt cóc Deadpool và đưa nhân vật chính vào MCU.",
  "https://cdn.marvel.com/content/1x/dp3_1sht_digital_srgb_ka_swords_v5_resized.jpg",
