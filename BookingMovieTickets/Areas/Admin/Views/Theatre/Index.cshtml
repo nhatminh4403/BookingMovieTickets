@@ -28,15 +28,17 @@
         @foreach (var item in Model.Theatres)
         {
             <div class="tab-pane show active" id="tab-@item.TheatreId" role="tabpanel" aria-labelledby="tab-@item.TheatreId-tab">
-                <form asp-action="Edit" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline">
-                    <button type="submit" class="btn btn-primary btn-sm">Chỉnh sửa</button>
-                </form>
-                <form asp-action="Details" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline ms-2">
-                    <button type="submit" class="btn btn-primary btn-sm">Thông tin chi tiết</button>
-                </form>
-                <form asp-action="Delete" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline ms-2">
-                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                </form>
+                <div class="container justify-content-center text-center">
+                    <form asp-action="Edit" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline">
+                        <button type="submit" class="btn btn-primary btn-sm">Chỉnh sửa thông tin rạp</button>
+                    </form>
+                    <form asp-action="Details" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline ms-2">
+                        <button type="submit" class="btn btn-primary btn-sm">Thông tin chi tiết</button>
+                    </form>
+                    <form asp-action="Delete" asp-controller="Theatre" asp-route-id="@item.TheatreId" method="get" class="d-inline ms-2">
+                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    </form>
+                </div>
                 <partial name="~/Areas/Admin/Views/TheatreRoom/_RoomPartialView.cshtml" model="@item.TheatreRooms" />
             </div>
         }
