@@ -15,15 +15,15 @@
                 <label asp-for="TheatreId" class="control-label">Tên rạp</label>
                 <select asp-for="TheatreId" class ="form-control" asp-items="ViewBag.Theaters"></select>
             </div>
-
+            <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Thêm" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
-    <a asp-action="Index" asp-controller="Theatre">Back to List</a>
+    <a asp-action="Index" asp-controller="Theatre">Trở về</a>
 </div>
 

@@ -3,15 +3,17 @@
 @{
     ViewData["Title"] = "Display";
 }
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.FilmId">Chỉnh sửa</a> |
-    <a asp-action="Index" asp-area="Admin" asp-controller="Movie">Trở về</a>
+    <a asp-action="Edit" asp-route-id="@Model?.FilmId" class="btn btn-warning">Chỉnh sửa</a> |
+    <a asp-action="Index" asp-area="Admin" asp-controller="Movie" class="btn btn-primary">Trở về</a>
 </div>
 
 
 <h3>Thông tin phim:</h3><br />
 <h1>@Model?.NameFilm</h1>
-
+<br />
+<hr />
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
@@ -21,46 +23,45 @@
 
         <div class="col-md-8">
             <!-- Film Information -->
-            <h4>Film Information</h4>
             <dl class="row">
                 <!-- Display film details -->
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Description)
+                    Mô tả phim
                 </dt>
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.Description)
                 </dd>
 
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.StartTime)
+                    Thời gian công chiếu
                 </dt>
                 <dd class="col-sm-9">
                     @Model.StartTime.ToString("dd/MM/yyyy hh:mm:ss tt", new System.Globalization.CultureInfo("vi-VN"));
                 </dd>
 
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.DirectorName)
+                    Đạo diễn
                 </dt>
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.DirectorName)
                 </dd>
 
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Language)
+                    Ngôn ngữ
                 </dt>
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.Language)
                 </dd>
 
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.FilmRated)
+                    Rated
                 </dt>
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.FilmRated)
                 </dd>
 
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.FilmDuration)
+                    Thời lượng
                 </dt>
                 <dd class="col-sm-9">
                     @{
@@ -75,14 +76,14 @@
                 </dd>
 
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.Actors)
+                    Dàn diễn viên
                 </dt>
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.Actors)
                 </dd>
 
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.FilmCategory)
+                    Thể loại
                 </dt>
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.FilmCategory.Name)

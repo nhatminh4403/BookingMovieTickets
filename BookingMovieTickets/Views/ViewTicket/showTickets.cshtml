@@ -64,7 +64,7 @@
 else
 {
     <h2 class="heading">VÉ CỦA BẠN</h2>
-    foreach (var item in Model.Distinct())
+    foreach (var item in Model.Distinct().Reverse())
     {
                 @foreach (var ticket in item.TicketDetails)
                 {

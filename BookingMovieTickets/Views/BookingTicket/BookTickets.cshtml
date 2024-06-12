@@ -116,16 +116,6 @@
 </style>
 
 
-@if (Model != null)
-{
-    <h1 style="text-align:center; margin-left: auto;
-    margin-right: auto;
-    display: block;
-    width: 50%;">
-        XÁC NHẬN THANH TOÁN
-    </h1>
-}
-
 <form asp-action="BookTickets" method="post">
     <section class="cart-section section-b-space">
         <div class="container">
@@ -134,7 +124,7 @@
                 {
                     <div class="cart--container">
                         <div>
-                            <h3 class="title-gradient">OOPS! CHƯA THÊM SẢN PHẨM NÀO!!!</h3>
+                            <h3 class="title-gradient">OOPS! CHƯA CHỌN GHẾ NÀO!!!</h3>
                             <img src="~/images/empty_cart.jpg" style="margin-left:20px" width="auto" height="300px" />
                             <div class="item--cart" style="margin-left:125px;">
                                 <a asp-action="Index" asp-controller="Home" style="margin: 20px; display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; border-color:007bff; text-decoration: none; border-radius: 5px;">
@@ -244,6 +234,9 @@
         </div>
     </section>
 </form>
-<div>
+@if(Model != null)
+{
+    <div>
     <a asp-action="Index" asp-controller="Home" asp-area="" class="btn btn-md btn--warning">Trở về</a>
 </div> 
+}

@@ -21,8 +21,8 @@
                 <td>@schedule.ScheduleDescription.Description</td>
                 <td>
                     <a asp-action="Edit" asp-controller="Schedule" asp-area="Admin"
-                       asp-route-scheduleId="@schedule.FilmScheduleId" asp-route-filmId="@Model.Film.FilmId">Chỉnh sửa</a>
-
+                       asp-route-scheduleId="@schedule.FilmScheduleId" asp-route-filmId="@Model.Film.FilmId">Chỉnh sửa</a> |
+                    <a asp-action="Delete" asp-route-id="@schedule.FilmScheduleId">Xóa</a>
                 </td>
             </tr>
         }
