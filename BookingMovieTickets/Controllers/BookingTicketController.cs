@@ -152,42 +152,46 @@ namespace BookingMovieTickets.Controllers
         [HttpPost]
         public async Task<IActionResult> BookTickets(Receipt receipt, string payment = "COD")
         {
+            // Lấy giỏ hàng từ session
             var cart = HttpContext.Session.GetObjectFromJson<TicketCart>("Cart");
             if (cart == null || !cart.Items.Any())
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index"); // Quay lại trang chủ nếu giỏ hàng trống
             }
 
+            // Lấy thông tin người dùng hiện tại
             var user = await _userManager.GetUserAsync(User);
+
             if (payment == "Thanh toán bằng VnPay")
             {
+                // Tạo mô hình yêu cầu thanh toán VnPay
                 var vnPayModel = new VnPaymentRequestModel
                 {
-                    Price = (double)cart.Items.Sum(x => x.Price),
-                    CreatedDate = DateTime.Now,
-                    Description = $"{receipt.UserId}",
-                    FullName = user.FullName,
-                    OrderId = new Random().Next(1000, 10000)
+                    Price = (double)cart.Items.Sum(x => x.Price), // Tổng giá của các mục trong giỏ hàng
+                    CreatedDate = DateTime.Now, // Ngày tạo yêu cầu
+                    Description = $"{receipt.UserId}", // Mô tả chứa UserId
+                    FullName = user.FullName, // Tên đầy đủ của người dùng
+                    OrderId = new Random().Next(1000, 10000) // Tạo mã đơn hàng ngẫu nhiên
                 };
 
-                // Tạo và thêm Ticket entity
-                var ticket = new Ticket
-                {
-                    PurchaseDate = DateTime.UtcNow
-                };
+                // Tạo danh sách các vé tạm thời
+                var pendingTicketDetails = new List<TicketDetail>();
 
-                // Tạo TicketDetail entities
-                var ticketDetails = new List<TicketDetail>();
                 foreach (var cartDetail in cart.Items)
                 {
+                    // Tạo và thêm TicketDetail entity
                     var ticketDetail = new TicketDetail
                     {
                         FilmId = cartDetail.FilmId,
                         FilmScheduleId = cartDetail.FilmScheduleId,
                         Price = cartDetail.Price,
-                        SeatId = cartDetail.SeatId
+                        SeatId = cartDetail.SeatId,
+                        Ticket = new Ticket // Liên kết với một vé mới
+                        {
+                            PurchaseDate = DateTime.UtcNow
+                        }
                     };
-                    ticketDetails.Add(ticketDetail);
+                    pendingTicketDetails.Add(ticketDetail);
                 }
 
                 // Tính tổng giá cho receipt
@@ -203,19 +207,22 @@ namespace BookingMovieTickets.Controllers
                 // Tạo URL thanh toán
                 var paymentUrl = _vnPayService.CreatePaymentUrl(HttpContext, vnPayModel);
 
-                // Lưu trữ thông tin tạm thời vào Session hoặc một nơi nào đó bạn có thể lấy lại sau
-                HttpContext.Session.SetObjectAsJson("PendingTicket", ticket);
-                HttpContext.Session.SetObjectAsJson("PendingTicketDetails", ticketDetails);
+                // Lưu trữ thông tin tạm thời của chi tiết vé và biên lai vào Session 
+                HttpContext.Session.SetObjectAsJson("PendingTicketDetails", pendingTicketDetails);
                 HttpContext.Session.SetObjectAsJson("PendingReceipt", receipt);
 
                 return Redirect(paymentUrl);
             }
+
+            // Xử lý các phương thức thanh toán khác (nếu có)
             return View("PaymentFail");
         }
+
 
         [Authorize]
         public async Task<IActionResult> PaymentCallBack()
         {
+            // Thực hiện thanh toán và lấy phản hồi từ VNPay
             var response = _vnPayService.PaymentExecute(Request.Query);
             if (response == null || response.VnPayResponseCode != "00")
             {
@@ -224,28 +231,29 @@ namespace BookingMovieTickets.Controllers
             }
 
             // Lấy lại thông tin từ Session
-            var ticket = HttpContext.Session.GetObjectFromJson<Ticket>("PendingTicket");
-            var ticketDetails = HttpContext.Session.GetObjectFromJson<List<TicketDetail>>("PendingTicketDetails");
-            var receipt = HttpContext.Session.GetObjectFromJson<Receipt>("PendingReceipt");
+            var pendingTicketDetails = HttpContext.Session.GetObjectFromJson<List<TicketDetail>>("PendingTicketDetails");
+            var pendingReceipt = HttpContext.Session.GetObjectFromJson<Receipt>("PendingReceipt");
 
-            if (ticket == null || ticketDetails == null || receipt == null)
+            if (pendingTicketDetails == null || pendingReceipt == null)
             {
                 TempData["Message"] = "Không thể xác thực thông tin thanh toán.";
                 return RedirectToAction("PaymentFail");
             }
 
+            // Bắt đầu giao dịch cơ sở dữ liệu
             using (var transaction = await _bookingMovieTicketsDBContext.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    // Thêm Ticket entity vào cơ sở dữ liệu
-                    await _ticketRepo.AddAsync(ticket);
-                    await _bookingMovieTicketsDBContext.SaveChangesAsync(); // Lưu để lấy TicketId
-
                     // Thêm TicketDetail entities vào cơ sở dữ liệu
-                    foreach (var ticketDetail in ticketDetails)
+                    foreach (var ticketDetail in pendingTicketDetails)
                     {
-                        ticketDetail.TicketId = ticket.TicketId;
+                        // Thêm vé mới vào cơ sở dữ liệu
+                        await _ticketRepo.AddAsync(ticketDetail.Ticket);
+                        await _bookingMovieTicketsDBContext.SaveChangesAsync(); // Lưu để lấy TicketId
+
+                        // Liên kết chi tiết vé với vé vừa được lưu
+                        ticketDetail.TicketId = ticketDetail.Ticket.TicketId;
                         await _TicketDetailRepo.AddAsync(ticketDetail);
 
                         var seat = await _seatRepo.GetByIdAsync(ticketDetail.SeatId);
@@ -257,20 +265,19 @@ namespace BookingMovieTickets.Controllers
                     }
 
                     // Cập nhật Receipt entity
-                    receipt.IsPaid = true;
-                    receipt.ReceiptDetails = ticketDetails.Select(td => new ReceiptDetail
+                    pendingReceipt.IsPaid = true;
+                    pendingReceipt.ReceiptDetails = pendingTicketDetails.Select(td => new ReceiptDetail
                     {
                         TicketId = td.TicketId
                     }).ToList();
 
-                    await _bookingMovieTicketsDBContext.Receipts.AddAsync(receipt);
+                    await _bookingMovieTicketsDBContext.Receipts.AddAsync(pendingReceipt);
                     await _bookingMovieTicketsDBContext.SaveChangesAsync();
 
                     // Commit transaction
                     await transaction.CommitAsync();
 
                     // Xóa thông tin tạm thời khỏi Session
-                    HttpContext.Session.Remove("PendingTicket");
                     HttpContext.Session.Remove("PendingTicketDetails");
                     HttpContext.Session.Remove("PendingReceipt");
 
@@ -290,6 +297,7 @@ namespace BookingMovieTickets.Controllers
                 }
             }
         }
+
         public IActionResult RemoveFromCart(int filmID, int time, int seatID)
         {
             var cart =
