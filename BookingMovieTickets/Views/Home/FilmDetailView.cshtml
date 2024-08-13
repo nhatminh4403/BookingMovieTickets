@@ -1,22 +1,27 @@
 ﻿@model BookingMovieTickets.VIewModel.DetailVM
-
+@using BookingMovieTickets.Extensions
 @{
     ViewData["Title"] = "Chi tiết phim";
     var datetime = DateTime.UtcNow.Date.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("vi-VN"));
 }
+@section Styles{
+    <style>
+        body{
+            background-color: rgb(252,235,211);
+        }
+        .share {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+        }
 
-<style>
-    .share {
-        display: flex;
-        align-items: center;
-        justify-content: start;
-    }
+        .time-select .time-select__item:hover {
+            background-color: #fe505a;
+            color: #fff;
+        }
+    </style>
+}
 
-    .time-select .time-select__item:hover {
-        background-color: #fe505a;
-        color: #fff;
-    }
-</style>
 
 <!-- Main content -->
 <section class="container">
@@ -165,59 +170,7 @@
                     </ul>
                 </div>
 
-                @* <div class="time-select__group">
-                <div class="col-sm-4">
-                <p class="time-select__place">Empire</p>
-                </div>
-                <ul class="col-sm-8 items-wrap">
-                <li class="time-select__item" data-time='10:45'>10:45</li>
-                <li class="time-select__item" data-time='16:00'>16:00</li>
-                <li class="time-select__item" data-time='19:00'>19:00</li>
-                <li class="time-select__item" data-time='21:15'>21:15</li>
-                <li class="time-select__item" data-time='23:00'>23:00</li>
-                </ul>
-                </div>
-
-                <div class="time-select__group">
-                <div class="col-sm-4">
-                <p class="time-select__place">Curzon</p>
-                </div>
-                <ul class="col-sm-8 items-wrap">
-                <li class="time-select__item" data-time='09:00'>09:00</li>
-                <li class="time-select__item" data-time='11:00'>11:00</li>
-                <li class="time-select__item" data-time='13:00'>13:00</li>
-                <li class="time-select__item" data-time='15:00'>15:00</li>
-                <li class="time-select__item" data-time='17:00'>17:00</li>
-                <li class="time-select__item" data-time='19:0'>19:00</li>
-                <li class="time-select__item" data-time='21:0'>21:00</li>
-                <li class="time-select__item" data-time='23:0'>23:00</li>
-                <li class="time-select__item" data-time='01:0'>01:00</li>
-                </ul>
-                </div>
-
-                <div class="time-select__group">
-                <div class="col-sm-4">
-                <p class="time-select__place">Odeon</p>
-                </div>
-                <ul class="col-sm-8 items-wrap">
-                <li class="time-select__item" data-time='10:45'>10:45</li>
-                <li class="time-select__item" data-time='16:00'>16:00</li>
-                <li class="time-select__item" data-time='19:00'>19:00</li>
-                <li class="time-select__item" data-time='21:15'>21:15</li>
-                <li class="time-select__item" data-time='23:00'>23:00</li>
-                </ul>
-                </div>
-
-                <div class="time-select__group group--last">
-                <div class="col-sm-4">
-                <p class="time-select__place">Picturehouse</p>
-                </div>
-                <ul class="col-sm-8 items-wrap">
-                <li class="time-select__item" data-time='17:45'>17:45</li>
-                <li class="time-select__item" data-time='21:30'>21:30</li>
-                <li class="time-select__item" data-time='02:20'>02:20</li>
-                </ul>
-                </div> *@
+                
             </div>
 
             <!-- hiden maps with multiple locator-->
@@ -337,18 +290,13 @@
             </div> *@
 
             <div class="category category--discuss category--count marginb-sm mobile-category ls-cat">
-                <h3 class="category__title">the Most <br><span class="title-edition">discussed posts</span></h3>
+                <h3 class="category__title">Thể loại phim <br><span class="title-edition">hay</span></h3>
                 <ol>
-                    <li><a href="#" class="category__item">Gravity</a></li>
-                    <li><a href="#" class="category__item">The Counselor</a></li>
-                    <li><a href="#" class="category__item">Bad Grandpa</a></li>
-                    <li><a href="#" class="category__item">Blue Is the Warmest Color</a></li>
-                    <li><a href="#" class="category__item">Rush</a></li>
-                    <li><a href="#" class="category__item">Captain Phillips</a></li>
-                    <li><a href="#" class="category__item">Escape Plan</a></li>
-                    <li><a href="#" class="category__item">Cloudy with a Chance of Meatballs 2</a></li>
-                    <li><a href="#" class="category__item">Prisoners</a></li>
-                    <li><a href="#" class="category__item">The Fifth Estate</a></li>
+                    @foreach (var i in Model.FilmCategories.Shuffle().Take(6))
+                    {
+                        <li><a asp-action="SortFilmsByCategories" asp-route-id="@i.FilmCategoryId" asp-controller="Home" class="category__item">@i.Name</a></li>
+                    }
+
                 </ol>
             </div>
 

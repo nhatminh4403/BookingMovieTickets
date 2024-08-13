@@ -94,6 +94,7 @@ namespace BookingMovieTickets.Controllers
                                             .ThenInclude(fs => fs.ScheduleDescription)
                                              .FirstOrDefaultAsync(f => f.FilmId == id);
             var films = await _filmRepository.GetAllAsync();
+            var categories = await _filmCategoryRepository.GetAllAsync();
             if (film == null)
             {
                 return NotFound();
@@ -101,7 +102,9 @@ namespace BookingMovieTickets.Controllers
             var filmsDetailVM = new DetailVM
             {
                 Film = film,
+                FilmCategories = categories,
                 Films= films
+                
             };
             return View(filmsDetailVM);
         }

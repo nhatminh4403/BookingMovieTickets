@@ -194,11 +194,11 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.428571429;
-  color: #333333;
-  background-color: #ffffff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #333333;
+    background-color: #895129;
 }
 input,
 button,
@@ -709,10 +709,10 @@ p {
   font-size: 16px;
 }
 a {
-  font-size: 13px;
-  color: #4c4145;
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
+    font-size: 13px;
+    color: #4c4145;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
 }
 a:hover,
 a:focus {
@@ -8399,9 +8399,10 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   padding-left: 15px;
 }
 .movie--test {
-  width: 50%;
-  float: left;
-  margin-bottom: 8px;
+    width: 50%;
+    float: left;
+    border: #ffd564 1px solid;
+    margin-bottom: 8px;
 }
 .movie--test .movie__images {
   width: 50%;
