@@ -115,6 +115,7 @@ RecurringJob.AddOrUpdate<ISeatService>(
     service => service.ResetSeats(),
     "0 0 * * *");
 app.MapRazorPages();
+#pragma warning disable ASP0014
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
