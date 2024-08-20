@@ -235,16 +235,20 @@
                 </div>
             </div>
         </header>
+        @RenderSection("Slider", required: false)
         <div>
             <main role="main" class="pb-3">
                 @RenderBody()
 
         </div>
+        
+
+        
     </section>
 
     <div class="clearfix"></div>
 
-    <footer class="footer-wrapper" style="border-top:black 1px solid;background-color:#895129">
+    <footer class="footer-wrapper" style="border-top:black 1px solid">
         <section class="container">
             <div class="col-xs-4 col-md-2 footer-nav">
                 <ul class="nav-link">
