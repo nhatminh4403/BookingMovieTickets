@@ -10,7 +10,7 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html style="font-size:62.5%">
 
 <head>
     <!-- Basic Page Needs -->
@@ -32,8 +32,11 @@
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,100,700" rel="stylesheet" type="text/css" />
     <!-- Open Sans -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:800italic" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <!-- Stylesheets -->
+    <link href="~/css/navbar.css" rel="stylesheet" />
+
     <!-- Mobile menu -->
     <link href="~/css/gozha-nav.css" rel="stylesheet" />
     <!-- Select -->
@@ -46,9 +49,10 @@
     <link href="~/css/style.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/images/icons/film.ico" type="image/x-icon" />
     <!-- Modernizr -->
-    <link rel="stylesheet" href="~/css/external/idangerous.swiper.css"/>
+    <link rel="stylesheet" href="~/css/external/idangerous.swiper.css" />
     <link rel="stylesheet" href="~/css/external/magnific-popup.css" />
     <link rel="stylesheet" href="~/css/external/jquery.selectbox.css" />
+
     <link href="~/js/site.js" rel="stylesheet" />
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -61,42 +65,16 @@
 <body>
     <style>
 
-        .translucent-input {
-            background-color: rgba(255, 255, 255, 0.5); /* White with 50% opacity */
-            border: 2px solid #000; /* Black border */
-            color: #000; /* Text color */
-            padding: 10px;
-            border-radius: 5px;
-            outline: none;
-            font-size: 1em; /* Larger text size */
-        }
 
-            .translucent-input::placeholder {
-                color: white; /* Placeholder text color */
-                font-size: 1em; /* Placeholder text size */
-            }
-
-            .translucent-input::before {
-                content: attr(aria-label);
-                position: absolute;
-                top: -20px; /* Adjust as needed */
-                left: 10px; /* Adjust as needed */
-                color: white;
-                font-size: 12px; /* Adjust as needed */
-                transition: color 0.3s;
-            }
-
-            .translucent-input:focus::before {
-                color: black;
-            }
     </style>
- <div id="toast"></div>
+    <div id="toast"></div>
     <form id="logoutForm" style="display:none;" method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"></form>
 
- <section class="wrapper">
-        <header class="header-wrapper">
-            
-            <div class="container">
+    <section class="wrapper">
+
+        <header class="header-wrapper" style="    display: flex; max-height:56px;">
+
+            <div class="container" style="display:flex; justify-content:space-evenly; margin: 0 auto">
                 <!-- Logo link-->
                 @if (User.IsInRole("Admin"))
                 {
@@ -110,10 +88,10 @@
                         <img alt="logo" src="~/images/movie-clapper-open_83519.png" />
                     </a>
                 }
-                
+
 
                 <!-- Main website navigation-->
-                <nav id="navigation-box">
+                <nav id="navigation-box" style="display:flex; margin: 0 auto">
                     <!-- Toggle for mobile menu mode -->
                     <a href="#" id="navigation-toggle">
                         <span class="menu-icon">
@@ -127,7 +105,7 @@
                     <ul id="navigation">
                         <li>
                             <span class="sub-nav-toggle plus"></span>
-                            <a href="~/Home/AllFilm">Phim</a>                           
+                            <a href="~/Home/AllFilm">Phim</a>
                             <ul>
                                 <li class="menu__nav-item">
                                     <a href="~/Home/UpcomingFilm">Phim sắp chiếu</a>
@@ -145,55 +123,46 @@
                                 @if (model?.FilmCategories != null)
                                 {
 
-
                                     @foreach (var item in model?.FilmCategories)
                                     {
                                         <li class="menu__nav-item">
                                             <a href="@Url.Action("SortFilmsByCategories", "Home", new { area = "", id = item.FilmCategoryId })">@item.Name</a>
                                         </li>
                                     }
-                                    @*  <partial name="_FilmCategoriesPartial" model="model.FilmCategories" /> *@
-
-                                }
-                                else
-                                {
-
-                                        <li class="menu__nav-item text-white" >Hoàn thành đăng nhập/đăng ký để tiếp tục xem</li>
-
-                                }
+@*                                      <partial name="_FilmCategoriesPartial" model="model.FilmCategories" />
+ *@                                }
                             </ul>
-@*                            @await Component.InvokeAsync("FilmCategory") *@ 
+
                         </li>
                         <li>
                             <span class="sub-nav-toggle plus"></span>
                             <a href="~/Home/FAQs">FAQs</a>
-                     
-                        </li> 
+
+                        </li>
                         <li>
                             <span class="sub-nav-toggle plus"></span>
                             <a href="~/Home/Contact">Liên hệ</a>
-
                         </li>
                         <li>
-                            <form action="/Home/SearchByName" method="get" class="">
-                                <div class="input-group mb-3">
-                                    <input type="text" name="film" class="form-control translucent-input " placeholder="Từ khóa tìm kiếm" aria-label="Từ khóa tìm kiếm" aria-describedby="basic-addon2" style="width: 300px;height:35px;flex-shrink:inherit; outline: none; border: none;" >
-                                    <button type="submit" class="input-group-text" id="basic-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                </div>
-                            </form>
-                           
+
                         </li>
-                        
                     </ul>
+                    <form action="/Home/SearchByName" method="get" class="" style="padding: 10px 0;">
+                        <div class="input-group mb-3">
+                            <input type="text" name="film" class="form-control translucent-input" placeholder="Từ khóa tìm kiếm"
+                                   aria-label="Từ khóa tìm kiếm" aria-describedby="basic-addon2"
+                                   style=" width: 300px;">
+                            <button type="submit" class="input-group-text " id="basic-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </form>
                 </nav>
 
                 <!-- Additional header buttons / Auth and direct link to booking-->
-                <div class="control-panel">                   
+                <div class="control-panel">
                     <div class="row">
-@*                         <partial name="_LoginPartial" /> *@
                         @if (!SignInManager.IsSignedIn(User) && user != null)
                         {
-                            <div class="col-4 py-lg-2">
+                            <div class="col-6 py-lg-2 account-text">
                                 <div class="row">
                                     <a asp-area="Identity" asp-page="/Account/Register"
                                        class="text-decoration-none text-light" style="text-align:right;">
@@ -202,7 +171,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-4 py-lg-2">
+                            <div class="col-6 py-lg-2 account-text ">
                                 <div class="row">
                                     <a href="/Identity/Account/Login" class="text-decoration-none text-light"
                                        style="text-align: right;">Login</a>
@@ -211,13 +180,13 @@
                         }
                         else
                         {
-                            <div class="col-4 py-lg-2">
-                                <div class="row justify-content-end">
+                            <div class="col-6 py-lg-2 account-text">
+                                <div class="row ">
                                     <a href="javascript:void(0);" id="logoutLink" class="text-decoration-none text-light" style="text-align:right;">Đăng xuất</a>
                                 </div>
                             </div>
-                            <div class="col-5 py-lg-2">
-                                <div class="row justify-content-end">
+                            <div class="col-6 py-lg-2 account-text">
+                                <div class="row ">
                                     <a asp-area="Identity" asp-page="/Account/Manage/Index"
                                        class="text-decoration-none text-light" style="text-align: center;">
                                         Quản
@@ -225,7 +194,7 @@
                                     </a>
                                 </div>
                             </div>
-                        }                      
+                        }
                         <a asp-controller="ViewTicket" asp-action="showTickets"
                            class="btn btn-md btn--warning btn--book btn-control--home login-window">
                             Vé
@@ -241,9 +210,9 @@
                 @RenderBody()
 
         </div>
-        
 
-        
+
+
     </section>
 
     <div class="clearfix"></div>
@@ -253,7 +222,7 @@
             <div class="col-xs-4 col-md-2 footer-nav">
                 <ul class="nav-link">
                     <li>
-                        <a asp-controller="Home" asp-action="AllFilm" class="nav-link__item">Tất cả Phim</a>  
+                        <a asp-controller="Home" asp-action="AllFilm" class="nav-link__item">Tất cả Phim</a>
                     </li>
 
                 </ul>
@@ -266,7 +235,7 @@
                     <li>
                         <a href="#" class="nav-link__item" id="backToTop">Phim hot cho bạn</a>
                     </li>
-                    
+
 
                 </ul>
             </div>
@@ -314,7 +283,7 @@
     <!-- Migrate -->
     <script src="~/js/external/jquery-migrate-1.2.1.min.js"></script>
     <!-- Bootstrap 3-->
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- jQuery REVOLUTION Slider -->
     <script type="text/javascript" src="~/rs-plugin/js/jquery.themepunch.plugins.min.js"></script>

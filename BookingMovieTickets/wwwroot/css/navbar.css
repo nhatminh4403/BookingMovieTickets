@@ -1,0 +1,53 @@
+﻿.translucent-input {
+    background-color: rgba(255, 255, 255, 0.5); /* White with 50% opacity */
+    border: 2px solid #ccc; /* Black border */
+    color: #000; /* Text color */
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1em; /* Larger text size */
+
+    flex-shrink: inherit;
+    height: 35px;
+}
+
+
+    .translucent-input::placeholder {
+        color: #2e292e; /* Placeholder text color */
+        font-size: 1em; /* Placeholder text size */
+    }
+
+    .translucent-input::before {
+        content: attr(aria-label);
+        position: absolute;
+        top: -20px; /* Adjust as needed */
+        left: 10px; /* Adjust as needed */
+        color: white;
+        font-size: 12px; /* Adjust as needed */
+        transition: color 0.3s;
+    }
+
+    .translucent-input:focus {
+        box-shadow: none;
+        outline: none;
+    }
+
+        .translucent-input:focus::before {
+            color: black;
+            outline: none;
+            background-color: #2e292e;
+        }
+
+.account-text {
+    display: flex;
+    justify-content: center;
+}
+
+    .account-text:hover {
+        background-color: #ffd5645f;
+        border-radius: 1px;
+    }
+
+.form-control:focus {
+    border-color: #2e292e;
+}
