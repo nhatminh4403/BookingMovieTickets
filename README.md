@@ -10,4 +10,4 @@ Fundamental project
 
 Done within 2nd Semester of Junior Year
 
-Finished by names mention above
+Finished by names mentioned above
